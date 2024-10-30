@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { animate as motionAnim, timeline } from 'motion'
 
 const mouseDownPosition = ref(null)
 const isMouseDown = ref(false)
@@ -56,6 +57,65 @@ const values = [
   { title: 'Blog', color: 'orange' },
   { title: 'Contact', color: 'violet' },
 ]
+
+onMounted(() => {
+  const navItems = document.querySelectorAll('.nav-item')
+  navItems.forEach(item => {
+    motionAnim(item, { rotateY: -30, rotateX: 1, rotateZ: 2 }, { duration: 0 })
+  })
+})
+
+const startHoverAnim = event => {
+  const navItem = event.target.querySelector('.nav-item')
+
+  const sequence = [
+    [navItem, { y: -100 }, { duration: 0.5 }],
+    [navItem, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { at: 0 }],
+  ]
+
+  timeline(sequence, { duration: 0.5 })
+
+  event.target.style.zIndex = '2'
+}
+
+const endHoverAnim = event => {
+  const navItem = event.target.querySelector('.nav-item')
+
+  const sequence = [
+    [navItem, { y: 0 }, { duration: 0.5 }],
+    [navItem, { rotateY: -30, rotateX: 1, rotateZ: 2 }, { at: 0.2 }],
+  ]
+
+  timeline(sequence, { duration: 0.5 })
+  event.target.style.zIndex = '1'
+}
+
+let currentRotate = -30
+let animationTimeout
+
+watch(mouseTravel, newVal => {
+  clearTimeout(animationTimeout)
+  animationTimeout = setTimeout(() => {
+    const rotateDirection = newVal > 50 ? -30 : 30
+    if (rotateDirection !== currentRotate) {
+      currentRotate = rotateDirection
+      const navItems = document.querySelectorAll('.nav-item')
+
+      const itemOrder =
+        rotateDirection < 0 ? Array.from(navItems).reverse() : navItems
+
+      itemOrder.forEach((item, index) => {
+        const staggerDelay = index * 50
+
+        motionAnim(
+          item,
+          { rotateY: rotateDirection, rotateX: 1, rotateZ: 2 },
+          { duration: 0.5, delay: staggerDelay / 1000 },
+        )
+      })
+    }
+  }, 5)
+})
 </script>
 
 <template>
@@ -70,6 +130,8 @@ const values = [
         class="nav-item-container"
         v-for="(item, index) in values"
         :key="index"
+        @mouseenter="startHoverAnim"
+        @mouseleave="endHoverAnim"
       >
         <div
           class="nav-item"
@@ -94,7 +156,7 @@ const values = [
 
 .nav {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   gap: 10px;
   position: absolute;
   right: 0;
@@ -107,6 +169,7 @@ const values = [
 .nav-item-container {
   perspective: 500px;
   position: relative;
+  z-index: 1;
 }
 
 .nav-item {
@@ -114,8 +177,6 @@ const values = [
   width: 300px;
   height: 300px;
   background-color: red;
-  transition: transform 0.3s ease;
-  transform: rotateX(1deg) rotateY(-30deg) rotateZ(2deg);
   transform-style: preserve-3d;
 }
 </style>
