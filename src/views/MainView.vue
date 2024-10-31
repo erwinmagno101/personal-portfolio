@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { animate as motionAnim, timeline } from 'motion'
+import PageView from './PageView.vue'
 
 const mouseDownPosition = ref(null)
 const isMouseDown = ref(false)
@@ -58,64 +59,70 @@ const values = [
   { title: 'Contact', color: 'violet' },
 ]
 
+const isActive = ref(false)
+
 onMounted(() => {
   const navItems = document.querySelectorAll('.nav-item')
   navItems.forEach(item => {
-    motionAnim(item, { rotateY: -30, rotateX: 1, rotateZ: 2 }, { duration: 0 })
+    motionAnim(item, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { duration: 0 })
   })
 })
 
-const startHoverAnim = event => {
-  const navItem = event.target.querySelector('.nav-item')
+const startHoverAnim = (event, hoverIndex) => {
+  if (!isActive.value) {
+    const navItems = document.querySelectorAll('.nav-item')
+    navItems.forEach((item, index) => {
+      item.style.zIndex = null
+      event.target.style.zIndex = '10'
+      if (hoverIndex !== index) {
+        const xDistanceToMove = (index - hoverIndex) * 30
 
-  const sequence = [
-    [navItem, { y: -100 }, { duration: 0.5 }],
-    [navItem, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { at: 0 }],
-  ]
+        const sequence = [
+          [item, { x: xDistanceToMove }],
+          [
+            item,
+            { rotateY: index > hoverIndex ? 30 : -30, rotateX: 1, rotateZ: 0 },
+            { at: 0 },
+          ],
+        ]
 
-  timeline(sequence, { duration: 0.5 })
+        timeline(sequence, { duration: 0.3 })
+      }
+    })
 
-  event.target.style.zIndex = '2'
+    motionAnim(event.target, { scale: 1.2 }, { duration: 0.5 })
+  }
 }
 
-const endHoverAnim = event => {
-  const navItem = event.target.querySelector('.nav-item')
+const endHoverAnim = (event, hoverIndex) => {
+  if (!isActive.value) {
+    const navItems = document.querySelectorAll('.nav-item')
 
-  const sequence = [
-    [navItem, { y: 0 }, { duration: 0.5 }],
-    [navItem, { rotateY: -30, rotateX: 1, rotateZ: 2 }, { at: 0.2 }],
-  ]
+    navItems.forEach((item, index) => {
+      if (hoverIndex !== index) {
+        const sequence = [
+          [item, { x: 0 }],
+          [item, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { at: 0 }],
+        ]
 
-  timeline(sequence, { duration: 0.5 })
-  event.target.style.zIndex = '1'
+        timeline(sequence, { duration: 0.3 })
+      }
+    })
+
+    motionAnim(event.target, { scale: 1 }, { duration: 0.5 })
+    event.target.style.zIndex = null
+  }
 }
 
-let currentRotate = -30
-let animationTimeout
+const setActivePanel = event => {
+  timeline([[event.currentTarget, { y: '-900px' }, { duration: 0.5 }]])
 
-watch(mouseTravel, newVal => {
-  clearTimeout(animationTimeout)
-  animationTimeout = setTimeout(() => {
-    const rotateDirection = newVal > 50 ? -30 : 30
-    if (rotateDirection !== currentRotate) {
-      currentRotate = rotateDirection
-      const navItems = document.querySelectorAll('.nav-item')
+  isActive.value = true
+}
 
-      const itemOrder =
-        rotateDirection < 0 ? Array.from(navItems).reverse() : navItems
-
-      itemOrder.forEach((item, index) => {
-        const staggerDelay = index * 50
-
-        motionAnim(
-          item,
-          { rotateY: rotateDirection, rotateX: 1, rotateZ: 2 },
-          { duration: 0.5, delay: staggerDelay / 1000 },
-        )
-      })
-    }
-  }, 5)
-})
+const close = () => {
+  isActive.value = false
+}
 </script>
 
 <template>
@@ -130,8 +137,9 @@ watch(mouseTravel, newVal => {
         class="nav-item-container"
         v-for="(item, index) in values"
         :key="index"
-        @mouseenter="startHoverAnim"
-        @mouseleave="endHoverAnim"
+        @mouseenter="event => startHoverAnim(event, index)"
+        @mouseleave="event => endHoverAnim(event, index)"
+        @click="setActivePanel"
       >
         <div
           class="nav-item"
@@ -143,6 +151,7 @@ watch(mouseTravel, newVal => {
         </div>
       </div>
     </div>
+    <!-- <PageView v-if="isActive" @close="close" /> -->
   </div>
 </template>
 
@@ -157,7 +166,6 @@ watch(mouseTravel, newVal => {
 .nav {
   display: flex;
   flex-direction: row-reverse;
-  gap: 10px;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -170,13 +178,13 @@ watch(mouseTravel, newVal => {
   perspective: 500px;
   position: relative;
   z-index: 1;
+  padding: 5px;
+  border: 1px solid black;
 }
 
 .nav-item {
-  margin-left: -100px;
   width: 300px;
   height: 300px;
-  background-color: red;
   transform-style: preserve-3d;
 }
 </style>
