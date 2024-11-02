@@ -9,7 +9,7 @@ const mouseTravel = ref(100)
 const lastMousePosition = ref(100)
 const targetPosition = ref(100)
 
-const activeNavId = ref(null)
+const activeNavIndex = ref(null)
 
 const trackMouseDown = e => {
   if (!isActive.value) {
@@ -133,16 +133,27 @@ const endHoverAnim = (event, hoverIndex) => {
   }
 }
 
-const setActivePanel = (event, id) => {
+const setActivePanel = (event, index) => {
   if (!isActive.value) {
     timeline([[event.currentTarget, { y: '-900px' }, { duration: 0.5 }]])
-    activeNavId.value = id
+    activeNavIndex.value = index
     isActive.value = true
   }
 }
 
 const close = () => {
-  isActive.value = false
+  const navContainers = document.querySelectorAll('.nav-item-container')
+  navContainers.forEach((item, index) => {
+    if (index === activeNavIndex.value) {
+      timeline([
+        [item, { y: '0px' }, { duration: 0.5 }],
+        [item, { scale: 1 }, { duration: 0.2 }, { at: 0.3 }],
+      ]).finished.then(() => {
+        isActive.value = false
+        activeNavIndex.value = null
+      })
+    }
+  })
 }
 </script>
 
@@ -160,7 +171,7 @@ const close = () => {
         :key="item.id"
         @mouseenter="event => startHoverAnim(event, index)"
         @mouseleave="event => endHoverAnim(event, index)"
-        @click="e => setActivePanel(e, item.id)"
+        @click="e => setActivePanel(e, index)"
       >
         <div
           class="nav-item"
