@@ -9,19 +9,25 @@ const mouseTravel = ref(100)
 const lastMousePosition = ref(100)
 const targetPosition = ref(100)
 
+const activeNavId = ref(null)
+
 const trackMouseDown = e => {
-  mouseDownPosition.value = e.clientX
-  isMouseDown.value = true
+  if (!isActive.value) {
+    mouseDownPosition.value = e.clientX
+    isMouseDown.value = true
+  }
 }
 
 const trackMouseDrag = e => {
-  if (isMouseDown.value) {
-    const distanceDragged = e.clientX - mouseDownPosition.value
-    const scaledDistance = (distanceDragged / (window.innerWidth / 2)) * 100
-    targetPosition.value = Math.min(
-      100,
-      Math.max(0, lastMousePosition.value + scaledDistance),
-    )
+  if (!isActive.value) {
+    if (isMouseDown.value) {
+      const distanceDragged = e.clientX - mouseDownPosition.value
+      const scaledDistance = (distanceDragged / (window.innerWidth / 2)) * 100
+      targetPosition.value = Math.min(
+        100,
+        Math.max(0, lastMousePosition.value + scaledDistance),
+      )
+    }
   }
 }
 
@@ -32,8 +38,10 @@ const animate = () => {
 }
 
 const releaseMouse = () => {
-  lastMousePosition.value = mouseTravel.value
-  isMouseDown.value = false
+  if (!isActive.value) {
+    lastMousePosition.value = mouseTravel.value
+    isMouseDown.value = false
+  }
 }
 
 onMounted(() => {
@@ -49,15 +57,15 @@ onUnmounted(() => {
   document.removeEventListener('mouseup', releaseMouse)
 })
 
-const values = [
-  { title: 'Bio', color: 'red' },
-  { title: 'Projects', color: 'blue' },
-  { title: 'Experience', color: 'green' },
-  { title: 'Skills', color: 'yellow' },
-  { title: 'Education', color: 'purple' },
-  { title: 'Blog', color: 'orange' },
-  { title: 'Contact', color: 'violet' },
-]
+const navObject = ref([
+  { id: 1, title: 'Bio', color: 'red' },
+  { id: 2, title: 'Projects', color: 'blue' },
+  { id: 3, title: 'Experience', color: 'green' },
+  { id: 4, title: 'Skills', color: 'yellow' },
+  { id: 5, title: 'Education', color: 'purple' },
+  { id: 6, title: 'Blog', color: 'orange' },
+  { id: 7, title: 'Contact', color: 'violet' },
+])
 
 const isActive = ref(false)
 
@@ -95,9 +103,9 @@ const startHoverAnim = (event, hoverIndex) => {
 }
 
 const endHoverAnim = (event, hoverIndex) => {
-  if (!isActive.value) {
-    const navItems = document.querySelectorAll('.nav-item')
+  const navItems = document.querySelectorAll('.nav-item')
 
+  if (!isActive.value) {
     navItems.forEach((item, index) => {
       if (hoverIndex !== index) {
         const sequence = [
@@ -111,13 +119,26 @@ const endHoverAnim = (event, hoverIndex) => {
 
     motionAnim(event.target, { scale: 1 }, { duration: 0.5 })
     event.target.style.zIndex = null
+  } else {
+    navItems.forEach((item, index) => {
+      if (hoverIndex !== index) {
+        const sequence = [
+          [item, { x: 0 }],
+          [item, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { at: 0 }],
+        ]
+
+        timeline(sequence, { duration: 0.3 })
+      }
+    })
   }
 }
 
-const setActivePanel = event => {
-  timeline([[event.currentTarget, { y: '-900px' }, { duration: 0.5 }]])
-
-  isActive.value = true
+const setActivePanel = (event, id) => {
+  if (!isActive.value) {
+    timeline([[event.currentTarget, { y: '-900px' }, { duration: 0.5 }]])
+    activeNavId.value = id
+    isActive.value = true
+  }
 }
 
 const close = () => {
@@ -135,11 +156,11 @@ const close = () => {
     >
       <div
         class="nav-item-container"
-        v-for="(item, index) in values"
-        :key="index"
+        v-for="(item, index) in navObject"
+        :key="item.id"
         @mouseenter="event => startHoverAnim(event, index)"
         @mouseleave="event => endHoverAnim(event, index)"
-        @click="setActivePanel"
+        @click="e => setActivePanel(e, item.id)"
       >
         <div
           class="nav-item"
@@ -151,7 +172,7 @@ const close = () => {
         </div>
       </div>
     </div>
-    <!-- <PageView v-if="isActive" @close="close" /> -->
+    <PageView v-if="isActive" @close="close" />
   </div>
 </template>
 
@@ -183,8 +204,8 @@ const close = () => {
 }
 
 .nav-item {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 400px;
   transform-style: preserve-3d;
 }
 </style>
