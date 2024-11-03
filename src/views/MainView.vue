@@ -10,6 +10,7 @@ const lastMousePosition = ref(100)
 const targetPosition = ref(100)
 
 const activeNavIndex = ref(null)
+const activeNavId = ref(null)
 
 const trackMouseDown = e => {
   if (!isActive.value) {
@@ -58,13 +59,13 @@ onUnmounted(() => {
 })
 
 const navObject = ref([
-  { id: 1, title: 'Bio', color: 'red' },
-  { id: 2, title: 'Projects', color: 'blue' },
-  { id: 3, title: 'Experience', color: 'green' },
-  { id: 4, title: 'Skills', color: 'yellow' },
-  { id: 5, title: 'Education', color: 'purple' },
-  { id: 6, title: 'Blog', color: 'orange' },
   { id: 7, title: 'Contact', color: 'violet' },
+  { id: 6, title: 'Blog', color: 'orange' },
+  { id: 5, title: 'Education', color: 'purple' },
+  { id: 4, title: 'Skills', color: 'yellow' },
+  { id: 3, title: 'Experience', color: 'green' },
+  { id: 2, title: 'Projects', color: 'blue' },
+  { id: 1, title: 'Bio', color: 'red' },
 ])
 
 const isActive = ref(false)
@@ -89,7 +90,12 @@ const startHoverAnim = (event, hoverIndex) => {
           [item, { x: xDistanceToMove }],
           [
             item,
-            { rotateY: index > hoverIndex ? 30 : -30, rotateX: 1, rotateZ: 0 },
+            {
+              rotateY: index > hoverIndex ? 30 : -30,
+              rotateX: 1,
+              rotateZ: 0,
+              scale: 0.9,
+            },
             { at: 0 },
           ],
         ]
@@ -98,7 +104,7 @@ const startHoverAnim = (event, hoverIndex) => {
       }
     })
 
-    motionAnim(event.target, { scale: 1.2 }, { duration: 0.5 })
+    motionAnim(event.target, { scale: 1.1 }, { duration: 0.5 })
   }
 }
 
@@ -110,7 +116,7 @@ const endHoverAnim = (event, hoverIndex) => {
       if (hoverIndex !== index) {
         const sequence = [
           [item, { x: 0 }],
-          [item, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { at: 0 }],
+          [item, { rotateY: 0, rotateX: 0, rotateZ: 0, scale: 1 }, { at: 0 }],
         ]
 
         timeline(sequence, { duration: 0.3 })
@@ -119,24 +125,45 @@ const endHoverAnim = (event, hoverIndex) => {
 
     motionAnim(event.target, { scale: 1 }, { duration: 0.5 })
     event.target.style.zIndex = null
-  } else {
-    navItems.forEach((item, index) => {
-      if (hoverIndex !== index) {
-        const sequence = [
-          [item, { x: 0 }],
-          [item, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { at: 0 }],
-        ]
-
-        timeline(sequence, { duration: 0.3 })
-      }
-    })
   }
 }
 
-const setActivePanel = (event, index) => {
+const setActivePanel = (event, clickedIndex) => {
   if (!isActive.value) {
-    timeline([[event.currentTarget, { y: '-900px' }, { duration: 0.5 }]])
-    activeNavIndex.value = index
+    const navItems = document.querySelectorAll('.nav-item')
+    navItems.forEach((item, index) => {
+      if (index != clickedIndex) {
+        const xDistanceToMove = (index - clickedIndex) * 30 * 7
+
+        const sequence = [
+          [item, { x: xDistanceToMove }, { duration: 0.3 }],
+          [
+            item,
+            {
+              rotateY: index > clickedIndex ? 30 : -30,
+              rotateX: 1,
+              rotateZ: 0,
+              scale: 0.9,
+            },
+            { at: 0, duration: 0.3 },
+          ],
+          [
+            item,
+            {
+              y: '-900px',
+            },
+            { at: 0.3 },
+          ],
+        ]
+
+        timeline(sequence, { duration: 0.6 })
+      }
+    })
+
+    timeline([
+      [event.currentTarget, { y: '-900px' }, { duration: 0.5, delay: 0.3 }],
+    ])
+    activeNavIndex.value = clickedIndex
     isActive.value = true
   }
 }
@@ -151,8 +178,35 @@ const close = () => {
       ]).finished.then(() => {
         isActive.value = false
         activeNavIndex.value = null
+        activeNavId.value = null
       })
     }
+  })
+
+  const navItems = document.querySelectorAll('.nav-item')
+  navItems.forEach(item => {
+    const sequence = [
+      [item, { x: 0 }, { at: 0.3 }],
+      [
+        item,
+        {
+          rotateY: 0,
+          rotateX: 0,
+          rotateZ: 0,
+          scale: 0.9,
+        },
+        { at: 0.3 },
+      ],
+      [
+        item,
+        {
+          y: '0px',
+        },
+        { at: 0.1, duration: 0.3 },
+      ],
+    ]
+
+    timeline(sequence, { duration: 0.6 })
   })
 }
 </script>
@@ -171,19 +225,19 @@ const close = () => {
         :key="item.id"
         @mouseenter="event => startHoverAnim(event, index)"
         @mouseleave="event => endHoverAnim(event, index)"
-        @click="e => setActivePanel(e, index)"
+        @click="
+          e => {
+            activeNavId = item.id
+            setActivePanel(e, index)
+          }
+        "
       >
-        <div
-          class="nav-item"
-          :style="{
-            backgroundColor: item.color,
-          }"
-        >
+        <div class="nav-item">
           {{ item.title }}
         </div>
       </div>
     </div>
-    <PageView v-if="isActive" @close="close" />
+    <PageView v-if="isActive" :navId="activeNavId" @close="close" />
   </div>
 </template>
 
@@ -198,12 +252,12 @@ const close = () => {
 .nav {
   display: flex;
   flex-direction: row-reverse;
+  align-items: stretch;
   position: absolute;
-  right: 0;
+  right: 50%;
   bottom: 0;
   transform: translateX(100%);
   transition: transform 0.2s ease;
-  right: 50%;
 }
 
 .nav-item-container {
@@ -211,12 +265,28 @@ const close = () => {
   position: relative;
   z-index: 1;
   padding: 5px;
-  border: 1px solid black;
+  display: flex;
+  align-items: stretch;
 }
 
 .nav-item {
   width: 200px;
-  height: 400px;
   transform-style: preserve-3d;
+  writing-mode: vertical-lr;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-family: 'Gugi', sans-serif;
+  font-family: 'Rubik Mono One', monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 4rem;
+  padding: 1rem 0px;
+  border: 1px solid black;
+  background-color: white;
 }
 </style>
