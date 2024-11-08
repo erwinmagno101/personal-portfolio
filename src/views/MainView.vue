@@ -1,292 +1,150 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { animate as motionAnim, timeline } from 'motion'
-import PageView from './PageView.vue'
+import { onMounted, ref, watch, nextTick } from 'vue'
+import { animate } from 'motion'
+const navItems = [
+  { title: 'Home' },
+  { title: 'About' },
+  { title: 'Project' },
+  { title: 'Blog' },
+  { title: 'Contact' },
+]
 
-const mouseDownPosition = ref(null)
-const isMouseDown = ref(false)
-const mouseTravel = ref(100)
-const lastMousePosition = ref(100)
-const targetPosition = ref(100)
+const navContents = [
+  { heading: 'Home' },
+  { heading: 'About' },
+  { heading: 'Project' },
+  { heading: 'Blog' },
+  { heading: 'Contact' },
+]
 
-const activeNavIndex = ref(null)
-const activeNavId = ref(null)
-
-const trackMouseDown = e => {
-  if (!isActive.value) {
-    mouseDownPosition.value = e.clientX
-    isMouseDown.value = true
-  }
-}
-
-const trackMouseDrag = e => {
-  if (!isActive.value) {
-    if (isMouseDown.value) {
-      const distanceDragged = e.clientX - mouseDownPosition.value
-      const scaledDistance = (distanceDragged / (window.innerWidth / 2)) * 100
-      targetPosition.value = Math.min(
-        100,
-        Math.max(0, lastMousePosition.value + scaledDistance),
-      )
-    }
-  }
-}
-
-const animate = () => {
-  // Smoothly approach target position even while dragging
-  mouseTravel.value += (targetPosition.value - mouseTravel.value) * 0.07
-  requestAnimationFrame(animate)
-}
-
-const releaseMouse = () => {
-  if (!isActive.value) {
-    lastMousePosition.value = mouseTravel.value
-    isMouseDown.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('mousedown', trackMouseDown)
-  document.addEventListener('mousemove', trackMouseDrag)
-  document.addEventListener('mouseup', releaseMouse)
-  animate()
-})
-
-onUnmounted(() => {
-  document.removeEventListener('mousedown', trackMouseDown)
-  document.removeEventListener('mousemove', trackMouseDrag)
-  document.removeEventListener('mouseup', releaseMouse)
-})
-
-const navObject = ref([
-  { id: 7, title: 'Contact', color: 'violet' },
-  { id: 6, title: 'Blog', color: 'orange' },
-  { id: 5, title: 'Education', color: 'purple' },
-  { id: 4, title: 'Skills', color: 'yellow' },
-  { id: 3, title: 'Experience', color: 'green' },
-  { id: 2, title: 'Projects', color: 'blue' },
-  { id: 1, title: 'Bio', color: 'red' },
+const indecesRange = ref({ start: 0, end: 2 })
+const visibleNav = ref(null)
+const visibleNavItems = ref([
+  { title: 'Home' },
+  { title: 'About' },
+  { title: 'Project' },
 ])
 
-const isActive = ref(false)
+watch(indecesRange.value, newVal => {
+  const count = 3
 
-onMounted(() => {
-  const navItems = document.querySelectorAll('.nav-item')
-  navItems.forEach(item => {
-    motionAnim(item, { rotateY: 0, rotateX: 0, rotateZ: 0 }, { duration: 0 })
-  })
+  const result = []
+  for (let i = 0; i < count; i++) {
+    const index = (newVal.start + i) % navItems.length
+    result.push(navItems[index])
+  }
+  visibleNavItems.value = result
 })
 
-const startHoverAnim = (event, hoverIndex) => {
-  if (!isActive.value) {
-    const navItems = document.querySelectorAll('.nav-item')
-    navItems.forEach((item, index) => {
-      item.style.zIndex = null
-      event.target.style.zIndex = '10'
-      if (hoverIndex !== index) {
-        const xDistanceToMove = (index - hoverIndex) * 30
+watch(visibleNavItems, newVal => {
+  animateOnscroll()
+})
 
-        const sequence = [
-          [item, { x: xDistanceToMove }],
-          [
-            item,
-            {
-              rotateY: index > hoverIndex ? 30 : -30,
-              rotateX: 1,
-              rotateZ: 0,
-              scale: 0.9,
-            },
-            { at: 0 },
-          ],
-        ]
+const wheelup = () => {
+  if (indecesRange.value.start !== 0) {
+    indecesRange.value.start = indecesRange.value.start - 1
+  } else {
+    indecesRange.value.start = 4
+  }
 
-        timeline(sequence, { duration: 0.3 })
-      }
-    })
-
-    motionAnim(event.target, { scale: 1.1 }, { duration: 0.5 })
+  if (indecesRange.value.end !== 0) {
+    indecesRange.value.end = indecesRange.value.end - 1
+  } else {
+    indecesRange.value.end = 4
   }
 }
 
-const endHoverAnim = (event, hoverIndex) => {
-  const navItems = document.querySelectorAll('.nav-item')
+const wheeldown = () => {
+  if (indecesRange.value.start !== 4) {
+    indecesRange.value.start = indecesRange.value.start + 1
+  } else {
+    indecesRange.value.start = 0
+  }
 
-  if (!isActive.value) {
-    navItems.forEach((item, index) => {
-      if (hoverIndex !== index) {
-        const sequence = [
-          [item, { x: 0 }],
-          [item, { rotateY: 0, rotateX: 0, rotateZ: 0, scale: 1 }, { at: 0 }],
-        ]
-
-        timeline(sequence, { duration: 0.3 })
-      }
-    })
-
-    motionAnim(event.target, { scale: 1 }, { duration: 0.5 })
-    event.target.style.zIndex = null
+  if (indecesRange.value.end !== 4) {
+    indecesRange.value.end = indecesRange.value.end + 1
+  } else {
+    indecesRange.value.end = 0
   }
 }
 
-const setActivePanel = (event, clickedIndex) => {
-  if (!isActive.value) {
-    const navItems = document.querySelectorAll('.nav-item')
-    navItems.forEach((item, index) => {
-      if (index != clickedIndex) {
-        const xDistanceToMove = (index - clickedIndex) * 30 * 7
-
-        const sequence = [
-          [item, { x: xDistanceToMove }, { duration: 0.3 }],
-          [
-            item,
-            {
-              rotateY: index > clickedIndex ? 30 : -30,
-              rotateX: 1,
-              rotateZ: 0,
-              scale: 0.9,
-            },
-            { at: 0, duration: 0.3 },
-          ],
-          [
-            item,
-            {
-              y: '-900px',
-            },
-            { at: 0.3 },
-          ],
-        ]
-
-        timeline(sequence, { duration: 0.6 })
-      }
-    })
-
-    timeline([
-      [event.currentTarget, { y: '-900px' }, { duration: 0.5, delay: 0.3 }],
-    ])
-    activeNavIndex.value = clickedIndex
-    isActive.value = true
+const onWheel = event => {
+  if (event.deltaY > 0) {
+    wheeldown()
+  } else {
+    wheelup()
   }
 }
 
-const close = () => {
-  const navContainers = document.querySelectorAll('.nav-item-container')
-  navContainers.forEach((item, index) => {
-    if (index === activeNavIndex.value) {
-      timeline([
-        [item, { y: '0px' }, { duration: 0.5 }],
-        [item, { scale: 1 }, { duration: 0.2 }, { at: 0.3 }],
-      ]).finished.then(() => {
-        isActive.value = false
-        activeNavIndex.value = null
-        activeNavId.value = null
-      })
+const centerNavItem = ref(null)
+
+const animateOnscroll = async () => {
+  await nextTick()
+  Object.keys(visibleNav.value.children).forEach(key => {
+    if (key === '1') {
+      centerNavItem.value = visibleNav.value.children[key].children[0]
+      animate(centerNavItem.value, { backgroundColor: 'red' }, { duration: 1 })
+    } else {
+      animate(
+        visibleNav.value.children[key].children[0],
+        { backgroundColor: 'blue' },
+        { duration: 1 },
+      )
     }
   })
-
-  const navItems = document.querySelectorAll('.nav-item')
-  navItems.forEach(item => {
-    const sequence = [
-      [item, { x: 0 }, { at: 0.3 }],
-      [
-        item,
-        {
-          rotateY: 0,
-          rotateX: 0,
-          rotateZ: 0,
-          scale: 0.9,
-        },
-        { at: 0.3 },
-      ],
-      [
-        item,
-        {
-          y: '0px',
-        },
-        { at: 0.1, duration: 0.3 },
-      ],
-    ]
-
-    timeline(sequence, { duration: 0.6 })
-  })
 }
+
+onMounted(() => {
+  animateOnscroll()
+  addEventListener('wheel', onWheel)
+})
 </script>
 
 <template>
-  <div class="main-canvas">
-    <div
-      class="nav"
-      :style="{
-        transform: `translate(${mouseTravel}%) translateY(-150px)`,
-      }"
-    >
+  <div class="canvas">
+    <div class="nav-content">gg</div>
+    <div class="nav" ref="visibleNav">
       <div
         class="nav-item-container"
-        v-for="(item, index) in navObject"
-        :key="item.id"
-        @mouseenter="event => startHoverAnim(event, index)"
-        @mouseleave="event => endHoverAnim(event, index)"
-        @click="
-          e => {
-            activeNavId = item.id
-            setActivePanel(e, index)
-          }
-        "
+        v-for="(item, index) in visibleNavItems"
+        :key="item.title"
       >
-        <div class="nav-item">
-          {{ item.title }}
-        </div>
+        <div class="nav-item">{{ item.title }}</div>
       </div>
     </div>
-    <PageView v-if="isActive" :navId="activeNavId" @close="close" />
   </div>
 </template>
 
 <style scoped>
-.main-canvas {
+.canvas {
+  background-color: black;
+  color: white;
   width: 100vw;
   height: 100vh;
-  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding: 0px calc(10%);
   overflow: hidden;
 }
 
+.nav-content {
+  flex: 1 1 0%;
+}
+
 .nav {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: stretch;
-  position: absolute;
-  right: 50%;
-  bottom: 0;
-  transform: translateX(100%);
-  transition: transform 0.2s ease;
+  width: clamp(200px, 40%, 500px);
+  border: 1px solid white;
+  height: clamp(300px, 70%, 600px);
+  margin: auto 0px;
 }
 
 .nav-item-container {
-  perspective: 500px;
-  position: relative;
-  z-index: 1;
-  padding: 5px;
-  display: flex;
-  align-items: stretch;
+  padding: 10px;
+  border: 1px solid green;
 }
 
 .nav-item {
-  width: 200px;
-  transform-style: preserve-3d;
-  writing-mode: vertical-lr;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  font-family: 'Gugi', sans-serif;
-  font-family: 'Rubik Mono One', monospace;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 4rem;
-  padding: 1rem 0px;
-  border: 1px solid black;
-  background-color: white;
+  border: 1px solid red;
+  height: 50px;
 }
 </style>
