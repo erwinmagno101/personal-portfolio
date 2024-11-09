@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch, nextTick } from 'vue'
+import { onMounted, ref, watch, nextTick, onUnmounted } from 'vue'
 import { animate } from 'motion'
 
 const navItems = ref([
@@ -10,94 +10,50 @@ const navItems = ref([
   { title: 'Project' },
 ])
 
-const navContents = [
-  { heading: 'Home' },
-  { heading: 'About' },
-  { heading: 'Project' },
-  { heading: 'Blog' },
-  { heading: 'Contact' },
-]
-
 const nav = ref(null)
 
 const onWheel = event => {
-  if (event.deltaY > 0) {
-    wheeldown()
-  } else {
-    wheelup()
-  }
+  event.deltaY > 0 ? wheeldown() : wheelup()
 }
 
-const wheelup = () => {
+const wheelup = () => scrollNavigation(-1)
+const wheeldown = () => scrollNavigation(1)
+
+const scrollNavigation = async direction => {
   animateOnscroll()
-  let removedNav = navItems.value[4]
 
-  let listItems = document.querySelectorAll('.nav-item-container')
-  let navDiv = document.querySelector('.nav')
-  let yPosition = navDiv.getBoundingClientRect().top
-  animate(navDiv, { y: yPosition - 200 }, { duration: 1 })
-  animate(listItems[4], { height: '.1px' }, { duration: 0 }).finished.then(
-    () => {
-      let nav = navItems.value.slice(0, 4)
-      nav.unshift(removedNav)
-      navItems.value = nav
-      fixHeight(0)
-    },
-  )
-}
+  const removedNav =
+    direction > 0 ? navItems.value.shift() : navItems.value.pop()
+  direction > 0
+    ? navItems.value.push(removedNav)
+    : navItems.value.unshift(removedNav)
 
-const wheeldown = () => {
-  animateOnscroll()
-  let removedNav = navItems.value[0]
-
-  let listItems = document.querySelectorAll('.nav-item-container')
-  animate(
-    listItems[0],
-    { height: '.1px' }, // Ensuring a non-zero minimum height
-    { duration: 1, easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)' },
-  ).finished.then(() => {
-    let nav = navItems.value.slice(1)
-    nav.push(removedNav)
-    navItems.value = nav
-    fixHeight(4)
-  })
-}
-
-const fixHeight = async navIndex => {
   await nextTick()
-  let listItems = document.querySelectorAll('.nav-item-container')
-
-  listItems.forEach((element, index) => {
-    if (navIndex === index) {
-      animate(element, { height: '200px' }, { duration: 0 })
-    }
-  })
+  const listItems = document.querySelectorAll('.nav-item-container')
+  animate(
+    listItems[direction > 0 ? 0 : listItems.length - 1],
+    {
+      height: '200px',
+    },
+    { duration: 0 },
+  )
 }
 
 const animateOnscroll = async () => {
   await nextTick()
-  let listItems = document.querySelectorAll('.nav-item')
-
+  const listItems = document.querySelectorAll('.nav-item')
   listItems.forEach((element, index) => {
-    if (index === 3) {
-      animate(element, { scale: 1 }, { duration: 1 })
-    } else {
-      animate(element, { scale: 0.7 }, { duration: 1 })
-    }
+    animate(element, { scale: index === 2 ? 1 : 0.7 }, { duration: 1 })
   })
 }
 
 onMounted(() => {
-  let listItems = document.querySelectorAll('.nav-item')
-
-  listItems.forEach((element, index) => {
-    if (index === 2) {
-      animate(element, { scale: 1 }, { duration: 0 })
-    } else {
-      animate(element, { scale: 0.7 }, { duration: 0 })
-    }
-  })
+  animateOnscroll()
   addEventListener('wheel', onWheel)
+})
+
+onUnmounted(() => {
+  removeEventListener('wheel', onWheel)
 })
 </script>
 
