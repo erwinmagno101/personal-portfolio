@@ -1,13 +1,14 @@
 <script setup>
 import { onMounted, ref, watch, nextTick } from 'vue'
 import { animate } from 'motion'
-const navItems = [
+
+const navItems = ref([
+  { title: 'Blog' },
+  { title: 'Contact' },
   { title: 'Home' },
   { title: 'About' },
   { title: 'Project' },
-  { title: 'Blog' },
-  { title: 'Contact' },
-]
+])
 
 const navContents = [
   { heading: 'Home' },
@@ -17,56 +18,7 @@ const navContents = [
   { heading: 'Contact' },
 ]
 
-const indecesRange = ref({ start: 0, end: 2 })
-const visibleNav = ref(null)
-const visibleNavItems = ref([
-  { title: 'Home' },
-  { title: 'About' },
-  { title: 'Project' },
-])
-
-watch(indecesRange.value, newVal => {
-  const count = 3
-
-  const result = []
-  for (let i = 0; i < count; i++) {
-    const index = (newVal.start + i) % navItems.length
-    result.push(navItems[index])
-  }
-  visibleNavItems.value = result
-})
-
-watch(visibleNavItems, newVal => {
-  animateOnscroll()
-})
-
-const wheelup = () => {
-  if (indecesRange.value.start !== 0) {
-    indecesRange.value.start = indecesRange.value.start - 1
-  } else {
-    indecesRange.value.start = 4
-  }
-
-  if (indecesRange.value.end !== 0) {
-    indecesRange.value.end = indecesRange.value.end - 1
-  } else {
-    indecesRange.value.end = 4
-  }
-}
-
-const wheeldown = () => {
-  if (indecesRange.value.start !== 4) {
-    indecesRange.value.start = indecesRange.value.start + 1
-  } else {
-    indecesRange.value.start = 0
-  }
-
-  if (indecesRange.value.end !== 4) {
-    indecesRange.value.end = indecesRange.value.end + 1
-  } else {
-    indecesRange.value.end = 0
-  }
-}
+const nav = ref(null)
 
 const onWheel = event => {
   if (event.deltaY > 0) {
@@ -76,26 +28,75 @@ const onWheel = event => {
   }
 }
 
-const centerNavItem = ref(null)
+const wheelup = () => {
+  animateOnscroll()
+  let removedNav = navItems.value[4]
+
+  let listItems = document.querySelectorAll('.nav-item-container')
+  let navDiv = document.querySelector('.nav')
+  let yPosition = navDiv.getBoundingClientRect().top
+  animate(navDiv, { y: yPosition - 200 }, { duration: 1 })
+  animate(listItems[4], { height: '.1px' }, { duration: 0 }).finished.then(
+    () => {
+      let nav = navItems.value.slice(0, 4)
+      nav.unshift(removedNav)
+      navItems.value = nav
+      fixHeight(0)
+    },
+  )
+}
+
+const wheeldown = () => {
+  animateOnscroll()
+  let removedNav = navItems.value[0]
+
+  let listItems = document.querySelectorAll('.nav-item-container')
+  animate(
+    listItems[0],
+    { height: '.1px' }, // Ensuring a non-zero minimum height
+    { duration: 1, easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)' },
+  ).finished.then(() => {
+    let nav = navItems.value.slice(1)
+    nav.push(removedNav)
+    navItems.value = nav
+    fixHeight(4)
+  })
+}
+
+const fixHeight = async navIndex => {
+  await nextTick()
+  let listItems = document.querySelectorAll('.nav-item-container')
+
+  listItems.forEach((element, index) => {
+    if (navIndex === index) {
+      animate(element, { height: '200px' }, { duration: 0 })
+    }
+  })
+}
 
 const animateOnscroll = async () => {
   await nextTick()
-  Object.keys(visibleNav.value.children).forEach(key => {
-    if (key === '1') {
-      centerNavItem.value = visibleNav.value.children[key].children[0]
-      animate(centerNavItem.value, { backgroundColor: 'red' }, { duration: 1 })
+  let listItems = document.querySelectorAll('.nav-item')
+
+  listItems.forEach((element, index) => {
+    if (index === 3) {
+      animate(element, { scale: 1 }, { duration: 1 })
     } else {
-      animate(
-        visibleNav.value.children[key].children[0],
-        { backgroundColor: 'blue' },
-        { duration: 1 },
-      )
+      animate(element, { scale: 0.7 }, { duration: 1 })
     }
   })
 }
 
 onMounted(() => {
-  animateOnscroll()
+  let listItems = document.querySelectorAll('.nav-item')
+
+  listItems.forEach((element, index) => {
+    if (index === 2) {
+      animate(element, { scale: 1 }, { duration: 0 })
+    } else {
+      animate(element, { scale: 0.7 }, { duration: 0 })
+    }
+  })
   addEventListener('wheel', onWheel)
 })
 </script>
@@ -103,13 +104,15 @@ onMounted(() => {
 <template>
   <div class="canvas">
     <div class="nav-content">gg</div>
-    <div class="nav" ref="visibleNav">
-      <div
-        class="nav-item-container"
-        v-for="(item, index) in visibleNavItems"
-        :key="item.title"
-      >
-        <div class="nav-item">{{ item.title }}</div>
+    <div class="nav-screen">
+      <div class="nav" ref="nav">
+        <div
+          class="nav-item-container"
+          v-for="item in navItems"
+          :key="item.title"
+        >
+          <div class="nav-item">{{ item.title }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -131,20 +134,35 @@ onMounted(() => {
   flex: 1 1 0%;
 }
 
-.nav {
+.nav-screen {
   width: clamp(200px, 40%, 500px);
   border: 1px solid white;
-  height: clamp(300px, 70%, 600px);
+  height: 600px;
   margin: auto 0px;
+  position: relative;
+}
+
+.nav {
+  width: 100%;
+  margin: auto 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  transform: translateY(-33%);
+  height: 600px;
+  background-color: red;
 }
 
 .nav-item-container {
-  padding: 10px;
-  border: 1px solid green;
+  display: flex;
+  align-items: center;
+  height: 200px;
 }
 
 .nav-item {
   border: 1px solid red;
-  height: 50px;
+  width: 100%;
+  height: 200px;
 }
 </style>
