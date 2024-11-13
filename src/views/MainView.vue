@@ -1,46 +1,66 @@
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Mousewheel } from 'swiper/modules'
+import { Mousewheel, EffectCoverflow } from 'swiper/modules'
+import { ref } from 'vue'
 
 import 'swiper/css'
+import { onMounted } from 'vue'
 
-const onSwiper = swiper => {
-    // console.log(swiper)
+const activeNav = ref(null)
+
+const onSwiper = swiper => {}
+
+const onSlideChange = swiper => {
+    activeNav.value = swiper.activeIndex
 }
-const onSlideChange = () => {
-    // console.log('slide change')
-}
+
+const swiperRef = ref(null)
+
+const navItems = [
+    { title: 'Project' },
+    { title: 'Home' },
+    { title: 'About' },
+    { title: 'Blog' },
+    { title: 'Contact' },
+]
+
+onMounted(() => {})
 </script>
 
 <template>
     <swiper
         direction="vertical"
         :slides-per-view="3"
-        :space-between="50"
+        :space-between="30"
         mousewheel
         @swiper="onSwiper"
         @slideChange="onSlideChange"
         loop
-        :modules="[Mousewheel]"
+        effect="coverflow"
+        :coverflow-effect="{
+            slideShadows: false,
+            rotate: -80,
+            modifier: 0.5,
+        }"
+        :modules="[Mousewheel, EffectCoverflow]"
     >
-        <swiper-slide>Slide 1</swiper-slide>
-        <swiper-slide>Slide 2</swiper-slide>
-        <swiper-slide>Slide 4</swiper-slide>
-        <swiper-slide>Slide 5</swiper-slide>
-        <swiper-slide>Slide 6</swiper-slide>
+        <swiper-slide v-for="(item, index) in navItems" :key="index">
+            <div>{{ item.title }}</div>
+        </swiper-slide>
     </swiper>
 </template>
 
 <style scoped>
 .swiper {
-    height: 400px; /* Adjust the height of the swiper container */
+    height: 700px; /* Adjust the height of the swiper container */
+    width: 300px;
+    overflow: hidden;
 }
 
 .swiper-slide {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80px; /* Ensure the slides have a fixed height */
     background-color: #eee; /* Optional: Add a background to distinguish slides */
 }
 </style>
