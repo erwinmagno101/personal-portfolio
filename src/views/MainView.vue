@@ -24,10 +24,11 @@ import WelcomeSection from './Pages/WelcomeSection.vue'
 
 <style>
 .canvas {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'League Spartan', sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    letter-spacing: 0.2rem;
 }
 
 .layout {
