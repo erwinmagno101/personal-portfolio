@@ -24,7 +24,8 @@ section {
 }
 
 .title {
-    font-size: 10rem;
+    font-size: calc(1rem + 10vw);
+    font-size: min(10vw, 10rem);
     font-weight: 600;
     text-align: center;
     font-stretch: ultra-expanded;

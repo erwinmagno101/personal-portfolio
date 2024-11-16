@@ -1,85 +1,61 @@
 <script setup>
 import WelcomeSection from './Pages/WelcomeSection.vue'
+import FloatingNav from '@/components/FloatingNav.vue'
+import SideNav from '@/components/SideNav.vue'
 </script>
 
 <template>
     <div class="canvas">
-        <nav class="layout">
-            <div class="nav-container">
-                <div class="logo">
-                    <div>LOGO</div>
-                </div>
-                <div class="time">PH, SIQUIJOR - 8:35 PM</div>
-                <div class="drawer">
-                    <div class=""></div>
-                </div>
-            </div>
-        </nav>
-        <main class="layout">
-            <WelcomeSection />
-        </main>
-        <footer class="layout"></footer>
+        <div class="left">
+            <SideNav />
+        </div>
+
+        <div class="center">
+            <nav class="layout">
+                <FloatingNav />
+            </nav>
+            <main class="layout">
+                <WelcomeSection />
+            </main>
+            <footer class="layout"></footer>
+        </div>
+        <div class="right"></div>
     </div>
 </template>
 
-<style>
+<style scoped>
 .canvas {
     font-family: 'League Spartan', sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
     letter-spacing: 0.2rem;
+    display: flex;
+    flex-direction: ro;
+}
+
+.left {
+    width: 250px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+}
+
+.center {
+    flex: 1 1 0;
+}
+
+.right {
+    width: 250px;
 }
 
 .layout {
-    width: 70%;
+    width: 90%;
     margin: auto;
 }
 
 nav {
     padding-top: 3rem;
-}
-
-.nav-container {
-    border: 0.1px solid #373a40;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    height: 64px;
-    border-radius: 5px;
-}
-
-.logo {
-    flex: 1 1 0;
-    border-right: 0.1px solid #373a40;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 2rem;
-}
-
-.logo div {
-    margin: auto 0;
-    width: fit-content;
-}
-
-.time {
-    padding: 0 1rem;
-    border-right: 0.1px solid #373a40;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 2rem;
-}
-
-.drawer {
-    padding: 0 1rem;
-}
-
-.drawer > div {
-    height: 32px;
-    width: 32px;
-    border-radius: 100%;
-    border: 1px solid white;
 }
 </style>
