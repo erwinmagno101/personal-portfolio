@@ -1,20 +1,18 @@
 <script setup>
 import WelcomeSection from './Pages/WelcomeSection.vue'
 import FloatingNav from '@/components/FloatingNav.vue'
-import SideNav from '@/components/SideNav.vue'
 </script>
 
 <template>
     <div class="canvas">
-        <div class="left">
-            <SideNav />
-        </div>
+        <div class="left"></div>
 
         <div class="center">
             <nav class="layout">
                 <FloatingNav />
             </nav>
             <main class="layout">
+                <WelcomeSection />
                 <WelcomeSection />
             </main>
             <footer class="layout"></footer>
@@ -35,24 +33,22 @@ import SideNav from '@/components/SideNav.vue'
 }
 
 .left {
-    width: 250px;
-    height: 100vh;
-    position: sticky;
-    top: 0;
-    display: flex;
-}
-
-.center {
     flex: 1 1 0;
 }
 
+.center {
+    width: 80%;
+    margin: auto;
+}
+
 .right {
-    width: 250px;
+    flex: 1 1 0;
 }
 
 .layout {
     width: 90%;
     margin: auto;
+    padding: auto 1rem;
 }
 
 nav {

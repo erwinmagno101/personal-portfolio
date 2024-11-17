@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="title">DAN ERWIN</div>
-        <div>HIRE THIS DUDE</div>
+        <div class="btn">HIRE THIS DUDE</div>
     </section>
 </template>
 
@@ -61,5 +61,10 @@ section {
     text-align: center;
     word-spacing: 0.3rem;
     letter-spacing: 0.1rem;
+}
+
+.btn {
+    padding: 1.5rem 2rem;
+    border: 1px solid white;
 }
 </style>
