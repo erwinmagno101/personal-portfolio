@@ -1,19 +1,29 @@
 <script setup>
-import WelcomeSection from './Pages/WelcomeSection.vue'
 import FloatingNav from '@/components/FloatingNav.vue'
+import SideNav from '@/components/SideNav.vue'
+import HeroSection from './Pages/HeroSection.vue'
+import AboutSection from './Pages/AboutSection.vue'
+import ProjectSection from './Pages/ProjectSection.vue'
+import BlogSection from './Pages/BlogSection.vue'
+import ContactSection from './Pages/ContactSection.vue'
 </script>
 
 <template>
     <div class="canvas">
-        <div class="left"></div>
+        <div class="left">
+            <SideNav />
+        </div>
 
         <div class="center">
             <nav class="layout">
                 <FloatingNav />
             </nav>
             <main class="layout">
-                <WelcomeSection />
-                <WelcomeSection />
+                <HeroSection />
+                <AboutSection />
+                <ProjectSection />
+                <BlogSection />
+                <ContactSection />
             </main>
             <footer class="layout"></footer>
         </div>
@@ -34,10 +44,13 @@ import FloatingNav from '@/components/FloatingNav.vue'
 
 .left {
     flex: 1 1 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
 }
 
 .center {
-    width: 80%;
+    width: 75%;
     margin: auto;
 }
 
@@ -46,12 +59,22 @@ import FloatingNav from '@/components/FloatingNav.vue'
 }
 
 .layout {
-    width: 90%;
     margin: auto;
     padding: auto 1rem;
 }
 
 nav {
     padding-top: 3rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20rem;
+}
+
+main > * {
+    min-height: 90vh;
+    border: 1px solid white;
 }
 </style>

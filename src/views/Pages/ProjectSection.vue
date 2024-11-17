@@ -4,7 +4,10 @@ import DynamicHeading from '@/components/DynamicHeading.vue'
 
 <template>
     <section>
-        <DynamicHeading title="ABOUT SECTION" subtitle="Whats this about?" />
+        <DynamicHeading
+            title="PROJECT SECTION"
+            subtitle="Whats have you done?"
+        />
     </section>
 </template>
 
