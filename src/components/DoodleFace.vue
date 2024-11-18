@@ -1,4 +1,40 @@
-<script setup></script>
+<script setup>
+import { animate } from 'motion'
+import { onMounted, onUnmounted, ref } from 'vue'
+const mouseX = ref(0)
+const mouseY = ref(0)
+
+const eye = ref(null)
+
+const updateMousePosition = e => {
+    mouseX.value = e.clientX
+    mouseY.value = e.clientY
+
+    const middlePointX = viewportWidth / 2
+    const middlePointY = viewportHeight / 2
+
+    let initialX = mouseX.value - middlePointX
+    let travelX = initialX / 30
+
+    let initialY = mouseY.value - middlePointY
+    let travelY = initialY / 30
+
+    console.log(travelX)
+    animate(eye.value, { x: travelX, y: travelY }, { duration: 0 })
+}
+
+const viewportWidth = window.innerWidth
+const viewportHeight = window.innerHeight
+
+onMounted(() => {
+    eye.value = document.querySelectorAll('.eye')
+    document.addEventListener('mousemove', updateMousePosition)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('mousemove', updateMousePosition)
+})
+</script>
 
 <template>
     <div class="face">
@@ -11,12 +47,12 @@
         </div>
         <div class="eyes">
             <div class="left-brow"></div>
-            <div class="left-eye">
+            <div class="left-eye eye">
                 <div class="eye-ball"></div>
                 <div class="eye-bag"></div>
             </div>
             <div class="right-brow"></div>
-            <div class="right-eye">
+            <div class="right-eye eye">
                 <div class="eye-ball"></div>
                 <div class="eye-bag"></div>
             </div>
