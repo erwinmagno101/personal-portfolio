@@ -1,7 +1,38 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const heroRef = ref(null)
+const isVisible = defineModel('isVisible')
+
+onMounted(() => {
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            if (!entry.isIntersecting) {
+                isVisible.value = false
+            } else {
+                isVisible.value = true
+            }
+        },
+        {
+            root: null, // Use the viewport as the root
+            threshold: 0, // Trigger as soon as even 1px is visible or not visible
+        },
+    )
+
+    if (heroRef.value) {
+        observer.observe(heroRef.value)
+    }
+
+    onUnmounted(() => {
+        if (heroRef.value) {
+            observer.unobserve(heroRef.value)
+        }
+    })
+})
+</script>
 
 <template>
-    <section>
+    <section ref="heroRef">
         <div>
             <div class="title2">i am</div>
 

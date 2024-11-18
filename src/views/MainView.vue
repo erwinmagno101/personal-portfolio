@@ -6,12 +6,25 @@ import AboutSection from './Pages/AboutSection.vue'
 import ProjectSection from './Pages/ProjectSection.vue'
 import BlogSection from './Pages/BlogSection.vue'
 import ContactSection from './Pages/ContactSection.vue'
+import { onMounted, ref, watch } from 'vue'
+import { animate, scroll } from 'motion'
+
+const heroIsVisible = ref(null)
+
+watch(
+    () => heroIsVisible.value,
+    newVal => {
+        console.log(newVal)
+    },
+)
+
+onMounted(() => {})
 </script>
 
 <template>
     <div class="canvas">
         <div class="left">
-            <SideNav />
+            <SideNav v-if="!heroIsVisible" />
         </div>
 
         <div class="center">
@@ -19,7 +32,7 @@ import ContactSection from './Pages/ContactSection.vue'
                 <FloatingNav />
             </nav>
             <main class="layout">
-                <HeroSection />
+                <HeroSection v-model:isVisible="heroIsVisible" />
                 <AboutSection />
                 <ProjectSection />
                 <BlogSection />
@@ -75,6 +88,5 @@ main {
 
 main > * {
     min-height: 90vh;
-    border: 1px solid white;
 }
 </style>

@@ -1,4 +1,5 @@
 <script setup>
+import { animate, inView, scroll } from 'motion'
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 
 const props = defineProps({
@@ -11,16 +12,17 @@ const headingRef = ref(null)
 const isSticking = ref(false)
 const isVisible = ref(false)
 
+const subtitleRef = ref(null)
+const titleRef = ref(null)
+
 const checkStickyPosition = () => {
     if (!headingRef.value) return
 
     const rect = headingRef.value.getBoundingClientRect()
 
     if (rect.top <= 32 && isVisible.value) {
-        console.log(`${props.title} stuck`)
         isSticking.value = true
     } else {
-        console.log(`${props.title} not stuck`)
         isSticking.value = false
     }
 }
@@ -40,11 +42,9 @@ onMounted(() => {
     const observer = new IntersectionObserver(
         ([entry]) => {
             if (!entry.isIntersecting) {
-                console.log(`${props.title} no longer visible`)
                 isSticking.value = false
                 isVisible.value = false
             } else {
-                console.log(`${props.title} visible`)
                 isVisible.value = true
             }
         },
@@ -64,12 +64,20 @@ onMounted(() => {
         }
     })
 })
+
+onMounted(() => {
+    inView(headingRef.value, ({ isIntersecting }) => {
+        if (isIntersecting) {
+        }
+    })
+})
 </script>
 
 <template>
     <div ref="headingRef" class="heading">
-        <div>{{ subtitle }}</div>
-        <div class="title">
+        <div ref="subtitleRef" class="subtitle">{{ subtitle }}</div>
+
+        <div ref="titleRef" class="title">
             <div>{{ title }}</div>
         </div>
     </div>
@@ -78,10 +86,24 @@ onMounted(() => {
 <style scoped>
 .heading {
     position: sticky;
-    top: 2rem;
+    top: 0px;
+    background-color: #151515;
+    z-index: 99;
+    padding-top: 1rem;
+    border-bottom: 1px solid #373a40;
 }
 
 .title {
     font-size: 5rem;
+}
+
+.title,
+.subtitle {
+    width: fit-content;
+    display: inline-block;
+}
+
+.subtitle {
+    margin-right: 1rem;
 }
 </style>
