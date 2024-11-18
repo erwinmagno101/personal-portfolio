@@ -4,6 +4,7 @@ import DynamicHeading from '@/components/DynamicHeading.vue'
 import { onMounted } from 'vue'
 import { ref } from 'vue'
 import FloatingInfo from '@/components/AboutSectionComponents/FloatingInfo.vue'
+import DoodleFace from '@/components/DoodleFace.vue'
 
 const handleScrollAnimation = elements => {
     elements.forEach((element, index) => {
@@ -49,9 +50,31 @@ const isHovering = ref(false)
     <section>
         <DynamicHeading title="ABOUT SECTION" subtitle="1.0" />
         <div class="profile">
+            <div class="sub-heading sub-heading-1">
+                1.1 It's Getting Personal
+            </div>
             <div class="img-container">
-                <img src="/src/assets/images/profile.png" />
-                <FloatingInfo />
+                <DoodleFace />
+                <FloatingInfo
+                    title="Personal Info"
+                    :contents="['Test', 'test']"
+                    position="top-left"
+                />
+                <FloatingInfo
+                    title="Personal Info"
+                    :contents="['Test', 'test']"
+                    position="top-right"
+                />
+                <FloatingInfo
+                    title="Personal Info"
+                    :contents="['Test', 'test']"
+                    position="bottom-left"
+                />
+                <FloatingInfo
+                    title="Personal Info"
+                    :contents="['Test', 'test']"
+                    position="bottom-right"
+                />
             </div>
         </div>
     </section>
@@ -65,19 +88,25 @@ section {
 }
 
 .profile {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     margin-top: 50rem;
+}
+
+.sub-heading {
+    margin-bottom: 7rem;
 }
 
 .img-container {
     width: 400px;
     height: 500px;
-    border: 1px solid white;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
