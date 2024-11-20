@@ -10,7 +10,6 @@ const props = defineProps({
 const headingRef = ref(null)
 
 const isSticking = defineModel('isSticking')
-const isVisible = ref(false)
 
 const subtitleRef = ref(null)
 const titleRef = ref(null)
@@ -20,38 +19,19 @@ const checkStickyPosition = () => {
 
     const rect = headingRef.value.getBoundingClientRect()
 
-    if (rect.top <= 32 && isVisible.value) {
+    if (rect.top <= 32) {
         isSticking.value = true
     } else {
         isSticking.value = false
     }
 }
 
-watch(
-    () => isVisible.value,
-    newVal => {
-        if (newVal) {
-            window.addEventListener('scroll', checkStickyPosition)
-            return
-        }
-        window.removeEventListener('scroll', checkStickyPosition)
-    },
-)
-
-watch(
-    () => isSticking.value,
-    newVal => {
-        console.log(newVal)
-    },
-)
-
 onMounted(() => {
-    inView(headingRef.value, info => {
-        isVisible.value = true
+    inView(headingRef.value, () => {
+        window.addEventListener('scroll', checkStickyPosition)
 
-        return leaveInfo => {
-            isSticking.value = false
-            isVisible.value = false
+        return () => {
+            window.removeEventListener('scroll', checkStickyPosition)
         }
     })
 })
