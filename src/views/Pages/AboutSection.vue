@@ -14,26 +14,18 @@ onMounted(() => {
     subSections.value = [
         {
             title: "1.1 It's Getting Personal",
-            onclick: () => scrollTo('.sub-heading-1'),
+            tag: '.about-sub-heading-1',
         },
         {
             title: '1.2 Life story, nothing special',
-            onclick: () => scrollTo('.sub-heading-2'),
+            tag: '.about-sub-heading-2',
         },
         {
             title: '1.3 Skills aqcuired along the way',
-            onclick: () => scrollTo('.sub-heading-3'),
+            tag: '.about-sub-heading-3',
         },
     ]
 })
-
-const scrollTo = elementClass => {
-    document.querySelector(elementClass).scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'nearest',
-    })
-}
 
 const floatingInfoData = [
     {
@@ -88,12 +80,12 @@ onMounted(() => {
 <template>
     <section class="about-section" ref="aboutRef">
         <DynamicHeading
-            title="ABOUT SECTION"
+            title="ABOUT"
             subtitle="1.0"
             v-model:isSticking="isSticking"
         />
         <div class="sub-section">
-            <div class="sub-heading sub-heading-1">
+            <div class="sub-heading about-sub-heading-1">
                 1.1 It's Getting Personal
             </div>
             <div class="img-container">
@@ -109,7 +101,7 @@ onMounted(() => {
         </div>
 
         <div class="sub-section">
-            <div class="sub-heading sub-heading-2">
+            <div class="sub-heading about-sub-heading-2">
                 1.2 Life story, nothing special
             </div>
             <div class="exp-container">
@@ -128,7 +120,7 @@ onMounted(() => {
         </div>
 
         <div class="sub-section">
-            <div class="sub-heading sub-heading-3">
+            <div class="sub-heading about-sub-heading-3">
                 1.3 Skills aqcuired along the way
             </div>
             <div class="skills-container">

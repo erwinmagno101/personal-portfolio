@@ -1,6 +1,7 @@
 <script setup>
 import DynamicHeading from '@/components/DynamicHeading.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
+import { scroll, animate } from 'motion'
 
 const projectRef = ref(null)
 const subSections = defineModel('subSections')
@@ -10,17 +11,24 @@ onMounted(() => {
     subSections.value = [
         {
             title: 'gege',
-            onclick: () => scrollTo('.sub-heading-1'),
+            tag: '.project-sub-heading-1',
         },
         {
             title: 'gegegeg',
-            onclick: () => scrollTo('.sub-heading-2'),
+            tag: '.project-sub-heading-2',
         },
         {
             title: 'gegegegege',
-            onclick: () => scrollTo('.sub-heading-3'),
+            tag: '.project-sub-heading-3',
         },
     ]
+
+    document.querySelectorAll('.sub-heading').forEach(item => {
+        scroll(animate(item, { width: '500px' }, { easing: 'linear' }), {
+            target: item,
+            offset: ['start end', 'center center'],
+        })
+    })
 })
 
 const scrollTo = elementClass => {
@@ -39,9 +47,9 @@ const scrollTo = elementClass => {
             subtitle="2.0"
             v-model:isSticking="isSticking"
         />
-        <div class="sub-heading sub-heading-1">gege</div>
-        <div class="sub-heading sub-heading-2">gegege</div>
-        <div class="sub-heading sub-heading-3">gegegegege</div>
+        <div class="sub-heading project-sub-heading-1">gege</div>
+        <div class="sub-heading project-sub-heading-2">gegege</div>
+        <div class="sub-heading project-sub-heading-3">gegegegege</div>
     </section>
 </template>
 
@@ -49,5 +57,13 @@ const scrollTo = elementClass => {
 section {
     display: flex;
     flex-direction: column;
+}
+
+.sub-heading {
+    opacity: 1;
+    width: 0px;
+    height: 250px;
+    background-color: red;
+    margin: 1rem 0;
 }
 </style>

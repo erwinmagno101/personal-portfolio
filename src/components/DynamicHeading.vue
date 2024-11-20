@@ -38,29 +38,20 @@ watch(
     },
 )
 
+watch(
+    () => isSticking.value,
+    newVal => {
+        console.log(newVal)
+    },
+)
+
 onMounted(() => {
-    const observer = new IntersectionObserver(
-        ([entry]) => {
-            if (!entry.isIntersecting) {
-                isSticking.value = false
-                isVisible.value = false
-            } else {
-                isVisible.value = true
-            }
-        },
-        {
-            root: null, // Use the viewport as the root
-            threshold: 0, // Trigger as soon as even 1px is visible or not visible
-        },
-    )
+    inView(headingRef.value, info => {
+        isVisible.value = true
 
-    if (headingRef.value) {
-        observer.observe(headingRef.value)
-    }
-
-    onUnmounted(() => {
-        if (headingRef.value) {
-            observer.unobserve(headingRef.value)
+        return leaveInfo => {
+            isSticking.value = false
+            isVisible.value = false
         }
     })
 })
