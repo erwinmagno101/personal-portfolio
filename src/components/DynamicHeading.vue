@@ -11,8 +11,7 @@ const headingRef = ref(null)
 
 const isSticking = defineModel('isSticking')
 
-const subtitleRef = ref(null)
-const titleRef = ref(null)
+const lettersArray = ref([])
 
 const checkStickyPosition = () => {
     if (!headingRef.value) return
@@ -26,13 +25,42 @@ const checkStickyPosition = () => {
     }
 }
 
+const getRandomString = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0 123456789'
+    let result = ''
+    for (let i = 0; i < 1; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length)
+        result += characters[randomIndex]
+    }
+    return result
+}
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const randomLetterEffect = () => {
+    lettersArray.value.forEach(async (element, index) => {
+        let random
+        do {
+            random = getRandomString()
+            lettersArray.value[index] = random
+            await delay(10 * index)
+        } while (random !== props.title.split('')[index])
+    })
+}
+
 onMounted(() => {
     inView(headingRef.value, () => {
         window.addEventListener('scroll', checkStickyPosition)
 
+        setTimeout(() => {
+            randomLetterEffect()
+        }, 100)
         return () => {
             window.removeEventListener('scroll', checkStickyPosition)
         }
+    })
+
+    props.title.split('').forEach(() => {
+        lettersArray.value.push('0')
     })
 })
 </script>
@@ -42,7 +70,9 @@ onMounted(() => {
         <div ref="subtitleRef" class="subtitle">{{ subtitle }}</div>
 
         <div ref="titleRef" class="title">
-            <div>{{ title }}</div>
+            <span v-for="(letter, index) in lettersArray" :key="index">{{
+                letter
+            }}</span>
         </div>
     </div>
 </template>
