@@ -5,27 +5,34 @@ import { onMounted, onUnmounted, watch } from 'vue'
 import { ref } from 'vue'
 import FloatingInfo from '@/components/AboutSectionComponents/FloatingInfo.vue'
 import DoodleFace from '@/components/DoodleFace.vue'
+import { useTableofContentStore } from '@/stores/tablecontent'
 
 const aboutRef = ref(null)
-const subSections = defineModel('subSections')
-const isSticking = defineModel('isSticking')
+const isSticking = ref(false)
+const table = useTableofContentStore()
 
-onMounted(() => {
-    subSections.value = [
-        {
-            title: "1.1 It's Getting Personal",
-            tag: '.about-sub-heading-1',
-        },
-        {
-            title: '1.2 Life story, nothing special',
-            tag: '.about-sub-heading-2',
-        },
-        {
-            title: '1.3 Skills aqcuired along the way',
-            tag: '.about-sub-heading-3',
-        },
-    ]
-})
+const subSections = [
+    {
+        title: "1.1 It's Getting Personal",
+        tag: '.about-sub-heading-1',
+    },
+    {
+        title: '1.2 Life story, nothing special',
+        tag: '.about-sub-heading-2',
+    },
+    {
+        title: '1.3 Skills aqcuired along the way',
+        tag: '.about-sub-heading-3',
+    },
+]
+
+watch(
+    () => isSticking.value,
+    newVal => {
+        if (newVal) table.setTableData(subSections)
+        else table.setTableData(null)
+    },
+)
 
 const floatingInfoData = [
     {

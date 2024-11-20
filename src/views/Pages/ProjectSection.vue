@@ -1,28 +1,37 @@
 <script setup>
 import DynamicHeading from '@/components/DynamicHeading.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { scroll, animate } from 'motion'
+import { useTableofContentStore } from '@/stores/tablecontent'
 
 const projectRef = ref(null)
-const subSections = defineModel('subSections')
-const isSticking = defineModel('isSticking')
+const isSticking = ref(false)
+const table = useTableofContentStore()
+
+watch(
+    () => isSticking.value,
+    newVal => {
+        if (newVal) table.setTableData(subSections)
+        else table.setTableData(null)
+    },
+)
+
+const subSections = [
+    {
+        title: 'gege',
+        tag: '.project-sub-heading-1',
+    },
+    {
+        title: 'gegegeg',
+        tag: '.project-sub-heading-2',
+    },
+    {
+        title: 'gegegegege',
+        tag: '.project-sub-heading-3',
+    },
+]
 
 onMounted(() => {
-    subSections.value = [
-        {
-            title: 'gege',
-            tag: '.project-sub-heading-1',
-        },
-        {
-            title: 'gegegeg',
-            tag: '.project-sub-heading-2',
-        },
-        {
-            title: 'gegegegege',
-            tag: '.project-sub-heading-3',
-        },
-    ]
-
     document.querySelectorAll('.sub-heading').forEach(item => {
         scroll(animate(item, { width: '500px' }, { easing: 'linear' }), {
             target: item,

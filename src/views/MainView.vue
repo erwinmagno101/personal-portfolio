@@ -9,32 +9,10 @@ import ContactSection from './Pages/ContactSection.vue'
 import { onMounted, ref, watch } from 'vue'
 import { animate, scroll } from 'motion'
 import SideContent from '@/components/SideContent.vue'
+import { useTableofContentStore } from '@/stores/tablecontent'
 
+const table = useTableofContentStore()
 const heroIsVisible = ref(null)
-
-const sideContentDisplay = ref(null)
-
-const aboutSubSections = ref(null)
-const aboutIsSticking = ref(null)
-
-watch(
-    () => aboutIsSticking.value,
-    newVal => {
-        if (newVal) sideContentDisplay.value = aboutSubSections.value
-        else sideContentDisplay.value = null
-    },
-)
-
-const projectSubSections = ref(null)
-const projectIsSticking = ref(null)
-
-watch(
-    () => projectIsSticking.value,
-    newVal => {
-        if (newVal) sideContentDisplay.value = projectSubSections.value
-        else sideContentDisplay.value = null
-    },
-)
 </script>
 
 <template>
@@ -49,24 +27,15 @@ watch(
             </nav>
             <main class="layout">
                 <HeroSection v-model:isVisible="heroIsVisible" />
-                <AboutSection
-                    v-model:subSections="aboutSubSections"
-                    v-model:isSticking="aboutIsSticking"
-                />
-                <ProjectSection
-                    v-model:subSections="projectSubSections"
-                    v-model:isSticking="projectIsSticking"
-                />
+                <AboutSection />
+                <ProjectSection />
                 <BlogSection ref="blogsectionRef" />
                 <ContactSection ref="contactsectionRef" />
             </main>
             <footer class="layout"></footer>
         </div>
         <div class="right">
-            <SideContent
-                v-if="sideContentDisplay"
-                :contents="sideContentDisplay"
-            />
+            <SideContent v-if="table.tableData" :contents="table.tableData" />
         </div>
     </div>
 </template>
