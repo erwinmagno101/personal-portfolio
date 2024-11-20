@@ -1,49 +1,39 @@
 <script setup>
 import { animate, inView } from '@motionone/dom'
 import DynamicHeading from '@/components/DynamicHeading.vue'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
 import { ref } from 'vue'
 import FloatingInfo from '@/components/AboutSectionComponents/FloatingInfo.vue'
 import DoodleFace from '@/components/DoodleFace.vue'
 
-const handleScrollAnimation = elements => {
-    elements.forEach((element, index) => {
-        inView(
-            element,
-            ({ target, isIntersecting }) => {
-                if (isIntersecting) {
-                    // Enter animation
-                    animate(
-                        target,
-                        {
-                            opacity: [0, 1],
-                            transform: ['translateY(50px)', 'translateY(0)'],
-                        },
-                        { delay: index * 0.2, duration: 0.5 },
-                    )
-                } else {
-                    // Exit animation
-                    animate(
-                        target,
-                        {
-                            opacity: [1, 0],
-                            transform: ['translateY(0)', 'translateY(50px)'],
-                        },
-                        { duration: 0.5 },
-                    )
-                }
-            },
-            { amount: 0.5 }, // Trigger when 50% of the element is visible
-        )
-    })
-}
+const aboutRef = ref(null)
+const subSections = defineModel('subSections')
+const isSticking = defineModel('isSticking')
 
 onMounted(() => {
-    const items = document.querySelectorAll('.timeline-item')
-    handleScrollAnimation(items)
+    subSections.value = [
+        {
+            title: "1.1 It's Getting Personal",
+            onclick: () => scrollTo('.sub-heading-1'),
+        },
+        {
+            title: '1.2 Life story, nothing special',
+            onclick: () => scrollTo('.sub-heading-2'),
+        },
+        {
+            title: '1.3 Skills aqcuired along the way',
+            onclick: () => scrollTo('.sub-heading-3'),
+        },
+    ]
 })
 
-const isHovering = ref(false)
+const scrollTo = elementClass => {
+    document.querySelector(elementClass).scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'nearest',
+    })
+}
 
 const floatingInfoData = [
     {
@@ -71,13 +61,41 @@ const floatingInfoData = [
         position: 'bottom-right',
     },
 ]
+
+const skillBlocks = ref(null)
+
+const skillHoverEnter = (index, row) => {
+    skillBlocks.value.forEach((element, i) => {
+        if (index === i) {
+            animate(element, { scale: 1.2 }, { duration: 0.2 })
+        }
+    })
+}
+
+const skillHoverExit = (index, row) => {
+    skillBlocks.value.forEach((element, i) => {
+        if (index === i) {
+            animate(element, { scale: 1 }, { duration: 0.2 })
+        }
+    })
+}
+
+onMounted(() => {
+    skillBlocks.value = document.querySelectorAll('.skill-block')
+})
 </script>
 
 <template>
-    <section class="about-section">
-        <DynamicHeading title="ABOUT SECTION" subtitle="1.0" />
+    <section class="about-section" ref="aboutRef">
+        <DynamicHeading
+            title="ABOUT SECTION"
+            subtitle="1.0"
+            v-model:isSticking="isSticking"
+        />
         <div class="sub-section">
-            <div class="sub-heading">1.1 It's Getting Personal</div>
+            <div class="sub-heading sub-heading-1">
+                1.1 It's Getting Personal
+            </div>
             <div class="img-container">
                 <DoodleFace />
                 <FloatingInfo
@@ -91,7 +109,9 @@ const floatingInfoData = [
         </div>
 
         <div class="sub-section">
-            <div class="sub-heading">1.2 Life story, nothing special</div>
+            <div class="sub-heading sub-heading-2">
+                1.2 Life story, nothing special
+            </div>
             <div class="exp-container">
                 <div class="timeline-text">Timeline</div>
                 <div class="line"></div>
@@ -106,10 +126,57 @@ const floatingInfoData = [
                 </div>
             </div>
         </div>
+
+        <div class="sub-section">
+            <div class="sub-heading sub-heading-3">
+                1.3 Skills aqcuired along the way
+            </div>
+            <div class="skills-container">
+                <div class="flex">
+                    <div
+                        v-for="(i, index) in 4"
+                        :key="i"
+                        class="skill-block"
+                        @mouseenter="e => skillHoverEnter(index, 1)"
+                        @mouseleave="e => skillHoverExit(index, 1)"
+                    >
+                        {{ i }}
+                    </div>
+                </div>
+                <div class="flex">
+                    <div
+                        v-for="(i, index) in 5"
+                        :key="i"
+                        class="skill-block"
+                        @mouseenter="e => skillHoverEnter(index + 4, 2)"
+                        @mouseleave="e => skillHoverExit(index + 4, 2)"
+                    >
+                        {{ i }}
+                    </div>
+                </div>
+                <div class="flex">
+                    <div
+                        v-for="(i, index) in 4"
+                        :key="i"
+                        class="skill-block"
+                        @mouseenter="e => skillHoverEnter(index + 9, 3)"
+                        @mouseleave="e => skillHoverExit(index + 9, 3)"
+                    >
+                        {{ i }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
 
 <style scoped>
+.flex {
+    display: flex;
+    margin: 0 auto;
+    width: fit-content;
+    gap: 1rem;
+}
 section {
     display: flex;
     flex-direction: column;
@@ -192,5 +259,17 @@ section {
     flex: 1 1 0;
     height: 100%;
     border: 1px solid white;
+}
+
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.skill-block {
+    border: 1px solid white;
+    width: 150px;
+    height: 150px;
 }
 </style>

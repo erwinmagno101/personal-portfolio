@@ -9,7 +9,7 @@ const props = defineProps({
 
 const headingRef = ref(null)
 
-const isSticking = ref(false)
+const isSticking = defineModel('isSticking')
 const isVisible = ref(false)
 
 const subtitleRef = ref(null)
@@ -61,13 +61,6 @@ onMounted(() => {
     onUnmounted(() => {
         if (headingRef.value) {
             observer.unobserve(headingRef.value)
-        }
-    })
-})
-
-onMounted(() => {
-    inView(headingRef.value, ({ isIntersecting }) => {
-        if (isIntersecting) {
         }
     })
 })

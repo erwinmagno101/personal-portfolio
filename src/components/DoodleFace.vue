@@ -19,7 +19,7 @@ const updateMousePosition = e => {
     let initialY = mouseY.value - middlePointY
     let travelY = initialY / 30
 
-    console.log(travelX)
+    // console.log(travelX)
     animate(eye.value, { x: travelX, y: travelY }, { duration: 0 })
 }
 

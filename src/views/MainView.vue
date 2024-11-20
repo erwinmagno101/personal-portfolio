@@ -8,17 +8,33 @@ import BlogSection from './Pages/BlogSection.vue'
 import ContactSection from './Pages/ContactSection.vue'
 import { onMounted, ref, watch } from 'vue'
 import { animate, scroll } from 'motion'
+import SideContent from '@/components/SideContent.vue'
 
 const heroIsVisible = ref(null)
 
+const sideContentDisplay = ref(null)
+
+const aboutSubSections = ref(null)
+const aboutIsSticking = ref(null)
+
 watch(
-    () => heroIsVisible.value,
+    () => aboutIsSticking.value,
     newVal => {
-        console.log(newVal)
+        if (newVal) sideContentDisplay.value = aboutSubSections.value
+        else sideContentDisplay.value = null
     },
 )
 
-onMounted(() => {})
+const projectSubSections = ref(null)
+const projectIsSticking = ref(null)
+
+watch(
+    () => projectIsSticking.value,
+    newVal => {
+        if (newVal) sideContentDisplay.value = projectSubSections.value
+        else sideContentDisplay.value = null
+    },
+)
 </script>
 
 <template>
@@ -33,14 +49,25 @@ onMounted(() => {})
             </nav>
             <main class="layout">
                 <HeroSection v-model:isVisible="heroIsVisible" />
-                <AboutSection />
-                <ProjectSection />
-                <BlogSection />
-                <ContactSection />
+                <AboutSection
+                    v-model:subSections="aboutSubSections"
+                    v-model:isSticking="aboutIsSticking"
+                />
+                <ProjectSection
+                    v-model:subSections="projectSubSections"
+                    v-model:isSticking="projectIsSticking"
+                />
+                <BlogSection ref="blogsectionRef" />
+                <ContactSection ref="contactsectionRef" />
             </main>
             <footer class="layout"></footer>
         </div>
-        <div class="right"></div>
+        <div class="right">
+            <SideContent
+                v-if="sideContentDisplay"
+                :contents="sideContentDisplay"
+            />
+        </div>
     </div>
 </template>
 
@@ -69,6 +96,9 @@ onMounted(() => {})
 
 .right {
     flex: 1 1 0;
+    height: 100vh;
+    position: sticky;
+    top: 0px;
 }
 
 .layout {
