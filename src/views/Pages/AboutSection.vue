@@ -5,11 +5,8 @@ import { onMounted, onUnmounted, watch } from 'vue'
 import { ref } from 'vue'
 import FloatingInfo from '@/components/AboutSectionComponents/FloatingInfo.vue'
 import DoodleFace from '@/components/DoodleFace.vue'
-import { useTableofContentStore } from '@/stores/tablecontent'
 
 const aboutRef = ref(null)
-const isSticking = ref(false)
-const table = useTableofContentStore()
 
 const subSections = [
     {
@@ -25,14 +22,6 @@ const subSections = [
         tag: '.about-sub-heading-3',
     },
 ]
-
-watch(
-    () => isSticking.value,
-    newVal => {
-        if (newVal) table.setTableData(subSections)
-        else table.setTableData(null)
-    },
-)
 
 const floatingInfoData = [
     {
@@ -89,7 +78,7 @@ onMounted(() => {
         <DynamicHeading
             title="ABOUT"
             subtitle="1.0"
-            v-model:isSticking="isSticking"
+            :subSections="subSections"
         />
         <div class="sub-section">
             <div class="sub-heading about-sub-heading-1">

@@ -1,10 +1,14 @@
 <script setup>
 import { animate, inView, scroll } from 'motion'
 import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useTableofContentStore } from '@/stores/tablecontent'
+
+const table = useTableofContentStore()
 
 const props = defineProps({
     title: String,
     subtitle: String,
+    subSections: Array,
 })
 
 const headingRef = ref(null)
@@ -25,42 +29,66 @@ const checkStickyPosition = () => {
     }
 }
 
-const getRandomString = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0 123456789'
-    let result = ''
-    for (let i = 0; i < 1; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length)
-        result += characters[randomIndex]
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const randomLetterEffect = async () => {
+    for (const [index, element] of lettersArray.value.entries()) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0'
+        let random
+        let indexCount = 0
+
+        do {
+            random = characters.split('')[indexCount]
+            indexCount++
+            lettersArray.value[index] = random
+            await delay(20)
+        } while (random !== props.title.split('')[index])
     }
-    return result
 }
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-const randomLetterEffect = () => {
-    lettersArray.value.forEach(async (element, index) => {
-        let random
-        do {
-            random = getRandomString()
-            lettersArray.value[index] = random
-            await delay(10 * index)
-        } while (random !== props.title.split('')[index])
+const resetLettersArray = () => {
+    lettersArray.value = []
+    props.title.split('').forEach(() => {
+        lettersArray.value.push('*')
     })
 }
 
+watch(
+    () => isSticking.value,
+    newVal => {
+        if (newVal) {
+            table.setTableData(props.subSections)
+            animate(
+                headingRef.value.querySelector('.divider-line'),
+                { width: ['0%', '100%'] },
+                { easing: 'linear', duration: 1 },
+            )
+        } else {
+            table.setTableData(null)
+            animate(
+                headingRef.value.querySelector('.divider-line'),
+                { width: ['100%', '0%'] },
+                { easing: 'linear', duration: 1 },
+            )
+        }
+    },
+)
+
 onMounted(() => {
+    resetLettersArray()
+
     inView(headingRef.value, () => {
         window.addEventListener('scroll', checkStickyPosition)
+        if (isSticking.value) {
+            table.setTableData(props.subSections)
+        }
 
         setTimeout(() => {
             randomLetterEffect()
         }, 100)
         return () => {
+            resetLettersArray()
             window.removeEventListener('scroll', checkStickyPosition)
         }
-    })
-
-    props.title.split('').forEach(() => {
-        lettersArray.value.push('0')
     })
 })
 </script>
@@ -74,6 +102,7 @@ onMounted(() => {
                 letter
             }}</span>
         </div>
+        <div class="divider-line"></div>
     </div>
 </template>
 
@@ -84,7 +113,14 @@ onMounted(() => {
     background-color: #151515;
     z-index: 99;
     padding-top: 1rem;
-    border-bottom: 1px solid #373a40;
+    padding-bottom: 1rem;
+}
+
+.divider-line {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: #373a40;
 }
 
 .title {

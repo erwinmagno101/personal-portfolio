@@ -7,6 +7,7 @@ const props = defineProps({
         type: Array,
     },
 })
+const activeIndex = ref(null)
 
 const scrollTo = elementClass => {
     document.querySelector(elementClass).scrollIntoView({
@@ -15,22 +16,24 @@ const scrollTo = elementClass => {
         inline: 'nearest',
     })
 }
+watch(
+    () => activeIndex.value,
+    newVal => {
+        setActiveIndex()
+    },
+)
 
-const activeIndex = ref(null)
-onMounted(() => {
+const setActiveIndex = () => {
     props.contents.forEach((element, index) => {
         inView(document.querySelector(element.tag), () => {
             activeIndex.value = index
         })
     })
-})
+}
 
-watch(
-    () => activeIndex.value,
-    newVal => {
-        console.log(newVal)
-    },
-)
+onMounted(() => {
+    setActiveIndex()
+})
 </script>
 
 <template>

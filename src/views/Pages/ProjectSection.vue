@@ -2,19 +2,8 @@
 import DynamicHeading from '@/components/DynamicHeading.vue'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { scroll, animate } from 'motion'
-import { useTableofContentStore } from '@/stores/tablecontent'
 
 const projectRef = ref(null)
-const isSticking = ref(false)
-const table = useTableofContentStore()
-
-watch(
-    () => isSticking.value,
-    newVal => {
-        if (newVal) table.setTableData(subSections)
-        else table.setTableData(null)
-    },
-)
 
 const subSections = [
     {
@@ -32,29 +21,21 @@ const subSections = [
 ]
 
 onMounted(() => {
-    document.querySelectorAll('.sub-heading').forEach(item => {
+    projectRef.value.querySelectorAll('.sub-heading').forEach(item => {
         scroll(animate(item, { width: '500px' }, { easing: 'linear' }), {
             target: item,
             offset: ['start end', 'center center'],
         })
     })
 })
-
-const scrollTo = elementClass => {
-    document.querySelector(elementClass).scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'nearest',
-    })
-}
 </script>
 
 <template>
     <section ref="projectRef">
         <DynamicHeading
-            title="PROJECT SECTION"
+            title="PROJECT"
             subtitle="2.0"
-            v-model:isSticking="isSticking"
+            :subSections="subSections"
         />
         <div class="sub-heading project-sub-heading-1">gege</div>
         <div class="sub-heading project-sub-heading-2">gegege</div>
