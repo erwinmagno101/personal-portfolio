@@ -13,7 +13,7 @@ const props = defineProps({
 
 const headingRef = ref(null)
 
-const isSticking = defineModel('isSticking')
+const isSticking = ref(false)
 
 const lettersArray = ref([])
 
@@ -118,7 +118,7 @@ onMounted(() => {
 
 .divider-line {
     content: '';
-    width: 100%;
+    width: 0%;
     height: 1px;
     background-color: #373a40;
 }
