@@ -80,10 +80,10 @@ onMounted(() => {
             subtitle="1.0"
             :subSections="subSections"
         />
+        <div class="sub-heading about-sub-heading-1">
+            1.1 It's Getting Personal
+        </div>
         <div class="sub-section">
-            <div class="sub-heading about-sub-heading-1">
-                1.1 It's Getting Personal
-            </div>
             <div class="img-container">
                 <DoodleFace />
                 <FloatingInfo
@@ -95,11 +95,10 @@ onMounted(() => {
                 />
             </div>
         </div>
-
+        <div class="sub-heading about-sub-heading-2">
+            1.2 Life story, nothing special
+        </div>
         <div class="sub-section">
-            <div class="sub-heading about-sub-heading-2">
-                1.2 Life story, nothing special
-            </div>
             <div class="exp-container">
                 <div class="timeline-text">Timeline</div>
                 <div class="line"></div>
@@ -114,11 +113,10 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-
+        <div class="sub-heading about-sub-heading-3">
+            1.3 Skills aqcuired along the way
+        </div>
         <div class="sub-section">
-            <div class="sub-heading about-sub-heading-3">
-                1.3 Skills aqcuired along the way
-            </div>
             <div class="skills-container">
                 <div class="flex">
                     <div
@@ -168,7 +166,7 @@ onMounted(() => {
 section {
     display: flex;
     flex-direction: column;
-    gap: 12rem;
+    gap: 1rem;
 }
 
 .about-section > .sub-section:nth-child(2) {
@@ -177,10 +175,15 @@ section {
 
 .sub-section {
     width: 100%;
+    border: 1px solid #373a40;
+    border-radius: 10px;
+    padding: 1rem;
 }
 
 .sub-heading {
-    margin-bottom: 7rem;
+    border: 1px solid #373a40;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
 }
 
 .img-container {

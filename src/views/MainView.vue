@@ -22,9 +22,6 @@ const heroIsVisible = ref(null)
         </div>
 
         <div class="center">
-            <nav class="layout">
-                <FloatingNav />
-            </nav>
             <main class="layout">
                 <HeroSection v-model:isVisible="heroIsVisible" />
                 <AboutSection />

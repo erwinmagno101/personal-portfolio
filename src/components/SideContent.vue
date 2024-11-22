@@ -61,6 +61,5 @@ onMounted(() => {
 }
 
 .content-container > div {
-    border: 1px solid white;
 }
 </style>
