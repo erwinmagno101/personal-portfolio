@@ -10,15 +10,15 @@ const aboutRef = ref(null)
 
 const subSections = [
     {
-        title: "1.1 It's Getting Personal",
+        title: '1.1 Profile',
         tag: '.about-sub-heading-1',
     },
     {
-        title: '1.2 Life story, nothing special',
+        title: '1.2 Experience',
         tag: '.about-sub-heading-2',
     },
     {
-        title: '1.3 Skills aqcuired along the way',
+        title: '1.3 Skills',
         tag: '.about-sub-heading-3',
     },
 ]
@@ -81,7 +81,7 @@ onMounted(() => {
             :subSections="subSections"
         />
         <div class="sub-heading about-sub-heading-1">
-            1.1 It's Getting Personal
+            1.1 Pofile - It's Getting Personal
         </div>
         <div class="sub-section">
             <div class="img-container">
@@ -96,7 +96,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="sub-heading about-sub-heading-2">
-            1.2 Life story, nothing special
+            1.2 Experience - Life story, nothing special
         </div>
         <div class="sub-section">
             <div class="exp-container">
@@ -114,7 +114,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="sub-heading about-sub-heading-3">
-            1.3 Skills aqcuired along the way
+            1.3 Skills - Tricks aqcuired along the way
         </div>
         <div class="sub-section">
             <div class="skills-container">
