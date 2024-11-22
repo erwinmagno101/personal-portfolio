@@ -37,9 +37,9 @@ onMounted(() => {
             subtitle="2.0"
             :subSections="subSections"
         />
-        <div class="sub-heading project-sub-heading-1">gege</div>
+        <!-- <div class="sub-heading project-sub-heading-1">gege</div>
         <div class="sub-heading project-sub-heading-2">gegege</div>
-        <div class="sub-heading project-sub-heading-3">gegegegege</div>
+        <div class="sub-heading project-sub-heading-3">gegegegege</div> -->
     </section>
 </template>
 
