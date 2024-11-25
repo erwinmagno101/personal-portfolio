@@ -1,16 +1,14 @@
 <script setup>
 import SideNav from '@/components/SideNav.vue'
 import HeroSection from './Pages/HeroSection.vue'
+import SkillSection from './Pages/SkillSection.vue'
 import ProjectSection from './Pages/ProjectSection.vue'
 import BlogSection from './Pages/BlogSection.vue'
 import ContactSection from './Pages/ContactSection.vue'
 import { onMounted, ref, watch } from 'vue'
 import { animate, scroll } from 'motion'
-import SideContent from '@/components/SideContent.vue'
-import { useTableofContentStore } from '@/stores/tablecontent'
 import FloatingNav from '@/components/FloatingNav.vue'
 
-const table = useTableofContentStore()
 const heroIsVisible = ref(null)
 </script>
 
@@ -24,15 +22,14 @@ const heroIsVisible = ref(null)
             <FloatingNav />
             <main class="layout">
                 <HeroSection v-model:isVisible="heroIsVisible" />
+                <SkillSection />
                 <ProjectSection />
                 <BlogSection ref="blogsectionRef" />
                 <ContactSection ref="contactsectionRef" />
             </main>
             <footer class="layout"></footer>
         </div>
-        <div class="right">
-            <SideContent v-if="table.tableData" :contents="table.tableData" />
-        </div>
+        <div class="right"></div>
     </div>
 </template>
 

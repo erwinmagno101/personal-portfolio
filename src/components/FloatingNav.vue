@@ -1,13 +1,15 @@
 <script setup>
 import { onUnmounted, ref, onMounted, watch } from 'vue'
+import { animate, timeline } from 'motion'
 
 const navRef = ref(null)
+const navContainerRef = ref(null)
 const isSticking = ref(false)
 
 const checkStickyPosition = () => {
-    if (!navRef.value) return
+    if (!navContainerRef.value) return
 
-    const rect = navRef.value.getBoundingClientRect()
+    const rect = navContainerRef.value.getBoundingClientRect()
 
     if (rect.top <= 32) {
         isSticking.value = true
@@ -19,9 +21,17 @@ const checkStickyPosition = () => {
 watch(
     () => isSticking.value,
     newVal => {
-        console.log(newVal)
+        navMorphAnimation(newVal)
     },
 )
+
+const navMorphAnimation = condition => {
+    if (condition) {
+        animate(navRef.value, { width: '80%' }, { duration: 0.5 })
+    } else {
+        animate(navRef.value, { width: '100%' }, { duration: 0.5 })
+    }
+}
 
 onMounted(() => {
     window.addEventListener('scroll', checkStickyPosition)
@@ -33,8 +43,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="nav-container" ref="navRef">
-        <nav>
+    <div class="nav-container" ref="navContainerRef">
+        <nav ref="navRef">
             <div class="logo">
                 <div>LOGO</div>
             </div>
@@ -50,7 +60,6 @@ onUnmounted(() => {
 .nav-container {
     position: sticky;
     top: 0px;
-    width: 90%;
     margin: 0 auto;
     margin-top: 3rem;
     z-index: 99;
@@ -58,12 +67,14 @@ onUnmounted(() => {
     background-color: var(---primary);
 }
 nav {
+    width: 100%;
     padding: 0.5rem 0;
     display: flex;
     border: 0.1px solid var(---secondary);
     align-items: center;
     flex-direction: row;
     border-radius: 5px;
+    margin: 0 auto;
 }
 
 nav > * {
