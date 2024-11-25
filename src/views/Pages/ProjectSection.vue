@@ -1,5 +1,4 @@
 <script setup>
-import DynamicHeading from '@/components/DynamicHeading.vue'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { scroll, animate } from 'motion'
 
@@ -32,11 +31,6 @@ onMounted(() => {
 
 <template>
     <section ref="projectRef">
-        <DynamicHeading
-            title="PROJECT"
-            subtitle="2.0"
-            :subSections="subSections"
-        />
         <!-- <div class="sub-heading project-sub-heading-1">gege</div>
         <div class="sub-heading project-sub-heading-2">gegege</div>
         <div class="sub-heading project-sub-heading-3">gegegegege</div> -->

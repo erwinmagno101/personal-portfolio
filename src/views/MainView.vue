@@ -1,8 +1,6 @@
 <script setup>
-import FloatingNav from '@/components/FloatingNav.vue'
 import SideNav from '@/components/SideNav.vue'
 import HeroSection from './Pages/HeroSection.vue'
-import AboutSection from './Pages/AboutSection.vue'
 import ProjectSection from './Pages/ProjectSection.vue'
 import BlogSection from './Pages/BlogSection.vue'
 import ContactSection from './Pages/ContactSection.vue'
@@ -10,6 +8,7 @@ import { onMounted, ref, watch } from 'vue'
 import { animate, scroll } from 'motion'
 import SideContent from '@/components/SideContent.vue'
 import { useTableofContentStore } from '@/stores/tablecontent'
+import FloatingNav from '@/components/FloatingNav.vue'
 
 const table = useTableofContentStore()
 const heroIsVisible = ref(null)
@@ -22,9 +21,9 @@ const heroIsVisible = ref(null)
         </div>
 
         <div class="center">
+            <FloatingNav />
             <main class="layout">
                 <HeroSection v-model:isVisible="heroIsVisible" />
-                <AboutSection />
                 <ProjectSection />
                 <BlogSection ref="blogsectionRef" />
                 <ContactSection ref="contactsectionRef" />
@@ -70,10 +69,6 @@ const heroIsVisible = ref(null)
 .layout {
     margin: auto;
     padding: auto 1rem;
-}
-
-nav {
-    padding-top: 3rem;
 }
 
 main {

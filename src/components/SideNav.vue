@@ -3,11 +3,10 @@ import { onMounted, ref, watch } from 'vue'
 import { animate } from 'motion'
 
 const navItems = [
-    { title: 'Welcome', id: '1' },
-    { title: 'About', id: '2' },
-    { title: 'Project', id: '3' },
-    { title: 'Blog', id: '4' },
-    { title: 'Contact', id: '5' },
+    { title: 'Home', id: '1' },
+    { title: 'Project', id: '2' },
+    { title: 'Blog', id: '3' },
+    { title: 'Contact', id: '4' },
 ]
 
 const activeIndex = ref(null)
