@@ -73,8 +73,4 @@ main {
     flex-direction: column;
     gap: 20rem;
 }
-
-main > * {
-    min-height: 90vh;
-}
 </style>

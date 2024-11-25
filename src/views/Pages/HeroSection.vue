@@ -1,31 +1,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { inView } from 'motion'
+import { useNavigationStore } from '@/stores/navigation'
 
+const navigationStore = useNavigationStore()
 const heroRef = ref(null)
 const isVisible = defineModel('isVisible')
 
 onMounted(() => {
-    const observer = new IntersectionObserver(
-        ([entry]) => {
-            if (!entry.isIntersecting) {
-                isVisible.value = false
-            } else {
-                isVisible.value = true
-            }
-        },
-        {
-            root: null, // Use the viewport as the root
-            threshold: 0, // Trigger as soon as even 1px is visible or not visible
-        },
-    )
-
-    if (heroRef.value) {
-        observer.observe(heroRef.value)
-    }
-
-    onUnmounted(() => {
-        if (heroRef.value) {
-            observer.unobserve(heroRef.value)
+    inView(heroRef.value, () => {
+        isVisible.value = true
+        return () => {
+            isVisible.value = false
         }
     })
 })

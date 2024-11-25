@@ -1,7 +1,9 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { scroll, animate } from 'motion'
+import { scroll, animate, inView } from 'motion'
+import { useNavigationStore } from '@/stores/navigation'
 
+const navigationStore = useNavigationStore()
 const projectRef = ref(null)
 
 onMounted(() => {
@@ -12,16 +14,23 @@ onMounted(() => {
     //         offset: ['start end', 'center center'],
     //     })
     // })
+    inView(projectRef.value, () => {
+        navigationStore.setActiveNav(2)
+        console.log('visible project')
+        return () => {}
+    })
 })
 </script>
 
 <template>
-    <section ref="projectRef"></section>
+    <section ref="projectRef">Project</section>
 </template>
 
 <style scoped>
 section {
     display: flex;
     flex-direction: column;
+    min-height: 90vh;
+    background-color: red;
 }
 </style>
