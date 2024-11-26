@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { scroll, animate, inView } from 'motion'
 import { useNavigationStore } from '@/stores/navigation'
+import SectionComponent from '@/components/SectionComponent.vue'
 
 const navigationStore = useNavigationStore()
 const projectRef = ref(null)
@@ -23,14 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <section ref="projectRef">Project</section>
+    <SectionComponent ref="projectRef"> gg </SectionComponent>
 </template>
 
-<style scoped>
-section {
-    display: flex;
-    flex-direction: column;
-    min-height: 90vh;
-    background-color: red;
-}
-</style>
+<style scoped></style>

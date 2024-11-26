@@ -41,7 +41,7 @@ const heroIsVisible = ref(null)
     font-style: normal;
     letter-spacing: 0.2rem;
     display: flex;
-    flex-direction: ro;
+    flex-direction: row;
 }
 
 .left {
@@ -71,6 +71,6 @@ const heroIsVisible = ref(null)
 main {
     display: flex;
     flex-direction: column;
-    gap: 20rem;
+    gap: 40rem;
 }
 </style>
