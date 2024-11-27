@@ -125,6 +125,8 @@ const skills = [
         tag: 'Platform',
     },
 ]
+
+const isHovering = ref(false)
 </script>
 
 <template>
@@ -155,7 +157,7 @@ const skills = [
     justify-content: center;
     align-items: stretch;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem 3rem;
 }
 
 .item {
@@ -165,15 +167,17 @@ const skills = [
     text-align: center;
     width: 250px;
     display: flex;
-    border-radius: 100% 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
     font-size: 1rem;
     gap: 0.5rem;
+    cursor: pointer;
 }
 
 .item > div:first-child {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    align-items: center;
 }
 
 .logo {
@@ -197,6 +201,9 @@ const skills = [
 .tag {
     font-size: 0.7rem;
     font-weight: 100;
+    border: 1px solid var(---secondary);
+    padding: 2px 5px;
+    border-radius: 5px;
 }
 
 .description {
@@ -207,6 +214,7 @@ const skills = [
 
 .description div:nth-child(2) {
     font-size: 0.7rem;
-    font-weight: 100;
+    font-weight: 400;
+    opacity: 0.7;
 }
 </style>
