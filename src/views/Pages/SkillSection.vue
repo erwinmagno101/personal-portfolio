@@ -25,6 +25,7 @@ const skills = [
         logo: 'flutter',
         link: 'https://flutter.dev/',
         tag: 'Framework',
+        expert: false,
     },
     {
         name: 'Vue js',
@@ -32,6 +33,7 @@ const skills = [
         logo: 'vue',
         link: 'https://vuejs.org/',
         tag: 'Framework',
+        expert: true,
     },
     {
         name: 'React js',
@@ -39,6 +41,7 @@ const skills = [
         logo: 'react',
         link: 'https://react.dev/',
         tag: 'Framework',
+        expert: false,
     },
     {
         name: 'Javascript',
@@ -46,6 +49,7 @@ const skills = [
         logo: 'javascript',
         link: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
         tag: 'Language',
+        expert: true,
     },
     {
         name: 'Java',
@@ -53,6 +57,7 @@ const skills = [
         logo: 'java',
         link: 'https://www.java.com/en/',
         tag: 'Language',
+        expert: false,
     },
     {
         name: 'Dart',
@@ -60,6 +65,7 @@ const skills = [
         logo: 'dart',
         link: 'https://dart.dev/',
         tag: 'Language',
+        expert: false,
     },
     {
         name: 'XML',
@@ -67,6 +73,7 @@ const skills = [
         logo: 'xml',
         link: 'https://www.w3.org/XML/',
         tag: 'Language',
+        expert: false,
     },
     {
         name: 'CSS',
@@ -74,6 +81,7 @@ const skills = [
         logo: 'css',
         link: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
         tag: 'Language',
+        expert: true,
     },
     {
         name: 'HTML',
@@ -81,6 +89,7 @@ const skills = [
         logo: 'html',
         link: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
         tag: 'Language',
+        expert: true,
     },
     {
         name: 'Mongo DB',
@@ -109,6 +118,7 @@ const skills = [
         logo: 'vscode',
         link: 'https://code.visualstudio.com/',
         tag: 'Tool',
+        expert: true,
     },
     {
         name: 'Figma',
@@ -123,6 +133,7 @@ const skills = [
         logo: 'github',
         link: 'https://github.com/',
         tag: 'Platform',
+        expert: true,
     },
 ]
 
@@ -137,8 +148,15 @@ const isHovering = ref(false)
         <div class="container">
             <div class="item" v-for="(item, index) in skills" :key="index">
                 <div>
-                    <div class="logo">
-                        <SkillsLogo :name="item.logo" />
+                    <div class="logo-container">
+                        <img
+                            v-if="item.expert"
+                            src="@/assets/gifs/fireball.gif"
+                            alt="Description of GIF"
+                        />
+                        <div>
+                            <SkillsLogo :name="item.logo" />
+                        </div>
                     </div>
                     <div class="tag">{{ item.tag }}</div>
                 </div>
@@ -180,7 +198,7 @@ const isHovering = ref(false)
     align-items: center;
 }
 
-.logo {
+.logo-container {
     border: 1px solid var(---secondary);
     width: 75px;
     height: 75px;
@@ -189,11 +207,24 @@ const isHovering = ref(false)
     justify-content: center;
     align-items: center;
     background-color: var(---primary);
+    position: relative;
+}
+
+.logo-container > img {
+    width: 150%;
+    position: absolute;
+    filter: grayscale(0%) brightness(120%);
+}
+
+.logo-container > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     filter: grayscale(100%) brightness(120%);
 }
 
 .item:hover {
-    .logo {
+    .logo-container > div {
         filter: grayscale(0%);
     }
 }
