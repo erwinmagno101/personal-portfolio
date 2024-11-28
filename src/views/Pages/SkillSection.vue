@@ -4,7 +4,7 @@ import { scroll, animate, inView } from 'motion'
 import { useNavigationStore } from '@/stores/navigation'
 import SectionComponent from '@/components/SectionComponent.vue'
 import SectionHeading from '@/components/SectionHeading.vue'
-import SkillsLogo from '@/components/SkillsLogo.vue'
+import SkillBlock from '@/components/SkillBlock.vue'
 
 const navigationStore = useNavigationStore()
 const skillRef = ref(null)
@@ -153,28 +153,6 @@ const skills = [
         textColor: 'white',
     },
 ]
-
-const items = ref([])
-
-const hoverAnimIn = index => {
-    const element = items.value[index]
-    const reflect = element.querySelector('.reflect')
-    animate(reflect, { rotate: '30deg' }, { duration: 0 })
-    animate(reflect, { x: 350, rotate: '30deg' }, { duration: 0.3 })
-    animate(element, {
-        backgroundColor: skills[index].color,
-        color: skills[index].textColor || 'black',
-    })
-    animate(element, { scale: 1.05 }, { duration: 0.1 })
-}
-
-const hoverAnimOut = index => {
-    const element = items.value[index]
-    const reflect = element.querySelector('.reflect')
-    animate(reflect, { x: -10, rotate: '30deg' }, { duration: 0.3 })
-    animate(element, { backgroundColor: '#151515', color: '#9E9E9E' })
-    animate(element, { scale: 1 }, { duration: 0.1 })
-}
 </script>
 
 <template>
@@ -183,34 +161,11 @@ const hoverAnimOut = index => {
             Tools and Technologies in my Arsenal
         </SectionHeading>
         <div class="container">
-            <div
-                class="item"
-                v-for="(item, index) in skills"
+            <SkillBlock
+                v-for="(skill, index) in skills"
                 :key="index"
-                :ref="el => (items[index] = el)"
-                @mouseenter="hoverAnimIn(index)"
-                @mouseleave="hoverAnimOut(index)"
-            >
-                <div>
-                    <div class="logo-container">
-                        <img
-                            v-if="item.expert"
-                            src="@/assets/gifs/fireball.gif"
-                            alt="Description of GIF"
-                        />
-                        <div>
-                            <SkillsLogo :name="item.logo" />
-                        </div>
-                    </div>
-                    <div class="tag">{{ item.tag }}</div>
-                </div>
-
-                <div class="description">
-                    <div>{{ item.name }}</div>
-                    <div>{{ item.description }}</div>
-                </div>
-                <div class="reflect"></div>
-            </div>
+                :data="skill"
+            />
         </div>
     </SectionComponent>
 </template>
@@ -222,89 +177,5 @@ const hoverAnimOut = index => {
     align-items: stretch;
     flex-wrap: wrap;
     gap: 2rem 3rem;
-}
-
-.item {
-    border: 1px solid var(---secondary);
-    padding: 1rem;
-    font-size: 30px;
-    text-align: center;
-    width: 250px;
-    display: flex;
-    border-radius: 10px 10px 10px 10px;
-    font-size: 1rem;
-    gap: 0.5rem;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.reflect {
-    position: absolute;
-    background-color: white;
-    width: 10%;
-    height: 200%;
-    z-index: 99;
-    top: -20%;
-    left: -35%;
-}
-
-.item > div:first-child {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.logo-container {
-    border: 1px solid var(---secondary);
-    width: 75px;
-    height: 75px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(---primary);
-    position: relative;
-}
-
-.logo-container > img {
-    width: 150%;
-    position: absolute;
-    filter: grayscale(0%) brightness(120%);
-}
-
-.logo-container > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    filter: grayscale(100%) brightness(120%);
-    transition: filter 0.5s;
-}
-
-.item:hover {
-    .logo-container > div {
-        filter: grayscale(0%);
-    }
-}
-
-.tag {
-    font-size: 0.7rem;
-    font-weight: 100;
-    border: 1px solid var(---secondary);
-    padding: 2px 5px;
-    border-radius: 5px;
-}
-
-.description {
-    flex: 1 1 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.description div:nth-child(2) {
-    font-size: 0.7rem;
-    font-weight: 400;
-    opacity: 0.7;
 }
 </style>
