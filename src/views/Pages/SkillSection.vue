@@ -26,6 +26,7 @@ const skills = [
         link: 'https://flutter.dev/',
         tag: 'Framework',
         expert: false,
+        color: '#0abde3',
     },
     {
         name: 'Vue js',
@@ -34,6 +35,7 @@ const skills = [
         link: 'https://vuejs.org/',
         tag: 'Framework',
         expert: true,
+        color: '#1dd1a1',
     },
     {
         name: 'React js',
@@ -42,6 +44,7 @@ const skills = [
         link: 'https://react.dev/',
         tag: 'Framework',
         expert: false,
+        color: '#0abde3',
     },
     {
         name: 'Javascript',
@@ -50,6 +53,7 @@ const skills = [
         link: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
         tag: 'Language',
         expert: true,
+        color: '#eccc68',
     },
     {
         name: 'Java',
@@ -58,6 +62,7 @@ const skills = [
         link: 'https://www.java.com/en/',
         tag: 'Language',
         expert: false,
+        color: '#0abde3',
     },
     {
         name: 'Dart',
@@ -66,6 +71,7 @@ const skills = [
         link: 'https://dart.dev/',
         tag: 'Language',
         expert: false,
+        color: '#0abde3',
     },
     {
         name: 'XML',
@@ -74,6 +80,7 @@ const skills = [
         link: 'https://www.w3.org/XML/',
         tag: 'Language',
         expert: false,
+        color: '#0abde3',
     },
     {
         name: 'CSS',
@@ -82,6 +89,7 @@ const skills = [
         link: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
         tag: 'Language',
         expert: true,
+        color: '#0abde3',
     },
     {
         name: 'HTML',
@@ -90,6 +98,7 @@ const skills = [
         link: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
         tag: 'Language',
         expert: true,
+        color: '#0abde3',
     },
     {
         name: 'Mongo DB',
@@ -97,6 +106,7 @@ const skills = [
         logo: 'mongodb',
         link: 'https://www.mongodb.com/',
         tag: 'Tool',
+        color: '#0abde3',
     },
     {
         name: 'Firebase',
@@ -104,6 +114,7 @@ const skills = [
         logo: 'firebase',
         link: 'https://firebase.google.com/',
         tag: 'Tool',
+        color: '#0abde3',
     },
     {
         name: 'Android Studio',
@@ -111,6 +122,7 @@ const skills = [
         logo: '',
         link: 'https://developer.android.com/studio',
         tag: 'Tool',
+        color: '#0abde3',
     },
     {
         name: 'VS Code',
@@ -119,6 +131,7 @@ const skills = [
         link: 'https://code.visualstudio.com/',
         tag: 'Tool',
         expert: true,
+        color: '#0abde3',
     },
     {
         name: 'Figma',
@@ -126,6 +139,7 @@ const skills = [
         logo: 'figma',
         link: 'https://www.figma.com/',
         tag: 'Platform',
+        color: '#0abde3',
     },
     {
         name: 'GitHub',
@@ -134,10 +148,26 @@ const skills = [
         link: 'https://github.com/',
         tag: 'Platform',
         expert: true,
+        color: '#0abde3',
     },
 ]
 
-const isHovering = ref(false)
+const items = ref([])
+
+const hoverAnimIn = index => {
+    const element = items.value[index]
+    const reflect = element.querySelector('.reflect')
+    animate(reflect, { rotate: '30deg' }, { duration: 0 })
+    animate(reflect, { x: 350, rotate: '30deg' }, { duration: 0.3 })
+    animate(element, { backgroundColor: skills[index].color, color: 'black' })
+}
+
+const hoverAnimOut = index => {
+    const element = items.value[index]
+    const reflect = element.querySelector('.reflect')
+    animate(reflect, { x: -10, rotate: '30deg' }, { duration: 0.3 })
+    animate(element, { backgroundColor: '#151515', color: '#9E9E9E' })
+}
 </script>
 
 <template>
@@ -146,7 +176,14 @@ const isHovering = ref(false)
             Tools and Technologies in my Arsenal
         </SectionHeading>
         <div class="container">
-            <div class="item" v-for="(item, index) in skills" :key="index">
+            <div
+                class="item"
+                v-for="(item, index) in skills"
+                :key="index"
+                :ref="el => (items[index] = el)"
+                @mouseenter="hoverAnimIn(index)"
+                @mouseleave="hoverAnimOut(index)"
+            >
                 <div>
                     <div class="logo-container">
                         <img
@@ -160,10 +197,12 @@ const isHovering = ref(false)
                     </div>
                     <div class="tag">{{ item.tag }}</div>
                 </div>
+
                 <div class="description">
                     <div>{{ item.name }}</div>
                     <div>{{ item.description }}</div>
                 </div>
+                <div class="reflect"></div>
             </div>
         </div>
     </SectionComponent>
@@ -189,6 +228,18 @@ const isHovering = ref(false)
     font-size: 1rem;
     gap: 0.5rem;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.reflect {
+    position: absolute;
+    background-color: white;
+    width: 10%;
+    height: 200%;
+    z-index: 99;
+    top: -20%;
+    left: -35%;
 }
 
 .item > div:first-child {
@@ -221,6 +272,7 @@ const isHovering = ref(false)
     justify-content: center;
     align-items: center;
     filter: grayscale(100%) brightness(120%);
+    transition: filter 0.5s;
 }
 
 .item:hover {
