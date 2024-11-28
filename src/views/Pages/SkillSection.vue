@@ -26,7 +26,7 @@ const skills = [
         link: 'https://flutter.dev/',
         tag: 'Framework',
         expert: false,
-        color: '#0abde3',
+        color: '#62b7ea',
     },
     {
         name: 'Vue js',
@@ -53,7 +53,7 @@ const skills = [
         link: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
         tag: 'Language',
         expert: true,
-        color: '#eccc68',
+        color: '#f2c12d',
     },
     {
         name: 'Java',
@@ -62,7 +62,7 @@ const skills = [
         link: 'https://www.java.com/en/',
         tag: 'Language',
         expert: false,
-        color: '#0abde3',
+        color: '#eb3536',
     },
     {
         name: 'Dart',
@@ -71,7 +71,7 @@ const skills = [
         link: 'https://dart.dev/',
         tag: 'Language',
         expert: false,
-        color: '#0abde3',
+        color: '#34e7e4',
     },
     {
         name: 'XML',
@@ -80,7 +80,7 @@ const skills = [
         link: 'https://www.w3.org/XML/',
         tag: 'Language',
         expert: false,
-        color: '#0abde3',
+        color: '#3c40c6',
     },
     {
         name: 'CSS',
@@ -89,7 +89,7 @@ const skills = [
         link: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
         tag: 'Language',
         expert: true,
-        color: '#0abde3',
+        color: '#36adde',
     },
     {
         name: 'HTML',
@@ -98,7 +98,7 @@ const skills = [
         link: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
         tag: 'Language',
         expert: true,
-        color: '#0abde3',
+        color: '#f26c35',
     },
     {
         name: 'Mongo DB',
@@ -106,7 +106,7 @@ const skills = [
         logo: 'mongodb',
         link: 'https://www.mongodb.com/',
         tag: 'Tool',
-        color: '#0abde3',
+        color: '#00ed64',
     },
     {
         name: 'Firebase',
@@ -114,7 +114,7 @@ const skills = [
         logo: 'firebase',
         link: 'https://firebase.google.com/',
         tag: 'Tool',
-        color: '#0abde3',
+        color: '#ffc400',
     },
     {
         name: 'Android Studio',
@@ -131,7 +131,7 @@ const skills = [
         link: 'https://code.visualstudio.com/',
         tag: 'Tool',
         expert: true,
-        color: '#0abde3',
+        color: '#087ebf',
     },
     {
         name: 'Figma',
@@ -139,7 +139,8 @@ const skills = [
         logo: 'figma',
         link: 'https://www.figma.com/',
         tag: 'Platform',
-        color: '#0abde3',
+        color: '#2C2C2C',
+        textColor: 'white',
     },
     {
         name: 'GitHub',
@@ -148,7 +149,8 @@ const skills = [
         link: 'https://github.com/',
         tag: 'Platform',
         expert: true,
-        color: '#0abde3',
+        color: '#010409',
+        textColor: 'white',
     },
 ]
 
@@ -159,7 +161,11 @@ const hoverAnimIn = index => {
     const reflect = element.querySelector('.reflect')
     animate(reflect, { rotate: '30deg' }, { duration: 0 })
     animate(reflect, { x: 350, rotate: '30deg' }, { duration: 0.3 })
-    animate(element, { backgroundColor: skills[index].color, color: 'black' })
+    animate(element, {
+        backgroundColor: skills[index].color,
+        color: skills[index].textColor || 'black',
+    })
+    animate(element, { scale: 1.05 }, { duration: 0.1 })
 }
 
 const hoverAnimOut = index => {
@@ -167,6 +173,7 @@ const hoverAnimOut = index => {
     const reflect = element.querySelector('.reflect')
     animate(reflect, { x: -10, rotate: '30deg' }, { duration: 0.3 })
     animate(element, { backgroundColor: '#151515', color: '#9E9E9E' })
+    animate(element, { scale: 1 }, { duration: 0.1 })
 }
 </script>
 
