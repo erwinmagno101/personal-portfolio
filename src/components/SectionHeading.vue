@@ -4,6 +4,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 
 const props = defineProps({
     title: String,
+    subtitle: String,
 })
 
 const headingRef = ref(null)
@@ -15,7 +16,7 @@ const headingRef = ref(null)
             {{ title }}
         </div>
         <div class="subheading">
-            <slot></slot>
+            {{ subtitle }}
         </div>
     </div>
 </template>
@@ -34,5 +35,10 @@ const headingRef = ref(null)
 
 .subheading {
     text-align: center;
+    font-size: 1.3rem;
+    max-width: 50%;
+    text-align: center;
+    margin: 0 auto;
+    letter-spacing: 0.1rem;
 }
 </style>

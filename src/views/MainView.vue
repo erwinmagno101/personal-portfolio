@@ -39,7 +39,6 @@ const heroIsVisible = ref(null)
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    letter-spacing: 0.2rem;
     display: flex;
     flex-direction: row;
 }

@@ -58,6 +58,7 @@ onUnmounted(() => {
 
 <style scoped>
 .nav-container {
+    letter-spacing: 0.2rem;
     position: sticky;
     top: 0px;
     margin: 0 auto;

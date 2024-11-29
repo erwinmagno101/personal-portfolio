@@ -166,15 +166,30 @@ const skills = [
 
 <template>
     <SectionComponent ref="skillRef">
-        <SectionHeading title="Skills">
-            Tools and Technologies in my Arsenal
-        </SectionHeading>
-        <div class="container">
-            <SkillBlock
-                v-for="(skill, index) in skills"
-                :key="index"
-                :data="skill"
-            />
+        <SectionHeading
+            title="Skills"
+            subtitle='"Skills are the tools we craft through learning and practice; they shape not only our success but also the mark we leave on the world."'
+        />
+        <div>
+            <div class="sub-heading">Tools and Technologies in my Arsenal</div>
+            <div class="container">
+                <SkillBlock
+                    v-for="(skill, index) in skills"
+                    :key="index"
+                    :data="skill"
+                />
+            </div>
+        </div>
+
+        <div>
+            <div class="sub-heading">Tools and Technologies in my Arsenal</div>
+            <div class="container">
+                <SkillBlock
+                    v-for="(skill, index) in skills"
+                    :key="index"
+                    :data="skill"
+                />
+            </div>
         </div>
     </SectionComponent>
 </template>
@@ -186,5 +201,11 @@ const skills = [
     align-items: stretch;
     flex-wrap: wrap;
     gap: 2rem 3rem;
+}
+
+.sub-heading {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 </style>

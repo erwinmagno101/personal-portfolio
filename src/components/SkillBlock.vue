@@ -59,9 +59,9 @@ const hoverAnimOut = () => {
 
 <style scoped>
 .item {
+    font-family: 'Overpass', sans-serif;
     border: 1px solid var(---secondary);
     padding: 1rem;
-    font-size: 30px;
     text-align: center;
     width: 250px;
     display: flex;
@@ -124,10 +124,12 @@ const hoverAnimOut = () => {
 
 .tag {
     font-size: 0.7rem;
-    font-weight: 100;
+    font-weight: 500;
     border: 1px solid var(---secondary);
     padding: 2px 5px;
     border-radius: 5px;
+    background-color: var(---primary);
+    color: #9e9e9e;
 }
 
 .description {
@@ -135,10 +137,15 @@ const hoverAnimOut = () => {
     display: flex;
     flex-direction: column;
 }
+.description div:nth-child(1) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    opacity: 1;
+}
 
 .description div:nth-child(2) {
-    font-size: 0.7rem;
-    font-weight: 400;
+    font-size: 0.9rem;
+    font-weight: 500;
     opacity: 0.7;
 }
 </style>

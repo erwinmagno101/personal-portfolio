@@ -11,5 +11,6 @@ section {
     display: flex;
     flex-direction: column;
     min-height: 90vh;
+    gap: 15rem;
 }
 </style>
