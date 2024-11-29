@@ -47,6 +47,15 @@ const skills = [
         color: '#0abde3',
     },
     {
+        name: 'Tailwind CSS',
+        description: 'A utility-first CSS framework',
+        logo: 'tailwind',
+        link: 'https://tailwindcss.com/',
+        tag: 'Framework',
+        expert: true,
+        color: '#0284C7',
+    },
+    {
         name: 'Javascript',
         description: 'Popular language for web development.',
         logo: 'javascript',
@@ -119,10 +128,10 @@ const skills = [
     {
         name: 'Android Studio',
         description: 'Official IDE for Android development.',
-        logo: '',
+        logo: 'android',
         link: 'https://developer.android.com/studio',
         tag: 'Tool',
-        color: '#0abde3',
+        color: '#00e676',
     },
     {
         name: 'VS Code',
