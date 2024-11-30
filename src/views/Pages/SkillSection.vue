@@ -5,6 +5,7 @@ import { useNavigationStore } from '@/stores/navigation'
 import SectionComponent from '@/components/SectionComponent.vue'
 import SectionHeading from '@/components/SectionHeading.vue'
 import SkillBlock from '@/components/SkillBlock.vue'
+import ExpTimeline from '@/components/ExpTimeline.vue'
 
 const navigationStore = useNavigationStore()
 const skillRef = ref(null)
@@ -182,7 +183,8 @@ const skills = [
         </div>
 
         <div>
-            <div class="sub-heading">Tools and Technologies in my Arsenal</div>
+            <div class="sub-heading">Programming Journey</div>
+            <ExpTimeline />
         </div>
     </SectionComponent>
 </template>
