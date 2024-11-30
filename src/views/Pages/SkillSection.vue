@@ -183,13 +183,6 @@ const skills = [
 
         <div>
             <div class="sub-heading">Tools and Technologies in my Arsenal</div>
-            <div class="container">
-                <SkillBlock
-                    v-for="(skill, index) in skills"
-                    :key="index"
-                    :data="skill"
-                />
-            </div>
         </div>
     </SectionComponent>
 </template>
