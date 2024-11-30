@@ -1,7 +1,34 @@
-<script setup></script>
+<script setup>
+import { animate, inView, scroll } from 'motion'
+import { onMounted, ref } from 'vue'
+
+const expTimelineRef = ref(null)
+const currentY = ref(0)
+onMounted(() => {
+    const timeline = expTimelineRef.value.querySelector('.timeline')
+
+    inView(expTimelineRef.value, () => {
+        animate(timeline, { background: 'blue' })
+        const cancel = scroll(progress => {
+            if (currentY.value === 0) currentY.value = progress.y.current
+            let calculatedValue =
+                progress.y.current - currentY.value > -1
+                    ? progress.y.current - currentY.value
+                    : 0
+
+            animate(timeline, {
+                height: `${calculatedValue > 100 ? calculatedValue - 100 : calculatedValue}px`,
+            })
+        })
+        return () => {
+            cancel()
+        }
+    })
+})
+</script>
 
 <template>
-    <div class="container">
+    <div class="container" ref="expTimelineRef">
         <div class="timeline"></div>
         <!-- <svg width="500" height="20" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -17,6 +44,7 @@
 <style scoped>
 .container {
     width: 100%;
+    min-height: 100vh;
 }
 
 svg {
@@ -25,7 +53,7 @@ svg {
 
 .timeline {
     width: 10px;
-    height: 700px;
+    height: 10px;
     background-color: red;
 }
 </style>
