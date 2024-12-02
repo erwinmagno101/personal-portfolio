@@ -3,25 +3,30 @@ import { animate, inView, scroll } from 'motion'
 import { onMounted, ref } from 'vue'
 
 const expTimelineRef = ref(null)
-const currentY = ref(0)
+const calculatedHeight = ref(0)
+
 onMounted(() => {
     const timeline = expTimelineRef.value.querySelector('.timeline')
 
     inView(expTimelineRef.value, () => {
-        animate(timeline, { background: 'blue' })
-        const cancel = scroll(progress => {
-            console.log(progress)
-            if (currentY.value === 0) currentY.value = progress.y.current
-            let calculatedValue =
-                progress.y.current - currentY.value > -1
-                    ? progress.y.current - currentY.value
-                    : 0
-            console.log(calculatedValue)
+        const cancel = scroll(
+            progress => {
+                calculatedHeight.value =
+                    progress.y.current - progress.y.offset[0]
 
-            animate(timeline, {
-                height: `${calculatedValue > 100 ? calculatedValue - 100 : calculatedValue}px`,
-            })
-        })
+                if (calculatedHeight.value > 0) {
+                    animate(
+                        timeline,
+                        {
+                            height: `${calculatedHeight.value >= 300 ? calculatedHeight.value - 300 : 0}px`,
+                        },
+                        { duration: 0.5 },
+                    )
+                }
+            },
+            { target: expTimelineRef.value, offset: ['start end'] },
+        )
+
         return () => {
             cancel()
         }
@@ -38,7 +43,7 @@ const expData = [
 </script>
 
 <template>
-    <div class="container" ref="expTimelineRef">
+    <div class="timeline-container" ref="expTimelineRef">
         <div class="timeline">
             <div
                 class="point"
@@ -54,9 +59,10 @@ const expData = [
 </template>
 
 <style scoped>
-.container {
+.timeline-container {
     width: 100%;
     min-height: 100vh;
+    position: relative;
 }
 
 svg {
@@ -65,9 +71,12 @@ svg {
 
 .timeline {
     width: 10px;
-    height: 10px;
+    height: 0px;
     background-color: red;
     position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .exp-block {
