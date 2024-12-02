@@ -7,11 +7,11 @@ const calculatedHeight = ref(0)
 const pointRefs = ref([])
 
 onMounted(() => {
-    animate(
-        expTimelineRef.value.querySelector('.pin'),
-        { scale: [1, 1.2, 1] },
-        { repeat: Infinity, duration: 1 },
-    )
+    // animate(
+    //     expTimelineRef.value.querySelector('.pin'),
+    //     { scale: [1, 1.2, 1] },
+    //     { repeat: Infinity, duration: 1 },
+    // )
 
     const timeline = expTimelineRef.value.querySelector('.timeline')
 
