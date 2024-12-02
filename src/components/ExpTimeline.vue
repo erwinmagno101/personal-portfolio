@@ -27,22 +27,29 @@ onMounted(() => {
         }
     })
 })
+
+const expData = [
+    { title: 'Sh', content: 'test Desc' },
+    { title: 'College', content: 'test Desc' },
+    { title: 'Freelance', content: 'test Desc' },
+    { title: 'SSC', content: 'test Desc' },
+    { title: 'Freelance', content: 'test Desc' },
+]
 </script>
 
 <template>
     <div class="container" ref="expTimelineRef">
         <div class="timeline">
-            <div class="exp-block">213221</div>
-            <div class="exp-block">213221</div>
+            <div
+                class="point"
+                v-for="(data, index) in expData"
+                :key="index"
+                :style="{ top: `${300 * (index + 1)}px` }"
+            ></div>
         </div>
-        <!-- <svg width="500" height="20" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M0 10 Q 25 0, 50 10 T 100 10 T 150 10 T 200 10 T 250 10 T 300 10 T 350 10 T 400 10 T 450 10 T 500 10"
-                fill="none"
-                stroke="black"
-                stroke-width="2"
-            />
-        </svg> -->
+        <!-- <div class="exp-block" v-for="(data, index) in expData" :key="index">
+            {{ data.title }}
+        </div> -->
     </div>
 </template>
 
@@ -60,7 +67,7 @@ svg {
     width: 10px;
     height: 10px;
     background-color: red;
-    position: relative;
+    position: absolute;
 }
 
 .exp-block {
@@ -69,6 +76,15 @@ svg {
     height: 150px;
     border: 1px solid var(---secondary);
     left: 100px;
-    top: 300px;
+}
+
+.point {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: green;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 </style>
