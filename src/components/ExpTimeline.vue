@@ -44,13 +44,20 @@ const expData = [
 
 <template>
     <div class="timeline-container" ref="expTimelineRef">
-        <div class="timeline">
-            <div
-                class="point"
-                v-for="(data, index) in expData"
-                :key="index"
-                :style="{ top: `${300 * (index + 1)}px` }"
-            ></div>
+        <div>
+            <div class="timeline">
+                <div
+                    class="point"
+                    v-for="(data, index) in expData"
+                    :key="index"
+                    :style="{ top: `${250 * (index + 1)}px` }"
+                >
+                    <div
+                        class="timeline-block"
+                        :class="[index % 2 === 0 ? 'left' : 'right']"
+                    ></div>
+                </div>
+            </div>
         </div>
         <!-- <div class="exp-block" v-for="(data, index) in expData" :key="index">
             {{ data.title }}
@@ -63,20 +70,29 @@ const expData = [
     width: 100%;
     min-height: 100vh;
     position: relative;
+    border: 1px solid var(---secondary);
 }
 
 svg {
     transform: rotate(90deg);
 }
 
+.timeline-container > :first-child {
+    width: fit-content;
+    padding: 5px;
+    position: relative;
+    margin: 0 auto;
+    height: calc(250px * 6);
+}
+
 .timeline {
-    width: 10px;
-    height: 0px;
-    background-color: red;
+    width: 5px;
+    background-color: white;
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    border-radius: 5px;
 }
 
 .exp-block {
@@ -91,9 +107,25 @@ svg {
     width: 50px;
     height: 50px;
     border-radius: 100%;
-    background-color: green;
+    background-color: white;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.timeline-block {
+    width: 250px;
+    height: 150px;
+    border: 1px solid var(---secondary);
+    position: absolute;
+    top: 0px;
+}
+
+.left {
+    left: 50px;
+}
+
+.right {
+    right: 50px;
 }
 </style>
