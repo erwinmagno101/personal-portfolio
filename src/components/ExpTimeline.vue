@@ -7,6 +7,12 @@ const calculatedHeight = ref(0)
 const pointRefs = ref([])
 
 onMounted(() => {
+    animate(
+        expTimelineRef.value.querySelector('.pin'),
+        { scale: [1, 1.2, 1] },
+        { repeat: Infinity, duration: 1 },
+    )
+
     const timeline = expTimelineRef.value.querySelector('.timeline')
 
     inView(expTimelineRef.value, () => {
@@ -22,7 +28,7 @@ onMounted(() => {
                     animate(
                         timeline,
                         {
-                            height: `${calculatedHeight.value >= 250 ? calculatedHeight.value - 250 : 0}px`,
+                            height: `${calculatedHeight.value >= 150 ? calculatedHeight.value - 150 : 0}px`,
                         },
                         { duration: 0.5 },
                     )
@@ -41,10 +47,10 @@ watch(
     () => calculatedHeight.value,
     newVal => {
         pointRefs.value.forEach((element, index) => {
-            if (newVal > 250 + 250 * (index + 1)) {
-                animate(element, { opacity: 1 }, { duration: 0.1 })
+            if (newVal > 150 + 260 * (index + 1)) {
+                animate(element, { opacity: 1 }, { duration: 0.1, delay: 0.1 })
             } else {
-                animate(element, { opacity: 0 }, { duration: 0 })
+                animate(element, { opacity: 0 }, { duration: 0.2, delay: 0.1 })
             }
         })
     },
@@ -70,6 +76,8 @@ const expData = [
                     :style="{ top: `${250 * (index + 1)}px` }"
                     :ref="el => (pointRefs[index] = el)"
                 >
+                    <div class="pin"></div>
+                    <div class="dot"></div>
                     <div
                         class="timeline-block"
                         :class="[index % 2 === 0 ? 'left' : 'right']"
@@ -85,7 +93,6 @@ const expData = [
     width: 100%;
     min-height: 100vh;
     position: relative;
-    border: 1px solid var(---secondary);
 }
 
 svg {
@@ -119,14 +126,33 @@ svg {
 }
 
 .point {
-    width: 50px;
-    height: 50px;
     border-radius: 100%;
-    background-color: white;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
+    padding: 1rem;
+    background-color: var(---primary);
+}
+
+.pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 1px solid white;
+    padding: 0.3rem;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: white;
+    padding: 0.3rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .timeline-block {
