@@ -1,9 +1,10 @@
 <script setup>
 import { animate, inView, scroll } from 'motion'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const expTimelineRef = ref(null)
 const calculatedHeight = ref(0)
+const pointRefs = ref([])
 
 onMounted(() => {
     const timeline = expTimelineRef.value.querySelector('.timeline')
@@ -14,11 +15,14 @@ onMounted(() => {
                 calculatedHeight.value =
                     progress.y.current - progress.y.offset[0]
 
-                if (calculatedHeight.value > 0) {
+                if (
+                    calculatedHeight.value > 0 &&
+                    calculatedHeight.value < 250 * 7
+                ) {
                     animate(
                         timeline,
                         {
-                            height: `${calculatedHeight.value >= 300 ? calculatedHeight.value - 300 : 0}px`,
+                            height: `${calculatedHeight.value >= 250 ? calculatedHeight.value - 250 : 0}px`,
                         },
                         { duration: 0.5 },
                     )
@@ -32,6 +36,19 @@ onMounted(() => {
         }
     })
 })
+
+watch(
+    () => calculatedHeight.value,
+    newVal => {
+        pointRefs.value.forEach((element, index) => {
+            if (newVal > 250 + 250 * (index + 1)) {
+                animate(element, { opacity: 1 }, { duration: 0.1 })
+            } else {
+                animate(element, { opacity: 0 }, { duration: 0 })
+            }
+        })
+    },
+)
 
 const expData = [
     { title: 'Sh', content: 'test Desc' },
@@ -51,6 +68,7 @@ const expData = [
                     v-for="(data, index) in expData"
                     :key="index"
                     :style="{ top: `${250 * (index + 1)}px` }"
+                    :ref="el => (pointRefs[index] = el)"
                 >
                     <div
                         class="timeline-block"
@@ -59,9 +77,6 @@ const expData = [
                 </div>
             </div>
         </div>
-        <!-- <div class="exp-block" v-for="(data, index) in expData" :key="index">
-            {{ data.title }}
-        </div> -->
     </div>
 </template>
 
@@ -111,6 +126,7 @@ svg {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    opacity: 0;
 }
 
 .timeline-block {
