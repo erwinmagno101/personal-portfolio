@@ -2,6 +2,7 @@
 import { animate } from 'motion'
 import { ref } from 'vue'
 import SkillsLogo from './SkillsLogo.vue'
+import router from '@/router'
 
 const props = defineProps({
     data: Object,
@@ -26,6 +27,10 @@ const hoverAnimOut = () => {
     animate(itemRef.value, { backgroundColor: '#151515', color: '#9E9E9E' })
     animate(itemRef.value, { scale: 1 }, { duration: 0.1 })
 }
+
+const openNewPage = () => {
+    window.open(props.data.link, '_blank')
+}
 </script>
 
 <template>
@@ -33,6 +38,7 @@ const hoverAnimOut = () => {
         class="item"
         @mouseenter="hoverAnimIn"
         @mouseleave="hoverAnimOut"
+        @click="openNewPage"
         ref="itemRef"
     >
         <div>
