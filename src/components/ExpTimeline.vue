@@ -1,9 +1,11 @@
 <script setup>
-import { animate, inView, scroll } from 'motion'
+import { animate, inView, scroll, timeline } from 'motion'
 import { onMounted, ref, watch } from 'vue'
+import { debounce } from 'lodash'
 
 const expTimelineRef = ref(null)
 const calculatedHeight = ref(0)
+
 const pointRefs = ref([])
 
 onMounted(() => {
@@ -43,16 +45,29 @@ onMounted(() => {
     })
 })
 
+const debouncedAnimate = debounce(newVal => {
+    pointRefs.value.forEach((element, index) => {
+        const enter_sequence = [
+            [element, { opacity: 1 }, { duration: 0.1 }],
+            [
+                element.querySelector('.timeline-block'),
+                { opacity: 1 },
+                { duration: 0.5, at: 0.2 },
+            ],
+        ]
+
+        if (newVal > 150 + 260 * (index + 1)) {
+            timeline(enter_sequence, { duration: 1 })
+        } else {
+            animate(element, { opacity: 0 }, { duration: 0.2 })
+        }
+    })
+}, 100)
+
 watch(
     () => calculatedHeight.value,
     newVal => {
-        pointRefs.value.forEach((element, index) => {
-            if (newVal > 150 + 260 * (index + 1)) {
-                animate(element, { opacity: 1 }, { duration: 0.1, delay: 0.1 })
-            } else {
-                animate(element, { opacity: 0 }, { duration: 0.2, delay: 0.1 })
-            }
-        })
+        debouncedAnimate(newVal)
     },
 )
 
@@ -169,6 +184,7 @@ svg {
     position: absolute;
     top: 0px;
     padding: 0.5rem;
+    opacity: 0;
 }
 
 .timeline-block-heading {

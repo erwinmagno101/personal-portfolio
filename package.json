@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
+    "lodash": "^4.17.21",
     "motion": "^10.18.0",
     "pinia": "^2.2.4",
     "swiper": "^11.1.14",
