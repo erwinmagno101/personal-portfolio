@@ -81,7 +81,15 @@ const expData = [
                     <div
                         class="timeline-block"
                         :class="[index % 2 === 0 ? 'left' : 'right']"
-                    ></div>
+                    >
+                        <div class="timeline-block-heading">
+                            Title Block {{ index + 1 }}
+                            <div>Jan 2019 - October 2021</div>
+                        </div>
+                        <div class="timeline-block-content">
+                            Content Block {{ index + 1 }} blah blah blah blah
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,18 +164,38 @@ svg {
 }
 
 .timeline-block {
-    width: 250px;
-    height: 150px;
-    border: 1px solid var(---secondary);
+    width: 350px;
+    height: 200px;
     position: absolute;
     top: 0px;
+    padding: 0.5rem;
+}
+
+.timeline-block-heading {
+    width: 100%;
+    border: 1px solid var(---secondary);
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.timeline-block-heading > div {
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-left: auto;
+}
+
+.timeline-block-content {
+    font-size: 1rem;
+    padding: 1rem;
 }
 
 .left {
-    left: 50px;
+    left: 150px;
 }
 
 .right {
-    right: 50px;
+    right: 150px;
 }
 </style>
