@@ -221,6 +221,8 @@ svg {
 .timeline-block-content {
     font-size: 1rem;
     padding: 1rem;
+    letter-spacing: 1px;
+    opacity: 0.7;
 }
 
 .left {

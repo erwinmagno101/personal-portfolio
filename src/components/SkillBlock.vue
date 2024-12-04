@@ -90,7 +90,6 @@ const openNewPage = () => {
     width: 250px;
     display: flex;
     border-radius: 10px 10px 10px 10px;
-    font-size: 1rem;
     gap: 0.5rem;
     cursor: pointer;
     position: relative;
@@ -162,14 +161,16 @@ const openNewPage = () => {
     flex-direction: column;
 }
 .description div:nth-child(1) {
-    font-size: 1.1rem;
+    letter-spacing: 1px;
+    font-size: 1rem;
     font-weight: 700;
     opacity: 1;
 }
 
 .description div:nth-child(2) {
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 600;
     opacity: 0.7;
+    letter-spacing: 1px;
 }
 </style>
