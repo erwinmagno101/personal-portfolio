@@ -72,11 +72,31 @@ watch(
 )
 
 const expData = [
-    { title: 'Sh', content: 'test Desc' },
-    { title: 'College', content: 'test Desc' },
-    { title: 'Freelance', content: 'test Desc' },
-    { title: 'SSC', content: 'test Desc' },
-    { title: 'Freelance', content: 'test Desc' },
+    {
+        title: 'SHS - Information Communication Technology',
+        date: 'June 2017 - March 2019',
+        content: 'test Desc',
+    },
+    {
+        title: 'Bachelor of Science in Infomation Technology',
+        date: 'June 2019 - June 2023',
+        content: 'test Desc',
+    },
+    {
+        title: 'Frontend Developer - RondeoCreates',
+        date: 'July 2023 - Jan 2024',
+        content: 'test Desc',
+    },
+    {
+        title: 'Wordpress Developer - Siquijor State College',
+        date: 'Jan 2024 - May 2024',
+        content: 'test Desc',
+    },
+    {
+        title: 'Frontend Developer - RondeoCreates',
+        date: 'May 2024 - Present',
+        content: 'test Desc',
+    },
 ]
 </script>
 
@@ -98,11 +118,11 @@ const expData = [
                         :class="[index % 2 === 0 ? 'left' : 'right']"
                     >
                         <div class="timeline-block-heading">
-                            Title Block {{ index + 1 }}
-                            <div>Jan 2019 - October 2021</div>
+                            {{ data.title }}
+                            <div>{{ data.date }}</div>
                         </div>
                         <div class="timeline-block-content">
-                            Content Block {{ index + 1 }} blah blah blah blah
+                            {{ data.content }}
                         </div>
                     </div>
                 </div>
@@ -192,14 +212,11 @@ svg {
     border: 1px solid var(---secondary);
     padding: 0.5rem 1rem;
     font-size: 1.1rem;
-    display: flex;
-    align-items: center;
 }
 
 .timeline-block-heading > div {
     font-size: 0.8rem;
-    display: inline-block;
-    margin-left: auto;
+    text-align: right;
 }
 
 .timeline-block-content {
