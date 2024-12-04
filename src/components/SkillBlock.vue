@@ -1,8 +1,9 @@
 <script setup>
-import { animate } from 'motion'
+import { animate, timeline } from 'motion'
 import { ref } from 'vue'
 import SkillsLogo from './SkillsLogo.vue'
 import router from '@/router'
+import { at } from 'lodash'
 
 const props = defineProps({
     data: Object,
@@ -12,20 +13,37 @@ const itemRef = ref(null)
 
 const hoverAnimIn = () => {
     const reflect = itemRef.value.querySelector('.reflect')
-    animate(reflect, { rotate: '30deg' }, { duration: 0 })
-    animate(reflect, { x: 350, rotate: '30deg' }, { duration: 0.3 })
-    animate(itemRef.value, {
-        backgroundColor: props.data.color,
-        color: props.data.textColor || 'black',
-    })
-    animate(itemRef.value, { scale: 1.05 }, { duration: 0.1 })
+
+    const sequence = [
+        [reflect, { rotate: '30deg' }, { duration: 0 }],
+        [reflect, { x: 350, rotate: '30deg' }, { duration: 0.3 }],
+        [
+            itemRef.value,
+            {
+                backgroundColor: props.data.color,
+                color: props.data.textColor || 'black',
+            },
+            { at: 0.1 },
+        ],
+        [itemRef.value, { scale: 1.02 }, { duration: 0.1, at: 0.2 }],
+    ]
+
+    timeline(sequence)
 }
 
 const hoverAnimOut = () => {
     const reflect = itemRef.value.querySelector('.reflect')
-    animate(reflect, { x: -10, rotate: '30deg' }, { duration: 0.3 })
-    animate(itemRef.value, { backgroundColor: '#151515', color: '#9E9E9E' })
-    animate(itemRef.value, { scale: 1 }, { duration: 0.1 })
+
+    const sequence = [
+        [reflect, { x: -10, rotate: '30deg' }, { duration: 0.3 }],
+        [
+            itemRef.value,
+            { backgroundColor: '#151515', color: '#9E9E9E' },
+            { at: 0.1 },
+        ],
+        [itemRef.value, { scale: 1 }, { duration: 0.1, at: 0 }],
+    ]
+    timeline(sequence)
 }
 
 const openNewPage = () => {
