@@ -3,18 +3,45 @@ import { animate, inView, scroll, timeline } from 'motion'
 import { onMounted, ref, watch } from 'vue'
 import { debounce } from 'lodash'
 
+const expData = [
+    {
+        title: 'SHS - Information Communication Technology (ICT)',
+        date: 'June 2017 - March 2019',
+        content:
+            'I gained foundational skills in programming, multimedia design, and networking, it opened up my passion for technology through hands-on projects and practical learning in Siquijor State College.',
+    },
+    {
+        title: 'Bachelor of Science in Infomation Technology (BSIT)',
+        date: 'June 2019 - June 2023',
+        content:
+            'Continuing on the same school, I studied software development, networking, and system analysis, gaining technical expertise through hands-on projects and practical applications.',
+    },
+    {
+        title: 'Frontend Developer - RondeoCreates',
+        date: 'July 2023 - Jan 2024',
+        content:
+            'After graduating, I immediately dove into the world of working and creating solutions to real world problems as a frontend developer in a Freelance Company, gaining valuable experience.',
+    },
+    {
+        title: 'Wordpress Developer - Siquijor State College',
+        date: 'Jan 2024 - May 2024',
+        content:
+            'Later that year I was offered a contract and hired as a developer to create a functionality and feature for the wordpress website of my former school.',
+    },
+    {
+        title: 'Frontend Developer - RondeoCreates',
+        date: 'May 2024 - Present',
+        content:
+            'Finishing the contract, I got back into creating websites as a frontend developer and exploring new technologies and possibilities with various clients.',
+    },
+]
+
 const expTimelineRef = ref(null)
 const calculatedHeight = ref(0)
 
 const pointRefs = ref([])
 
 onMounted(() => {
-    // animate(
-    //     expTimelineRef.value.querySelector('.pin'),
-    //     { scale: [1, 1.2, 1] },
-    //     { repeat: Infinity, duration: 1 },
-    // )
-
     const timeline = expTimelineRef.value.querySelector('.timeline')
 
     inView(expTimelineRef.value, () => {
@@ -70,39 +97,6 @@ watch(
         debouncedAnimate(newVal)
     },
 )
-
-const expData = [
-    {
-        title: 'SHS - Information Communication Technology (ICT)',
-        date: 'June 2017 - March 2019',
-        content:
-            'I gained foundational skills in programming, multimedia design, and networking, it opened up my passion for technology through hands-on projects and practical learning in Siquijor State College.',
-    },
-    {
-        title: 'Bachelor of Science in Infomation Technology (BSIT)',
-        date: 'June 2019 - June 2023',
-        content:
-            'Continuing on the same school, I studied software development, networking, and system analysis, gaining technical expertise through hands-on projects and practical applications.',
-    },
-    {
-        title: 'Frontend Developer - RondeoCreates',
-        date: 'July 2023 - Jan 2024',
-        content:
-            'After graduating, I immediately dove into the world of working and creating solutions to real world problems as a frontend developer in a Freelance Company, gaining valuable experience.',
-    },
-    {
-        title: 'Wordpress Developer - Siquijor State College',
-        date: 'Jan 2024 - May 2024',
-        content:
-            'Later that year I was offered a contract and hired as a developer to create a functionality and feature for the wordpress website of my former school.',
-    },
-    {
-        title: 'Frontend Developer - RondeoCreates',
-        date: 'May 2024 - Present',
-        content:
-            'Finishing the contract, I got back into creating websites as a frontend developer and exploring new technologies and possibilities with various clients.',
-    },
-]
 </script>
 
 <template>
