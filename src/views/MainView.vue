@@ -1,18 +1,4 @@
-<script setup>
-import { onMounted, ref, watch } from 'vue'
-import { animate, scroll } from 'motion'
-
-const navigationStore = useNavigationStore()
-
-const heroIsVisible = ref(null)
-
-watch(
-    () => navigationStore.activeNav,
-    newVal => {
-        console.log(newVal)
-    },
-)
-</script>
+<script setup></script>
 
 <template>
     <div></div>
