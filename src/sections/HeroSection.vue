@@ -3,25 +3,34 @@ import { animate, inView } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 
 const heroRef = ref(null)
-const ballRef = ref(null)
+const ballRef = ref([])
 
 const getMousePosition = e => {
-    let xDistanceToMove
-    let yDistanceToMove
+    ballRef.value.forEach(el => {
+        let xDistanceToMove
+        let yDistanceToMove
 
-    const ballrect = ballRef.value.getBoundingClientRect()
-    let pointY = ballrect.top + ballrect.height / 2
-    let pointX = ballrect.left + ballrect.width / 2
+        const ballrect = el.getBoundingClientRect()
+        let pointY = ballrect.top + ballrect.height / 2
+        let pointX = ballrect.left + ballrect.width / 2
 
-    yDistanceToMove = (e.clientY - pointY) / 10
+        yDistanceToMove = (e.clientY - pointY) / 10
+        xDistanceToMove = (e.clientX - pointX) / 10
 
-    if (yDistanceToMove > 30) {
-        yDistanceToMove = 30
-    } else if (yDistanceToMove < -30) {
-        yDistanceToMove = -30
-    }
+        if (yDistanceToMove > 30) {
+            yDistanceToMove = 30
+        } else if (yDistanceToMove < -30) {
+            yDistanceToMove = -30
+        }
 
-    animate(ballRef.value, { y: yDistanceToMove }, { duration: 0 })
+        if (xDistanceToMove > 30) {
+            xDistanceToMove = 30
+        } else if (xDistanceToMove < -30) {
+            xDistanceToMove = -30
+        }
+
+        animate(el, { y: yDistanceToMove, x: xDistanceToMove }, { duration: 0 })
+    })
 }
 
 onMounted(() => {
@@ -46,11 +55,14 @@ onUnmounted(() => {
                 <div>i am</div>
                 <div>Dan Erwin,</div>
             </div>
-            FRONT-END
+            FR<span class="ball"
+                ><div :ref="el => (ballRef[0] = el)"></div>
+                <div>O</div></span
+            >NT-END
         </div>
         <div>
             WEB DEVEL<span class="ball"
-                ><div ref="ballRef"></div>
+                ><div :ref="el => (ballRef[1] = el)"></div>
                 <div>O</div></span
             >PER
             <div class="base">
