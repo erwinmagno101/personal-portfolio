@@ -19,9 +19,6 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
-
-  ---primary: #151515;
-  ---secondary: #373a40;
 }
 
 /* semantic color variables for this project */
@@ -39,7 +36,7 @@
   --section-gap: 160px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
     --color-background-soft: var(--vt-c-black-soft);
@@ -51,6 +48,11 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
   }
+} */
+
+:root {
+  --font-color: black;
+  --primary-color: #f6f6f6;
 }
 
 *,
@@ -63,8 +65,9 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  color: var(--font-color);
+  /* background: var(--color-background); */
+  background-color: var(--primary-color);
   line-height: 1.6;
   font-family:
     Inter,
@@ -91,7 +94,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.562); /* Color of the scrollbar thumb */
+  background: black; /* Color of the scrollbar thumb */
   border-radius: 6px; /* Rounded corners for the thumb */
   border: 3px solid transparent; /* Optional: Adds padding-like effect */
   background-clip: padding-box; /* Ensures the border doesn't overlap */
@@ -99,8 +102,4 @@ body {
 
 ::-webkit-scrollbar-track {
   border-radius: 6px; /* Optional: Match the thumb's radius */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Darker shade on hover */
 }
