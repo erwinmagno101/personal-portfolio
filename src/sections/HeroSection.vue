@@ -1,6 +1,7 @@
 <script setup>
 import { animate, inView } from 'motion'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { Locate, LocateFixed } from 'lucide-vue-next'
 
 const heroRef = ref(null)
 const ballRef = ref([])
@@ -33,7 +34,23 @@ const getMousePosition = e => {
     })
 }
 
+const animateIconLocation = () => {
+    let iconLocation = heroRef.value.querySelector('.icon-base')
+
+    animate(
+        iconLocation,
+        { rotate: 90 },
+        {
+            duration: 1,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            easing: 'linear',
+        },
+    )
+}
+
 onMounted(() => {
+    animateIconLocation()
     inView(heroRef.value, () => {
         document.addEventListener('mousemove', getMousePosition)
 
@@ -66,6 +83,7 @@ onUnmounted(() => {
                 <div>O</div></span
             >PER
             <div class="base">
+                <LocateFixed class="icon-base" />
                 <div>Based in the Philippines</div>
             </div>
         </div>
@@ -82,6 +100,7 @@ section {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 
 section > div:nth-child(1) {
@@ -109,6 +128,10 @@ section > div:nth-child(2) {
     font-size: 1.5rem;
     padding-left: 1rem;
     text-align: right;
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
+    gap: 0.5rem;
 }
 
 .action-btn {
