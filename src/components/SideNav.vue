@@ -1,12 +1,5 @@
 <script setup>
-import {
-    computed,
-    onBeforeUnmount,
-    onMounted,
-    onUnmounted,
-    ref,
-    watch,
-} from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { animate } from 'motion'
 import { useNavigationStore } from '@/stores/navigation'
 
@@ -22,22 +15,24 @@ const navItems = [
 
 const nav = ref(null)
 const navItemsRef = ref([])
-const activeNav = computed(() => {
-    return navigationStore.activeNav
-})
+
+const animateNav = activeIndex => {
+    navItemsRef.value.forEach((item, index) => {
+        if (index === activeIndex)
+            animate(item, { scale: 1.4, x: -30, opacity: 1 })
+        else animate(item, { scale: 1, x: 0, opacity: 0.6 })
+    })
+}
 
 watch(
-    () => activeNav.value,
+    () => navigationStore.activeNav,
     newVal => {
-        navItemsRef.value.forEach((item, index) => {
-            if (index === activeNav.value)
-                animate(item, { scale: 1.4, x: -30, opacity: 1 })
-            else animate(item, { scale: 1, x: 0, opacity: 0.6 })
-        })
+        animateNav(newVal)
     },
 )
 
 onMounted(() => {
+    animateNav(navigationStore.activeNav)
     animate(nav.value, { opacity: [0, 1] }, { duration: 0.2 })
 })
 </script>
