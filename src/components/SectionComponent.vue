@@ -1,9 +1,15 @@
 <script setup>
-import { animate, scroll } from 'motion'
+import { ref } from 'vue'
+
+const sectionRef = ref(null)
+
+defineExpose({
+    getDom: () => sectionRef.value,
+})
 </script>
 
 <template>
-    <section>
+    <section ref="sectionRef">
         <slot></slot>
     </section>
 </template>

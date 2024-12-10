@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useNavigationStore = defineStore('navigation', () => {
@@ -6,7 +6,7 @@ export const useNavigationStore = defineStore('navigation', () => {
 
     const setActiveNav = value => {
         activeNav.value = value
-        console.log('changed')
     }
+
     return { activeNav, setActiveNav }
 })

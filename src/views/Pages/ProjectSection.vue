@@ -5,8 +5,15 @@ import { useNavigationStore } from '@/stores/navigation'
 import SectionComponent from '@/components/SectionComponent.vue'
 import SectionHeading from '@/components/SectionHeading.vue'
 
+const navigationStore = useNavigationStore()
 const projectRef = ref(null)
 
+onMounted(() => {
+    inView(projectRef.value.getDom(), () => {
+        navigationStore.setActiveNav(2)
+        return () => {}
+    })
+})
 onMounted(() => {})
 </script>
 

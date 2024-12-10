@@ -11,10 +11,8 @@ const navigationStore = useNavigationStore()
 const skillRef = ref(null)
 
 onMounted(() => {
-    inView(skillRef.value, () => {
+    inView(skillRef.value.getDom(), () => {
         navigationStore.setActiveNav(1)
-        console.log('visible skill')
-
         return () => {}
     })
 })

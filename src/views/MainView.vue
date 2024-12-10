@@ -8,8 +8,18 @@ import ContactSection from './Pages/ContactSection.vue'
 import { onMounted, ref, watch } from 'vue'
 import { animate, scroll } from 'motion'
 import FloatingNav from '@/components/FloatingNav.vue'
+import { useNavigationStore } from '@/stores/navigation'
+
+const navigationStore = useNavigationStore()
 
 const heroIsVisible = ref(null)
+
+watch(
+    () => navigationStore.activeNav,
+    newVal => {
+        console.log(newVal)
+    },
+)
 </script>
 
 <template>
@@ -24,8 +34,8 @@ const heroIsVisible = ref(null)
                 <HeroSection v-model:isVisible="heroIsVisible" />
                 <SkillSection />
                 <ProjectSection />
-                <BlogSection ref="blogsectionRef" />
-                <ContactSection ref="contactsectionRef" />
+                <BlogSection />
+                <ContactSection />
             </main>
             <footer class="layout"></footer>
         </div>
