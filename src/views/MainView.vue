@@ -1,5 +1,6 @@
 <script setup>
 import HeroSection from '@/sections/HeroSection.vue'
+import SkillSection from '@/sections/SkillSection.vue'
 import { animate } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 
@@ -65,6 +66,7 @@ onUnmounted(() => {
         </header>
         <main>
             <HeroSection></HeroSection>
+            <SkillSection></SkillSection>
         </main>
         <footer></footer>
     </div>
@@ -118,5 +120,11 @@ nav {
     gap: 1rem;
     width: fit-content;
     padding: 0.5rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 300px;
 }
 </style>
