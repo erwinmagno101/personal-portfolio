@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue'
+import TechLogo from '@/components/TechLogo.vue'
+import { onMounted, ref, watch } from 'vue'
 
 const skills = [
     {
@@ -129,34 +130,40 @@ const skills = [
     },
 ]
 
-const indexCounter = ref([])
+const indeces = ref([])
 
-let counter = 0
-const pointGeneration = index => {
-    if (index > 30) return false
-
-    if (index > 10 && index < 20) {
-        if (index % 2 === 0) {
-            counter += 1
-            indexCounter.value.push({
-                point_index: index,
-                skill_index: counter - 1,
-            })
-            return true
+const pointGeneration = () => {
+    let counter = 0
+    for (let index = 1; index <= 40; index++) {
+        if (index > 30) {
+            return
         }
-    } else {
-        if (index % 2 !== 0) {
-            counter += 1
-            indexCounter.value.push({
+        if (index > 10 && index < 20) {
+            if (index % 2 === 0) {
+                indeces.value.push({
+                    point_index: index,
+                    skill_index: counter,
+                })
+                counter += 1
+            }
+        } else if (index % 2 !== 0) {
+            indeces.value.push({
                 point_index: index,
-                skill_index: counter - 1,
+                skill_index: counter,
             })
-            return true
+            counter += 1
         }
     }
-
-    return false
 }
+
+const getSkillIndex = i => {
+    const found = indeces.value.find(el => el.point_index === i)
+    return found ? found.skill_index : 'N/A'
+}
+
+onMounted(() => {
+    pointGeneration()
+})
 </script>
 
 <template>
@@ -166,8 +173,13 @@ const pointGeneration = index => {
             <h3>Technologies</h3>
             <div class="grid">
                 <div v-for="i in 40" :key="i" class="grid-block">
-                    <div v-if="pointGeneration(i)" class="point">
-                        <div class="tech-block"></div>
+                    <div
+                        v-if="indeces?.find(el => el.point_index === i)"
+                        class="point"
+                    >
+                        <div class="tech-block">
+                            <!-- <TechLogo :name="skills[getSkillIndex(i)].logo" /> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -219,12 +231,16 @@ h3 {
 
 .tech-block {
     position: absolute;
-    width: 200px;
-    height: 200px;
-    background-color: black;
+    width: 190px;
+    height: 190px;
+    background-color: red;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 </style>
