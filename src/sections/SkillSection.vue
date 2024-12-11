@@ -164,14 +164,7 @@ const getSkillIndex = i => {
 }
 
 const enterHoverAnimte = el => {
-    let isAnimating = false
-
-    if (!isAnimating) {
-        isAnimating = true
-        animate(el, { rotateY: 360 }, { duration: 0.2 }).finished.then(() => {
-            isAnimating = true
-        })
-    }
+    animate(el, { scale: 1.5 }, { duration: 0.2 })
 }
 
 const leaveHoverAnimate = el => {
