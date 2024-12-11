@@ -1,6 +1,7 @@
 <script setup>
 import TechLogo from '@/components/TechLogo.vue'
 import { onMounted, ref, watch } from 'vue'
+import { animate } from 'motion'
 
 const skills = [
     {
@@ -177,8 +178,14 @@ onMounted(() => {
                         v-if="indeces?.find(el => el.point_index === i)"
                         class="point"
                     >
-                        <div class="tech-block">
-                            <!-- <TechLogo :name="skills[getSkillIndex(i)].logo" /> -->
+                        <div class="tech-block-wrapper">
+                            <div class="tech-block">
+                                <div>
+                                    <TechLogo
+                                        :name="skills[getSkillIndex(i)].logo"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -210,12 +217,12 @@ h3 {
     margin-top: 3rem;
     display: grid;
     gap: 0.25rem;
-    grid-template-columns: repeat(10, 100px);
+    grid-template-columns: repeat(10, minmax(30px, 90px));
     place-content: center;
 }
 
 .grid-block {
-    height: 100px;
+    aspect-ratio: 1;
     position: relative;
 }
 
@@ -229,15 +236,26 @@ h3 {
     right: -7px;
 }
 
-.tech-block {
+.tech-block-wrapper {
     position: absolute;
-    width: 190px;
-    height: 190px;
-    background-color: red;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    width: 170px;
+    aspect-ratio: 1;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.tech-block {
+    pointer-events: all;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    background-color: red;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
