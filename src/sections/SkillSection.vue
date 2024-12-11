@@ -219,6 +219,8 @@ h3 {
     gap: 0.25rem;
     grid-template-columns: repeat(10, minmax(30px, 90px));
     place-content: center;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .grid-block {
@@ -253,12 +255,27 @@ h3 {
 .tech-block {
     pointer-events: all;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    background-color: red;
+    background-color: black;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.tech-block > div {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    width: 98%;
+    height: 98%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tech-block:hover {
+    transform: rotateX(30);
 }
 </style>

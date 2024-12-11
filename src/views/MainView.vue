@@ -2,7 +2,7 @@
 import HeroSection from '@/sections/HeroSection.vue'
 import SkillSection from '@/sections/SkillSection.vue'
 import { animate } from 'motion'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 
 const navList = [
     { title: 'Home' },
