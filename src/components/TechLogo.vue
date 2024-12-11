@@ -542,6 +542,6 @@ const props = defineProps({
 
 <style scoped>
 svg {
-    width: 48px;
+    width: 64px;
 }
 </style>
