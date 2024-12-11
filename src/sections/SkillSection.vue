@@ -163,6 +163,27 @@ const getSkillIndex = i => {
     return found ? found.skill_index : 'N/A'
 }
 
+const enterHoverAnimte = el => {
+    let isAnimating = false
+
+    if (!isAnimating) {
+        isAnimating = true
+        animate(el, { rotateY: 360 }, { duration: 0.2 }).finished.then(() => {
+            isAnimating = true
+        })
+    }
+}
+
+const leaveHoverAnimate = el => {
+    // let isAnimating = false
+    // if (!isAnimating) {
+    //     isAnimating = true
+    //     animate(el, { rotateY: 0 }, { duration: 0.5 }).finished.then(() => {
+    //         isAnimating = false
+    //     })
+    // }
+}
+
 onMounted(() => {
     pointGeneration()
 })
@@ -180,7 +201,11 @@ onMounted(() => {
                         class="point"
                     >
                         <div class="tech-block-wrapper">
-                            <div class="tech-block">
+                            <div
+                                class="tech-block"
+                                @mouseenter="e => enterHoverAnimte(e.target)"
+                                @mouseleave="e => leaveHoverAnimate(e.target)"
+                            >
                                 <div>
                                     <TechLogo
                                         :name="skills[getSkillIndex(i)].logo"
@@ -275,9 +300,5 @@ h3 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-
-.tech-block:hover {
-    transform: rotateX(30);
 }
 </style>
