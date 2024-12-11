@@ -2,6 +2,7 @@
 import TechLogo from '@/components/TechLogo.vue'
 import { onMounted, ref, watch } from 'vue'
 import { animate } from 'motion'
+import SectionHeader from '@/components/SectionHeader.vue'
 
 const skills = [
     {
@@ -169,7 +170,7 @@ onMounted(() => {
 
 <template>
     <section class="section">
-        <h2>Skills</h2>
+        <SectionHeader title="Skills" />
         <div class="section-content">
             <h3>Technologies</h3>
             <div class="grid">
@@ -196,12 +197,13 @@ onMounted(() => {
 
 <style scoped>
 .section {
-    min-height: 100vh;
+    min-height: 2000px;
     padding: 0 100px;
     display: flex;
     flex-direction: column;
     gap: 100px;
     padding-bottom: 30px;
+    overflow: visible;
 }
 
 h2 {

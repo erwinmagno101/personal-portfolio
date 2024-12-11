@@ -76,7 +76,6 @@ onUnmounted(() => {
 .canvas {
     font-family: 'Google Sans Flex', sans-serif;
     position: relative;
-    overflow-x: hidden;
 }
 
 .background-grid {
