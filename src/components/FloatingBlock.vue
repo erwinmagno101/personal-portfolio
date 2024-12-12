@@ -108,7 +108,7 @@ const colorMastery = mastery => {
 }
 
 .tags-container > div {
-    padding: 0.2rem;
+    padding: 0.1rem 0.5rem;
     border: 1px solid black;
 }
 </style>
