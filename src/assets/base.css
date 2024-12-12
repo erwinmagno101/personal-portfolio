@@ -4,7 +4,7 @@
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
 
-  --vt-c-black: #181818;
+  --vt-c-black: #151515;
   --vt-c-black-soft: #222222;
   --vt-c-black-mute: #282828;
 
@@ -36,7 +36,7 @@
   --section-gap: 160px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
     --color-background-soft: var(--vt-c-black-soft);
@@ -48,6 +48,11 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
   }
+} */
+
+:root {
+  --font-color: black;
+  --primary-color: #f6f6f6;
 }
 
 *,
@@ -60,13 +65,9 @@
 
 body {
   min-height: 100vh;
-  /* color: var(--color-text); */
-  color: black;
+  color: var(--font-color);
   /* background: var(--color-background); */
-  background: white;
-  transition:
-    color 0.5s,
-    background-color 0.5s;
+  background-color: var(--primary-color);
   line-height: 1.6;
   font-family:
     Inter,
@@ -85,4 +86,20 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+  height: 12px; /* Height of the scrollbar (horizontal scroll) */
+}
+
+::-webkit-scrollbar-thumb {
+  background: black; /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners for the thumb */
+  border: 3px solid transparent; /* Optional: Adds padding-like effect */
+  background-clip: padding-box; /* Ensures the border doesn't overlap */
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 6px; /* Optional: Match the thumb's radius */
 }

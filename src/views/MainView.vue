@@ -1,83 +1,129 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import HeroSection from '@/sections/HeroSection.vue'
+import SkillSection from '@/sections/SkillSection.vue'
+import { animate } from 'motion'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 
-const mouseDownPosition = ref(null)
-const isMouseDown = ref(false)
-const mouseTravel = ref(100)
-const lastMousePostition = ref(100)
+const navList = [
+    { title: 'Home' },
+    { title: 'Skills' },
+    { title: 'Project' },
+    { title: 'About' },
+    { title: 'Contact' },
+]
+const cameraRef = ref(null)
+let isAnimating = false
 
-const trackMouseDown = e => {
-  mouseDownPosition.value = e.clientX
-  isMouseDown.value = true
-}
+const handleMouseTracking = e => {
+    if (isAnimating) return
 
-const trackMouseDrag = e => {
-  if (isMouseDown.value) {
-    // Calculate the distance dragged relative to the initial position
-    const distanceDragged = e.clientX - mouseDownPosition.value
+    isAnimating = true
 
-    // Scale to fit within 0-100 range for 50% of the viewport width
-    const scaledDistance = (distanceDragged / (window.innerWidth / 2)) * 100
+    requestAnimationFrame(() => {
+        const cameraRect = cameraRef.value.getBoundingClientRect()
 
-    // Clamp and update mouseTravel to keep within 0 and 100
-    mouseTravel.value = Math.min(
-      100,
-      Math.max(0, lastMousePostition.value + scaledDistance),
-    )
+        let yDistanceToMove = e.clientY - cameraRect.height / 2
+        let xDistanceToMove = e.clientX - cameraRect.width / 2
 
-    console.log(mouseTravel.value)
-  }
+        animate(
+            cameraRef.value,
+            {
+                top: `${yDistanceToMove}px`,
+                left: `${xDistanceToMove}px`,
+            },
+            { duration: 0.3 },
+        )
+
+        isAnimating = false
+    })
 }
 
 onMounted(() => {
-  document.addEventListener('mousedown', trackMouseDown)
-  document.addEventListener('mousemove', trackMouseDrag)
-  document.addEventListener('mouseup', () => {
-    lastMousePostition.value = mouseTravel.value
-    isMouseDown.value = false
-  })
+    document.addEventListener('mousemove', handleMouseTracking)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('mousemove', handleMouseTracking)
 })
 </script>
 
 <template>
-  <div class="main-canvas">
-    <div
-      class="nav"
-      :style="{
-        transform: `translate( ${50 + mouseTravel - 100}%) translateY(-150px)`,
-      }"
-    >
-      <div class="nav-item" v-for="i in 7" :key="i">
-        {{ i }}
-      </div>
+    <div class="canvas">
+        <div class="background-grid">
+            <div class="camera" ref="cameraRef"></div>
+            <div class="grid-box-container" v-for="i in 50" :key="i">
+                <div class="grid-box"></div>
+            </div>
+        </div>
+        <header>
+            <div class="Logo">LOGO HERE</div>
+            <nav>
+                <div v-for="(nav, index) in navList" :key="index">
+                    {{ nav.title }}
+                </div>
+            </nav>
+            <div class="Logo">LOGO HERE</div>
+        </header>
+        <main class="main">
+            <HeroSection></HeroSection>
+            <SkillSection></SkillSection>
+        </main>
+        <footer></footer>
     </div>
-  </div>
 </template>
 
 <style scoped>
-.main-canvas {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
+.canvas {
+    font-family: 'Google Sans Flex', sans-serif;
+    position: relative;
 }
 
-.nav {
-  display: flex;
-  flex-direction: row;
-  gap: 0px 10px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
+.background-grid {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -99;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, calc(100vw / 10));
+    grid-template-rows: repeat(auto-fill, minmax(calc(100vh / 5)));
 }
 
-.nav-item {
-  width: 500px;
-  height: 300px;
-  background-color: red;
+.grid-box-container {
+    padding: 5px;
 }
 
-.nav-item:hover {
-  scale: 1.1;
+.camera {
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    position: absolute;
+    z-index: -98;
+}
+
+.grid-box {
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+}
+
+header {
+    display: flex;
+    padding: 1rem 1rem;
+}
+
+nav {
+    flex: 1 1 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: fit-content;
+    padding: 0.5rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 300px;
 }
 </style>
