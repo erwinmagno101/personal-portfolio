@@ -173,7 +173,7 @@ const enterHoverAnimte = (el, i) => {
 
     animate(
         el,
-        { scale: 1.3, filter: 'grayscale(0%) brightness(100%)' },
+        { scale: 1.2, filter: 'grayscale(0%) brightness(100%)' },
         { duration: 0.2 },
     )
 }
@@ -250,7 +250,7 @@ onMounted(() => {
 
 .tech-block-wrapper {
     position: absolute;
-    width: 170px;
+    width: 180px;
     aspect-ratio: 1;
     top: 50%;
     left: 50%;
