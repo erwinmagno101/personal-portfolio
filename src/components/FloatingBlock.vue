@@ -15,7 +15,7 @@ const animateFloatingBlock = async () => {
     animate(
         floatingBlockRef.value,
         { opacity: [0, 1] },
-        { duration: 0.5, delay: 0.2 },
+        { duration: 0.5, delay: 0.1 },
     )
 }
 
@@ -61,6 +61,7 @@ onUnmounted(() => {
 }
 
 .floating-block > div:nth-child(1) {
+    font-size: 1rem;
 }
 
 .floating-block > div:nth-child(2) {
