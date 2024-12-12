@@ -171,7 +171,11 @@ const enterHoverAnimte = (el, i) => {
 
     points[target.skill_index].style.zIndex = 10
 
-    animate(el, { scale: 1.3 }, { duration: 0.2 })
+    animate(
+        el,
+        { scale: 1.3, filter: 'grayscale(0%) brightness(100%)' },
+        { duration: 0.2 },
+    )
 }
 
 const leaveHoverAnimate = (el, i) => {
@@ -180,7 +184,11 @@ const leaveHoverAnimate = (el, i) => {
     hoverIndex.value = null
 
     points[target.skill_index].style.zIndex = 1
-    animate(el, { scale: 1 }, { duration: 0.2 })
+    animate(
+        el,
+        { scale: 1, filter: 'grayscale(100%) brightness(110%)' },
+        { duration: 0.2 },
+    )
 }
 
 onMounted(() => {
@@ -265,6 +273,7 @@ onMounted(() => {
     align-items: center;
     flex-direction: column;
     position: relative;
+    filter: grayscale(100%) brightness(110%);
 }
 
 .tech-block > div:first-of-type {

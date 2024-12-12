@@ -12,6 +12,7 @@ import TechGrid from '@/components/TechGrid.vue'
         <SectionHeader title="Skills" />
         <div class="section-content">
             <h3>Technologies</h3>
+            <p>Honed throughout my coding journey</p>
             <TechGrid />
         </div>
     </section>
@@ -34,5 +35,9 @@ h2 {
 h3 {
     font-size: 2rem;
     text-align: center;
+}
+.section-content > :nth-child(2) {
+    text-align: center;
+    margin-bottom: 100px;
 }
 </style>

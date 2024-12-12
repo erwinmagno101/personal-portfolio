@@ -15,7 +15,7 @@ const animateFloatingBlock = async () => {
     animate(
         floatingBlockRef.value,
         { opacity: [0, 1] },
-        { duration: 0.5, delay: 0.1 },
+        { duration: 0.3, delay: 0.1 },
     )
 }
 
