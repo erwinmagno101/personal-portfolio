@@ -62,7 +62,7 @@ onMounted(() => {
 .heading {
     position: sticky;
     top: 10px;
-    min-height: 200px;
+    min-height: 15rem;
     margin-bottom: 300px;
 }
 
