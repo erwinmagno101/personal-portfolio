@@ -1,7 +1,7 @@
 <script setup>
 import { animate, inView } from 'motion'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { Locate, LocateFixed } from 'lucide-vue-next'
+import { LocateFixed } from 'lucide-vue-next'
 
 const heroRef = ref(null)
 const ballRef = ref([])

@@ -64,7 +64,7 @@ onUnmounted(() => {
             </nav>
             <div class="Logo">LOGO HERE</div>
         </header>
-        <main>
+        <main class="main">
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
         </main>

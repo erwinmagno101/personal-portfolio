@@ -3,6 +3,8 @@ import TechLogo from '@/components/TechLogo.vue'
 import { onMounted, ref, watch } from 'vue'
 import { animate } from 'motion'
 import SectionHeader from '@/components/SectionHeader.vue'
+import { nextTick } from 'vue'
+import FloatingBlock from '@/components/FloatingBlock.vue'
 
 const skills = [
     {
@@ -133,6 +135,7 @@ const skills = [
 ]
 
 const indeces = ref([])
+const hoverIndex = ref(null)
 
 const pointGeneration = () => {
     let counter = 0
@@ -163,11 +166,10 @@ const getSkillIndex = i => {
     return found ? found.skill_index : 'N/A'
 }
 
-onMounted(() => {})
-
 const enterHoverAnimte = (el, i) => {
     const points = document.querySelectorAll('.point')
     const target = indeces.value.find(el => el.point_index === i)
+    hoverIndex.value = target.point_index
 
     points[target.skill_index].style.zIndex = 10
 
@@ -177,6 +179,7 @@ const enterHoverAnimte = (el, i) => {
 const leaveHoverAnimate = (el, i) => {
     const points = document.querySelectorAll('.point')
     const target = indeces.value.find(el => el.point_index === i)
+    hoverIndex.value = null
 
     points[target.skill_index].style.zIndex = 1
     animate(el, { scale: 1 }, { duration: 0.2 })
@@ -212,6 +215,12 @@ onMounted(() => {
                                     />
                                 </div>
                             </div>
+
+                            <FloatingBlock
+                                v-if="hoverIndex === i"
+                                :title="skills[getSkillIndex(i)].name"
+                                :content="skills[getSkillIndex(i)].description"
+                            />
                         </div>
                     </div>
                 </div>
@@ -288,16 +297,17 @@ h3 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
 }
 
-.tech-block > div {
+.tech-block > div:first-of-type {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     width: 98%;
     height: 98%;
-    background-color: var(--primary-color);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: var(--primary-color);
 }
 </style>
