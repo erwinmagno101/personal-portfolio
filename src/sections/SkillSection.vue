@@ -163,18 +163,23 @@ const getSkillIndex = i => {
     return found ? found.skill_index : 'N/A'
 }
 
-const enterHoverAnimte = el => {
-    animate(el, { scale: 1.5 }, { duration: 0.2 })
+onMounted(() => {})
+
+const enterHoverAnimte = (el, i) => {
+    const points = document.querySelectorAll('.point')
+    const target = indeces.value.find(el => el.point_index === i)
+
+    points[target.skill_index].style.zIndex = 10
+
+    animate(el, { scale: 1.3 }, { duration: 0.2 })
 }
 
-const leaveHoverAnimate = el => {
-    // let isAnimating = false
-    // if (!isAnimating) {
-    //     isAnimating = true
-    //     animate(el, { rotateY: 0 }, { duration: 0.5 }).finished.then(() => {
-    //         isAnimating = false
-    //     })
-    // }
+const leaveHoverAnimate = (el, i) => {
+    const points = document.querySelectorAll('.point')
+    const target = indeces.value.find(el => el.point_index === i)
+
+    points[target.skill_index].style.zIndex = 1
+    animate(el, { scale: 1 }, { duration: 0.2 })
 }
 
 onMounted(() => {
@@ -196,8 +201,10 @@ onMounted(() => {
                         <div class="tech-block-wrapper">
                             <div
                                 class="tech-block"
-                                @mouseenter="e => enterHoverAnimte(e.target)"
-                                @mouseleave="e => leaveHoverAnimate(e.target)"
+                                @mouseenter="e => enterHoverAnimte(e.target, i)"
+                                @mouseleave="
+                                    e => leaveHoverAnimate(e.target, i)
+                                "
                             >
                                 <div>
                                     <TechLogo
@@ -221,7 +228,6 @@ onMounted(() => {
     flex-direction: column;
     gap: 100px;
     padding-bottom: 30px;
-    overflow: visible;
 }
 
 h2 {
@@ -253,7 +259,7 @@ h3 {
     width: 10px;
     border-radius: 100%;
     position: absolute;
-    z-index: 98;
+    z-index: 1;
     bottom: -7px;
     right: -7px;
 }
