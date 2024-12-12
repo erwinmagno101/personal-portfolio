@@ -10,8 +10,8 @@ const skills = [
         description: 'Cross-platform UI toolkit by Google.',
         logo: 'flutter',
         link: 'https://flutter.dev/',
-        tag: 'Framework',
-        expert: false,
+        tag: ['Framework', 'Mobile', 'UI', 'Tool'],
+        level: 'Intermediate',
         color: '#62b7ea',
     },
     {
@@ -19,8 +19,8 @@ const skills = [
         description: 'Progressive JavaScript framework for UIs.',
         logo: 'vue',
         link: 'https://vuejs.org/',
-        tag: 'Framework',
-        expert: true,
+        tag: ['Framework', 'Frontend', 'JavaScript', 'UI'],
+        level: 'High',
         color: '#1dd1a1',
     },
     {
@@ -28,8 +28,8 @@ const skills = [
         description: 'JavaScript library for building UIs.',
         logo: 'react',
         link: 'https://react.dev/',
-        tag: 'Framework',
-        expert: false,
+        tag: ['Framework', 'Frontend', 'JavaScript', 'Library'],
+        level: 'Intermediate',
         color: '#0abde3',
     },
     {
@@ -37,8 +37,8 @@ const skills = [
         description: 'A utility-first CSS framework',
         logo: 'tailwind',
         link: 'https://tailwindcss.com/',
-        tag: 'Framework',
-        expert: true,
+        tag: ['Framework', 'CSS', 'Frontend', 'Design'],
+        level: 'High',
         color: '#0284C7',
     },
     {
@@ -46,8 +46,8 @@ const skills = [
         description: 'Popular language for web development.',
         logo: 'javascript',
         link: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
-        tag: 'Language',
-        expert: true,
+        tag: ['Language', 'Frontend', 'Backend', 'Web'],
+        level: 'Peak',
         color: '#f2c12d',
     },
     {
@@ -55,8 +55,8 @@ const skills = [
         description: 'Widely used language for cross-platform apps.',
         logo: 'java',
         link: 'https://www.java.com/en/',
-        tag: 'Language',
-        expert: false,
+        tag: ['Language', 'Backend', 'Mobile', 'Enterprise'],
+        level: 'Intermediate',
         color: '#eb3536',
     },
     {
@@ -64,18 +64,17 @@ const skills = [
         description: 'Programming language optimized for UIs.',
         logo: 'dart',
         link: 'https://dart.dev/',
-        tag: 'Language',
-        expert: false,
+        tag: ['Language', 'Frontend', 'Mobile', 'UI'],
+        level: 'Intermediate',
         color: '#34e7e4',
     },
-
     {
         name: 'CSS',
         description: 'Stylesheets for designing web pages.',
         logo: 'css',
         link: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
-        tag: 'Language',
-        expert: true,
+        tag: ['Language', 'Design', 'Frontend', 'Web'],
+        level: 'Peak',
         color: '#36adde',
     },
     {
@@ -83,8 +82,8 @@ const skills = [
         description: 'Markup language for structuring web pages.',
         logo: 'html',
         link: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
-        tag: 'Language',
-        expert: true,
+        tag: ['Language', 'Markup', 'Frontend', 'Web'],
+        level: 'Peak',
         color: '#f26c35',
     },
     {
@@ -92,7 +91,8 @@ const skills = [
         description: 'NoSQL database for flexible data storage.',
         logo: 'mongodb',
         link: 'https://www.mongodb.com/',
-        tag: 'Tool',
+        tag: ['Database', 'NoSQL', 'Backend', 'Tool'],
+        level: 'Intermediate',
         color: '#00ed64',
     },
     {
@@ -100,7 +100,8 @@ const skills = [
         description: 'Backend-as-a-Service by Google.',
         logo: 'firebase',
         link: 'https://firebase.google.com/',
-        tag: 'Tool',
+        tag: ['Tool', 'Backend', 'Cloud', 'Database'],
+        level: 'Intermediate',
         color: '#ffc400',
     },
     {
@@ -108,7 +109,8 @@ const skills = [
         description: 'Official IDE for Android development.',
         logo: 'android',
         link: 'https://developer.android.com/studio',
-        tag: 'Tool',
+        tag: ['Tool', 'IDE', 'Mobile', 'Development'],
+        level: 'Intermediate',
         color: '#00e676',
     },
     {
@@ -116,17 +118,17 @@ const skills = [
         description: 'Lightweight, extensible code editor by Microsoft.',
         logo: 'vscode',
         link: 'https://code.visualstudio.com/',
-        tag: 'Tool',
-        expert: true,
+        tag: ['Tool', 'IDE', 'Development', 'Open Source'],
+        level: 'High',
         color: '#087ebf',
     },
     {
         name: 'GitHub',
-        description: ' Hosting for version control and collaboration.',
+        description: 'Hosting for version control and collaboration.',
         logo: 'github',
         link: 'https://github.com/',
-        tag: 'Platform',
-        expert: true,
+        tag: ['Platform', 'Collaboration', 'Version Control', 'Tool'],
+        level: 'High',
         color: '#010409',
         textColor: 'white',
     },
@@ -213,8 +215,7 @@ onMounted(() => {
 
                     <FloatingBlock
                         v-if="hoverIndex === i"
-                        :title="skills[getSkillIndex(i)].name"
-                        :content="skills[getSkillIndex(i)].description"
+                        :data="skills[getSkillIndex(i)]"
                     />
                 </div>
             </div>

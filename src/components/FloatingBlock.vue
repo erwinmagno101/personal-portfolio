@@ -3,8 +3,7 @@ import { animate } from 'motion'
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps({
-    title: String,
-    content: String,
+    data: Object,
 })
 
 const floatingBlockRef = ref(null)
@@ -38,13 +37,35 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('mousemove', getMousePosition)
 })
+
+const colorMastery = mastery => {
+    switch (mastery) {
+        case 'Peak':
+            return 'red'
+        case 'High':
+            return 'orange'
+        case 'Intermediate':
+            return 'green'
+    }
+}
 </script>
 
 <template>
     <Teleport to="main">
         <div class="floating-block" ref="floatingBlockRef">
-            <div>{{ title }}</div>
-            <div>{{ content }}</div>
+            <div>{{ data.name }}</div>
+            <div>
+                Mastery :
+                <div :style="{ color: colorMastery(data.level) }">
+                    {{ data.level }}
+                </div>
+            </div>
+            <div>{{ data.description }}</div>
+            <div class="tags-container">
+                <div v-for="(item, index) in data.tag" :key="index">
+                    {{ item }}
+                </div>
+            </div>
         </div>
     </Teleport>
 </template>
@@ -65,7 +86,29 @@ onUnmounted(() => {
 }
 
 .floating-block > div:nth-child(2) {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.floating-block > div:nth-child(2) > div {
+    display: inline;
+}
+
+.floating-block > div:nth-child(3) {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.tags-container {
+    display: flex;
     font-size: 0.8rem;
-    opacity: 0.7;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tags-container > div {
+    padding: 0.2rem;
+    border: 1px solid black;
 }
 </style>
