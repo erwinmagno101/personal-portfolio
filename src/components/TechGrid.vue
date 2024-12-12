@@ -196,6 +196,17 @@ const leaveHoverAnimate = (el, i) => {
 onMounted(() => {
     pointGeneration()
 })
+
+const colorMastery = mastery => {
+    switch (mastery) {
+        case 'Peak':
+            return 'red'
+        case 'High':
+            return 'orange'
+        case 'Intermediate':
+            return 'green'
+    }
+}
 </script>
 
 <template>
@@ -213,10 +224,36 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <FloatingBlock
-                        v-if="hoverIndex === i"
-                        :data="skills[getSkillIndex(i)]"
-                    />
+                    <FloatingBlock v-if="hoverIndex === i">
+                        <div class="floating-skill">
+                            <div>{{ skills[getSkillIndex(i)].name }}</div>
+                            <div>
+                                Mastery :
+                                <div
+                                    :style="{
+                                        color: colorMastery(
+                                            skills[getSkillIndex(i)].level,
+                                        ),
+                                    }"
+                                >
+                                    {{ skills[getSkillIndex(i)].level }}
+                                </div>
+                            </div>
+                            <div>
+                                {{ skills[getSkillIndex(i)].description }}
+                            </div>
+                            <div class="tags-container">
+                                <div
+                                    v-for="(item, index) in skills[
+                                        getSkillIndex(i)
+                                    ].tag"
+                                    :key="index"
+                                >
+                                    {{ item }}
+                                </div>
+                            </div>
+                        </div>
+                    </FloatingBlock>
                 </div>
             </div>
         </div>
@@ -286,5 +323,36 @@ onMounted(() => {
     align-items: center;
     flex-direction: column;
     background-color: var(--primary-color);
+}
+
+.floating-skill > div:nth-child(1) {
+    font-size: 1rem;
+}
+
+.floating-skill > div:nth-child(2) {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.floating-skill > div:nth-child(2) > div {
+    display: inline;
+}
+
+.floating-skill > div:nth-child(3) {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.tags-container {
+    display: flex;
+    font-size: 0.8rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tags-container > div {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid black;
 }
 </style>
