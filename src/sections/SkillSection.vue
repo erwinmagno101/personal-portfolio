@@ -4,17 +4,18 @@ import SectionHeader from '@/components/SectionHeader.vue'
 import TechGrid from '@/components/TechGrid.vue'
 import { reverse } from 'lodash'
 import { inView, scroll } from 'motion'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
 
 const sectionProgressStore = useSectionProgressStore()
 
 const skillRef = ref(null)
 const isHeaderSticking = ref(false)
+let cancelScroll
 
 onMounted(() => {
     inView(skillRef.value, () => {
-        const cancel = scroll(
+        cancelScroll = scroll(
             e =>
                 sectionProgressStore.calculateProgress(
                     e,
@@ -24,9 +25,15 @@ onMounted(() => {
         )
 
         return () => {
-            cancel()
+            cancelScroll()
+            cancelScroll = null
         }
     })
+})
+
+onUnmounted(() => {
+    cancelScroll()
+    cancelScroll = null
 })
 </script>
 

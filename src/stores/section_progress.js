@@ -18,6 +18,7 @@ export const useSectionProgressStore = defineStore('section_progress', () => {
         )
 
         progress.value = finalPercentage
+        console.log(data.y)
     }
 
     return { calculateProgress, progress }
