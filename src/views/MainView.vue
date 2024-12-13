@@ -3,6 +3,9 @@ import BackgroundEffect from '@/components/BackgroundEffect.vue'
 import HeroSection from '@/sections/HeroSection.vue'
 import SkillSection from '@/sections/SkillSection.vue'
 import SectionProgress from '@/components/SectionProgress.vue'
+import { useSectionProgressStore } from '@/stores/section_progress'
+
+const sectionProgressStore = useSectionProgressStore()
 
 const navList = [
     { title: 'Home' },
@@ -16,7 +19,7 @@ const navList = [
 <template>
     <div class="canvas">
         <BackgroundEffect />
-        <SectionProgress />
+        <SectionProgress v-if="sectionProgressStore.displayProgress" />
         <header>
             <div class="Logo">LOGO HERE</div>
             <nav>

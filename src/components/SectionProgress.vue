@@ -31,7 +31,7 @@ onMounted(() => {})
 }
 
 .indicator {
-    background-color: blue;
+    background-color: black;
     width: 100%;
     height: 0%;
 }

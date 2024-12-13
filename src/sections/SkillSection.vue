@@ -66,7 +66,6 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     gap: 100px;
-    padding-bottom: 30px;
 }
 
 .section-content {
