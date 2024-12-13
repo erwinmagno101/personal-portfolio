@@ -2,6 +2,7 @@
 import BackgroundEffect from '@/components/BackgroundEffect.vue'
 import HeroSection from '@/sections/HeroSection.vue'
 import SkillSection from '@/sections/SkillSection.vue'
+import SectionProgress from '@/components/SectionProgress.vue'
 
 const navList = [
     { title: 'Home' },
@@ -15,6 +16,7 @@ const navList = [
 <template>
     <div class="canvas">
         <BackgroundEffect />
+        <SectionProgress />
         <header>
             <div class="Logo">LOGO HERE</div>
             <nav>
@@ -27,6 +29,7 @@ const navList = [
         <main class="main">
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
+            <HeroSection></HeroSection>
         </main>
         <footer></footer>
     </div>

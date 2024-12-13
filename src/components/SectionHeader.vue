@@ -7,7 +7,7 @@ const props = defineProps({
 })
 
 const headingRef = ref(null)
-const isSticking = ref(false)
+const isSticking = defineModel(false)
 
 const checkStickyPosition = () => {
     if (!headingRef.value) return
@@ -43,6 +43,7 @@ watch(
 
 onMounted(() => {
     inView(headingRef.value, () => {
+        checkStickyPosition()
         window.addEventListener('scroll', checkStickyPosition)
 
         return () => {
