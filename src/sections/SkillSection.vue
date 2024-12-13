@@ -5,6 +5,7 @@ import { onMounted, ref, onUnmounted, computed } from 'vue'
 
 const pastPracticeDate = new Date('2017-06-01T00:00:00')
 const pastProfessionalDate = new Date('2023-06-01T00:00:00')
+const pastBirthDate = new Date('2000-10-25T00:00:00')
 
 const now = ref(new Date())
 
@@ -26,6 +27,10 @@ const formattedPractice = computed(() => {
 
 const formattedProfessional = computed(() => {
     return calculateTimeDifference(pastProfessionalDate, now.value)
+})
+
+const formattedBirth = computed(() => {
+    return calculateTimeDifference(pastBirthDate, now.value)
 })
 
 let intervalId
@@ -62,6 +67,23 @@ onUnmounted(() => {
                         <div>
                             {{ formattedPractice.years }}
                             <div>years</div>
+                            <div>coding practice</div>
+                        </div>
+                        <div>
+                            {{ formattedProfessional.years }}
+                            <div>
+                                {{
+                                    formattedProfessional.years > 1
+                                        ? 'years'
+                                        : 'year'
+                                }}
+                            </div>
+                            <div>professional experience</div>
+                        </div>
+                        <div>
+                            {{ formattedBirth.years }}
+                            <div>years</div>
+                            <div>being alive</div>
                         </div>
                     </div>
                 </div>
@@ -106,9 +128,20 @@ onUnmounted(() => {
 
 .date {
     display: flex;
+    gap: 5rem;
 }
 
 .date > div {
     display: flex;
+    font-size: 6rem;
+    flex-direction: column;
+    line-height: 1;
+    align-items: center;
+    font-weight: 600;
+}
+
+.date > div > div {
+    font-size: 1rem;
+    font-weight: 400;
 }
 </style>
