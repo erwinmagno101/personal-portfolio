@@ -4,7 +4,7 @@ import SectionHeader from '@/components/SectionHeader.vue'
 import TechGrid from '@/components/TechGrid.vue'
 import { reverse } from 'lodash'
 import { inView, scroll } from 'motion'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
 
 const sectionProgressStore = useSectionProgressStore()

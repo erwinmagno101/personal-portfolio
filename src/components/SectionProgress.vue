@@ -1,8 +1,24 @@
-<script></script>
+<script setup>
+import { useSectionProgressStore } from '@/stores/section_progress'
+import { animate } from 'motion'
+import { onMounted, ref, watch } from 'vue'
+
+const sectionProgressStore = useSectionProgressStore()
+const indicatorRef = ref(null)
+
+watch(
+    () => sectionProgressStore.progress,
+    newVal => {
+        animate(indicatorRef.value, { height: `${newVal}%` }, { duration: 0 })
+    },
+)
+
+onMounted(() => {})
+</script>
 
 <template>
     <div class="indicator-container">
-        <div class="indicator"></div>
+        <div class="indicator" ref="indicatorRef"></div>
     </div>
 </template>
 
@@ -17,6 +33,6 @@
 .indicator {
     background-color: blue;
     width: 100%;
-    height: 50%;
+    height: 0%;
 }
 </style>

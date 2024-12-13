@@ -29,7 +29,6 @@ const navList = [
         <main class="main">
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
-            <HeroSection></HeroSection>
         </main>
         <footer></footer>
     </div>

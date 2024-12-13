@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 export const useSectionProgressStore = defineStore('section_progress', () => {
-    const progress = ref(null)
+    const progress = ref(0)
 
     const calculateProgress = (data, condition) => {
         if (!condition) return
