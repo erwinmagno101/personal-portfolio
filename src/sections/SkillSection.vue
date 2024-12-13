@@ -2,11 +2,37 @@
 import ExperienceDate from '@/components/ExperienceDate.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import TechGrid from '@/components/TechGrid.vue'
+import { reverse } from 'lodash'
+import { inView, scroll } from 'motion'
+import { onMounted, ref } from 'vue'
+import { useSectionProgressStore } from '@/stores/section_progress'
+
+const sectionProgressStore = useSectionProgressStore()
+
+const skillRef = ref(null)
+const isHeaderSticking = ref(false)
+
+onMounted(() => {
+    inView(skillRef.value, () => {
+        const cancel = scroll(
+            e =>
+                sectionProgressStore.calculateProgress(
+                    e,
+                    isHeaderSticking.value,
+                ),
+            { target: skillRef.value },
+        )
+
+        return () => {
+            cancel()
+        }
+    })
+})
 </script>
 
 <template>
-    <section class="section">
-        <SectionHeader title="Skills" />
+    <section class="section" ref="skillRef">
+        <SectionHeader title="Skills" v-model="isHeaderSticking" />
         <div class="section-content">
             <div>
                 <h3 class="sub-heading">Technologies</h3>
