@@ -13,7 +13,13 @@ watch(
     },
 )
 
-onMounted(() => {})
+onMounted(() => {
+    animate(
+        indicatorRef.value,
+        { height: [0, `${sectionProgressStore.progress}%`] },
+        { duration: 0.5 },
+    )
+})
 </script>
 
 <template>
@@ -28,11 +34,14 @@ onMounted(() => {})
     height: 100vh;
     position: fixed;
     z-index: 99;
+    left: 2px;
 }
 
 .indicator {
     background-color: black;
     width: 100%;
+    opacity: 0.8;
     height: 0%;
+    border-radius: 5px;
 }
 </style>

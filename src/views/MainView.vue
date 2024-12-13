@@ -20,6 +20,7 @@ const navList = [
     <div class="canvas">
         <BackgroundEffect />
         <SectionProgress v-if="sectionProgressStore.displayProgress" />
+
         <header>
             <div class="Logo">LOGO HERE</div>
             <nav>
