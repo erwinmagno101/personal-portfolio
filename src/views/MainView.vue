@@ -4,6 +4,7 @@ import HeroSection from '@/sections/HeroSection.vue'
 import SkillSection from '@/sections/SkillSection.vue'
 import SectionProgress from '@/components/SectionProgress.vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
+import ScrollProgress from '@/components/ScrollProgress.vue'
 
 const sectionProgressStore = useSectionProgressStore()
 
@@ -20,8 +21,8 @@ const navList = [
     <div class="canvas">
         <BackgroundEffect />
         <SectionProgress v-if="sectionProgressStore.displayProgress" />
-
-        <header>
+        <ScrollProgress />
+        <header id="header">
             <div class="Logo">LOGO HERE</div>
             <nav>
                 <div v-for="(nav, index) in navList" :key="index">
@@ -32,6 +33,8 @@ const navList = [
         </header>
         <main class="main">
             <HeroSection></HeroSection>
+            <SkillSection></SkillSection>
+            <SkillSection></SkillSection>
             <SkillSection></SkillSection>
         </main>
         <footer></footer>
