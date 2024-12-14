@@ -1,19 +1,60 @@
 <script setup>
-import TechLogo from '@/components/TechLogo.vue'
-import { onMounted, ref, watch } from 'vue'
-import { animate } from 'motion'
+import ExperienceDate from '@/components/ExperienceDate.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
-import FloatingBlock from '@/components/FloatingBlock.vue'
 import TechGrid from '@/components/TechGrid.vue'
+import { reverse } from 'lodash'
+import { inView, scroll } from 'motion'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useSectionProgressStore } from '@/stores/section_progress'
+
+const sectionProgressStore = useSectionProgressStore()
+
+const skillRef = ref(null)
+const isHeaderSticking = ref(false)
+let cancelScroll
+
+onMounted(() => {
+    inView(skillRef.value, () => {
+        cancelScroll = scroll(
+            e =>
+                sectionProgressStore.calculateProgress(
+                    e,
+                    isHeaderSticking.value,
+                ),
+            { target: skillRef.value },
+        )
+
+        return () => {
+            cancelScroll()
+            cancelScroll = null
+        }
+    })
+})
+
+onUnmounted(() => {
+    cancelScroll()
+    cancelScroll = null
+})
 </script>
 
 <template>
-    <section class="section">
-        <SectionHeader title="Skills" />
+    <section class="section" ref="skillRef">
+        <SectionHeader title="Skills" v-model="isHeaderSticking" />
         <div class="section-content">
-            <h3 class="sub-heading">Technologies</h3>
-            <p class="sub-description">Honed throughout my coding journey</p>
-            <TechGrid />
+            <div>
+                <h3 class="sub-heading">Technologies</h3>
+                <p class="sub-description">
+                    Honed throughout my coding journey
+                </p>
+                <TechGrid />
+            </div>
+            <div>
+                <h3 class="sub-heading">Experience</h3>
+                <p class="sub-description">
+                    Honed throughout my coding journey
+                </p>
+                <ExperienceDate />
+            </div>
         </div>
     </section>
 </template>
@@ -25,11 +66,12 @@ import TechGrid from '@/components/TechGrid.vue'
     display: flex;
     flex-direction: column;
     gap: 100px;
-    padding-bottom: 30px;
 }
 
-h2 {
-    font-size: 10rem;
+.section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 200px;
 }
 
 .sub-heading {
@@ -38,6 +80,6 @@ h2 {
 }
 .sub-description {
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 </style>

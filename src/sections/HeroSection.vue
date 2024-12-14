@@ -1,6 +1,6 @@
 <script setup>
 import { animate, inView } from 'motion'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { LocateFixed } from 'lucide-vue-next'
 
 const heroRef = ref(null)
