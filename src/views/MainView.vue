@@ -5,14 +5,6 @@ import SkillSection from '@/sections/SkillSection.vue'
 import SectionProgress from '@/components/SectionProgress.vue'
 import ScrollProgress from '@/components/ScrollProgress.vue'
 import NavBar from '@/components/NavBar.vue'
-
-const navList = [
-    { title: 'Home' },
-    { title: 'Skills' },
-    { title: 'Project' },
-    { title: 'About' },
-    { title: 'Contact' },
-]
 </script>
 
 <template>

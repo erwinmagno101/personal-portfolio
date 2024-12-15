@@ -22,7 +22,7 @@ const scrollProgress = e => {
 }
 
 const scrollUp = () => {
-    document.getElementById('header').scrollIntoView({
+    document.querySelector('.canvas').scrollIntoView({
         behavior: 'smooth',
         block: 'start',
     })
@@ -67,6 +67,7 @@ onUnmounted(() => {
     padding: 2px;
     overflow: hidden;
     line-height: 1;
+    cursor: pointer;
     background: conic-gradient(
         black 0% var(--progress, 0%),
         white var(--progress, 0%) 100%
