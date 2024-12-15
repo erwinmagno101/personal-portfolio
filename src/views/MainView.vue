@@ -3,8 +3,8 @@ import BackgroundEffect from '@/components/BackgroundEffect.vue'
 import HeroSection from '@/sections/HeroSection.vue'
 import SkillSection from '@/sections/SkillSection.vue'
 import SectionProgress from '@/components/SectionProgress.vue'
-import { useSectionProgressStore } from '@/stores/section_progress'
 import ScrollProgress from '@/components/ScrollProgress.vue'
+import NavBar from '@/components/NavBar.vue'
 
 const navList = [
     { title: 'Home' },
@@ -21,13 +21,7 @@ const navList = [
         <SectionProgress />
         <ScrollProgress />
         <header id="header">
-            <div class="Logo">LOGO HERE</div>
-            <nav>
-                <div v-for="(nav, index) in navList" :key="index">
-                    {{ nav.title }}
-                </div>
-            </nav>
-            <div class="Logo">LOGO HERE</div>
+            <NavBar />
         </header>
         <main class="main">
             <HeroSection></HeroSection>
@@ -46,16 +40,9 @@ const navList = [
 header {
     display: flex;
     padding: 1rem 1rem;
-}
-
-nav {
-    flex: 1 1 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    width: fit-content;
-    padding: 0.5rem;
+    position: sticky;
+    top: 0px;
+    z-index: 99;
 }
 
 main {
