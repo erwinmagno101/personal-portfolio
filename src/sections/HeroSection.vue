@@ -2,6 +2,7 @@
 import { animate, inView } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { LocateFixed } from 'lucide-vue-next'
+import PrimaryButton from '@/components/PrimaryButton.vue'
 
 const heroRef = ref(null)
 const ballRef = ref([])
@@ -86,12 +87,17 @@ onUnmounted(() => {
                 <LocateFixed class="icon-base" />
                 <div>Based in the Philippines</div>
             </div>
+            <PrimaryButton class="action-btn" />
         </div>
-        <div class="action-btn">Get in touch</div>
     </section>
 </template>
 
 <style scoped>
+.action-btn {
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
 section {
     height: 900px;
     width: 100%;
@@ -132,13 +138,6 @@ section > div:nth-child(2) {
     width: fit-content;
     margin-left: auto;
     gap: 0.5rem;
-}
-
-.action-btn {
-    border: 1px solid black;
-    padding: 1rem;
-    font-size: 2rem;
-    margin-top: 50px;
 }
 
 .ball {

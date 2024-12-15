@@ -45,7 +45,7 @@ onMounted(() => {
     height: 100vh;
     position: fixed;
     z-index: 99;
-    left: 2px;
+    left: 0px;
 }
 
 .indicator {
