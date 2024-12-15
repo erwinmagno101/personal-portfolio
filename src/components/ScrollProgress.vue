@@ -38,7 +38,12 @@ onUnmounted(() => {
 
 <template>
     <div>
-        <div class="container" ref="containerRef" @click="scrollUp">
+        <div
+            class="container"
+            ref="containerRef"
+            @click="scrollUp"
+            v-if="showProgress"
+        >
             <div class="cover">
                 <ArrowUpIcon width="24" height="24" />
             </div>
@@ -59,7 +64,10 @@ onUnmounted(() => {
     padding: 2px;
     overflow: hidden;
     line-height: 1;
-    background: conic-gradient(black 0% 0%, white 0% 100%);
+    background: conic-gradient(
+        black 0% var(--progress, 0%),
+        white var(--progress, 0%) 100%
+    );
     box-shadow: 2px 3px 13px -3px rgba(0, 0, 0, 0.37);
     -webkit-box-shadow: 2px 3px 13px -3px rgba(0, 0, 0, 0.37);
     -moz-box-shadow: 2px 3px 13px -3px rgba(0, 0, 0, 0.37);
