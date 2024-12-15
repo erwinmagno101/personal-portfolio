@@ -93,11 +93,14 @@ onUnmounted(() => {
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.2s ease;
+    transition:
+        opacity 0.2s ease,
+        scale 0.2s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+    scale: 0.5;
 }
 </style>
