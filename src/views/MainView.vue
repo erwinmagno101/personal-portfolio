@@ -6,8 +6,6 @@ import SectionProgress from '@/components/SectionProgress.vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
 import ScrollProgress from '@/components/ScrollProgress.vue'
 
-const sectionProgressStore = useSectionProgressStore()
-
 const navList = [
     { title: 'Home' },
     { title: 'Skills' },
@@ -20,7 +18,7 @@ const navList = [
 <template>
     <div class="canvas">
         <BackgroundEffect />
-        <SectionProgress v-if="sectionProgressStore.displayProgress" />
+        <SectionProgress />
         <ScrollProgress />
         <header id="header">
             <div class="Logo">LOGO HERE</div>
