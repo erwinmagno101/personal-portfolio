@@ -11,13 +11,14 @@ const scrollProgress = e => {
     const progress = Math.floor(e.progress * 100)
     progress > 20 ? (showProgress.value = true) : (showProgress.value = false)
 
-    animate(
-        containerRef.value,
-        {
-            background: `conic-gradient(black 0% ${progress}%, white ${progress}% 100%)`,
-        },
-        { duration: 0 },
-    )
+    if (showProgress.value && containerRef.value)
+        animate(
+            containerRef.value,
+            {
+                background: `conic-gradient(black 0% ${progress}%, white ${progress}% 100%)`,
+            },
+            { duration: 0 },
+        )
 }
 
 const scrollUp = () => {
@@ -38,16 +39,18 @@ onUnmounted(() => {
 
 <template>
     <div>
-        <div
-            class="container"
-            ref="containerRef"
-            @click="scrollUp"
-            v-if="showProgress"
-        >
-            <div class="cover">
-                <ArrowUpIcon width="24" height="24" />
+        <Transition name="fade">
+            <div
+                class="container"
+                ref="containerRef"
+                @click="scrollUp"
+                v-if="showProgress"
+            >
+                <div class="cover">
+                    <ArrowUpIcon width="24" height="24" />
+                </div>
             </div>
-        </div>
+        </Transition>
     </div>
 </template>
 
@@ -86,5 +89,15 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     padding: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>
