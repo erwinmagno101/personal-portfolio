@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
 
 const timelineContainerRef = ref(null)
 const position = ref(0)
+const activePoint = ref(0)
 
 const pointsPositions = () => {
     let points = timelineContainerRef.value.querySelectorAll('.points')
@@ -12,13 +13,6 @@ const pointsPositions = () => {
         animate(element, { left: `${50 + index * 20}%` }, { duration: 0 })
     })
 }
-
-watch(
-    () => position.value,
-    newVal => {
-        console.log(newVal)
-    },
-)
 
 let isAnimating = false
 
@@ -28,11 +22,13 @@ const slide = dir => {
 
     let points = timelineContainerRef.value.querySelectorAll('.points')
 
-    if (dir === 'left' && position.value < (points.length - 1) * 20) {
+    if (dir === 'right' && position.value < (points.length - 1) * 20) {
+        activePoint.value += 1
         position.value += 20
     }
 
-    if (dir === 'right' && position.value > 0) {
+    if (dir === 'left' && position.value > 0) {
+        activePoint.value -= 1
         position.value -= 20
     }
 
@@ -48,7 +44,26 @@ const slide = dir => {
     })
 }
 
+watch(
+    () => activePoint.value,
+    () => {
+        animateActivePoint()
+    },
+)
+
+const animateActivePoint = () => {
+    let points = timelineContainerRef.value.querySelectorAll('.points')
+    points.forEach((element, index) => {
+        animate(
+            element,
+            { scale: index === activePoint.value ? 1.5 : 1 },
+            { duration: 0.5 },
+        )
+    })
+}
+
 onMounted(() => {
+    animateActivePoint()
     pointsPositions()
 })
 </script>
@@ -68,6 +83,7 @@ onMounted(() => {
                 <ArrowRight />
             </div>
         </div>
+        <div class="slider-body"></div>
     </div>
 </template>
 
@@ -112,15 +128,18 @@ onMounted(() => {
     padding: 2rem 0;
     position: relative;
     overflow: hidden;
+    height: 100px;
+    display: flex;
+    align-items: center;
 }
 
 .timeline {
+    flex: 1 1 0;
     background-color: black;
     height: 2px;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .timeline > .points {
@@ -130,6 +149,6 @@ onMounted(() => {
     background-color: blue;
     border-radius: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%);
 }
 </style>
