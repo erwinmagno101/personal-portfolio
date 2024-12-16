@@ -1,6 +1,6 @@
 <script setup>
 import { animate } from 'motion'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
 
 const timelineContainerRef = ref(null)
@@ -31,6 +31,27 @@ const slide = dir => {
         activePoint.value -= 1
         position.value -= 20
     }
+
+    animateSlide()
+}
+
+const handlePointClick = index => {
+    if (index === activePoint.value) return
+    let distance = Math.abs((activePoint.value - index) * 20)
+
+    if (activePoint.value > index) {
+        position.value -= distance
+    } else {
+        position.value += distance
+    }
+
+    activePoint.value = index
+
+    animateSlide()
+}
+
+const animateSlide = () => {
+    let points = timelineContainerRef.value.querySelectorAll('.points')
 
     points.forEach((element, index) => {
         animate(
@@ -73,7 +94,12 @@ onMounted(() => {
         <div class="slider-head">
             <div class="timeline-container" ref="timelineContainerRef">
                 <div class="timeline">
-                    <div v-for="i in 6" :key="i" class="points"></div>
+                    <div
+                        v-for="(i, index) in 6"
+                        :key="i"
+                        class="points"
+                        @click="() => handlePointClick(index)"
+                    ></div>
                 </div>
             </div>
             <div class="arrow-left" @click="() => slide('left')">
@@ -110,6 +136,7 @@ onMounted(() => {
     align-items: center;
     position: absolute;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 .arrow-left {
@@ -143,10 +170,12 @@ onMounted(() => {
 }
 
 .timeline > .points {
+    pointer-events: all;
     position: absolute;
     width: 50px;
     height: 50px;
-    background-color: blue;
+    background-color: var(--primary-color);
+    border: 2px solid black;
     border-radius: 50%;
     left: 50%;
     transform: translate(-50%);
