@@ -2,10 +2,10 @@
 import ExperienceDate from '@/components/ExperienceDate.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import TechGrid from '@/components/TechGrid.vue'
-import { reverse } from 'lodash'
 import { inView, scroll } from 'motion'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
+import TimeLine from '@/components/TimeLine.vue'
 
 const sectionProgressStore = useSectionProgressStore()
 
@@ -54,6 +54,7 @@ onUnmounted(() => {
                     Honed throughout my coding journey
                 </p>
                 <ExperienceDate />
+                <TimeLine />
             </div>
         </div>
     </section>
