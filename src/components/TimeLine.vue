@@ -240,5 +240,19 @@ onMounted(() => {
     width: fit-content;
     margin: 0 auto;
     max-width: 50%;
+    text-align: center;
+}
+
+.slider-body > div:nth-child(1) {
+    font-size: 0.9rem;
+}
+
+.slider-body > div:nth-child(2) {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.slider-body > div:nth-child(3) {
 }
 </style>
