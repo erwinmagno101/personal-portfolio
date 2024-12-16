@@ -1,7 +1,8 @@
 <script setup>
-import { animate } from 'motion'
+import { animate, timeline } from 'motion'
 import { onMounted, ref, watch } from 'vue'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
+import { at } from 'lodash'
 
 const expData = [
     {
@@ -99,13 +100,6 @@ const animateSlide = () => {
     })
 }
 
-watch(
-    () => activePoint.value,
-    () => {
-        animateActivePoint()
-    },
-)
-
 const animateActivePoint = () => {
     let points = timelineContainerRef.value.querySelectorAll('.points')
     points.forEach((element, index) => {
@@ -121,7 +115,7 @@ const animateActivePoint = () => {
             element,
 
             {
-                transform: `translateX(-50%) scale(${index === activePoint.value ? 2 : 0.8})`,
+                transform: `translateX(-50%) scale(${index === activePoint.value ? 1.8 : 0.8})`,
             },
             { duration: 0.5 },
         )
@@ -134,9 +128,45 @@ const animateActivePoint = () => {
     )
 }
 
+let timelineVar
+
+const animateInnerCircle = () => {
+    const sequence = [
+        [
+            timelineContainerRef.value.querySelectorAll('.inner-circle')[
+                activePoint.value
+            ],
+            { scale: [1.4, 0.4, 1.4] },
+            {},
+        ],
+
+        [
+            timelineContainerRef.value.querySelectorAll('.inner-circle')[
+                activePoint.value
+            ],
+            { borderColor: ['black', 'white', 'black'] },
+            {
+                at: 0,
+            },
+        ],
+    ]
+
+    timelineVar = timeline(sequence, { duration: 3, repeat: Infinity })
+}
+
+watch(
+    () => activePoint.value,
+    () => {
+        animateActivePoint()
+        timelineVar.cancel()
+        animateInnerCircle()
+    },
+)
+
 onMounted(() => {
     animateActivePoint()
     pointsPositions()
+    animateInnerCircle()
 })
 </script>
 
@@ -150,7 +180,9 @@ onMounted(() => {
                         :key="index"
                         class="points"
                         @click="() => handlePointClick(index)"
-                    ></div>
+                    >
+                        <div class="inner-circle"></div>
+                    </div>
                 </div>
             </div>
             <div class="arrow-left" @click="() => slide('left')">
@@ -236,6 +268,14 @@ onMounted(() => {
     transform: translateX(-50%);
 }
 
+.points > .inner-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    border: 1px solid black;
+}
+
 .slider-body {
     width: fit-content;
     margin: 0 auto;
@@ -251,8 +291,5 @@ onMounted(() => {
     font-size: 1rem;
     font-weight: 500;
     margin-bottom: 1rem;
-}
-
-.slider-body > div:nth-child(3) {
 }
 </style>
