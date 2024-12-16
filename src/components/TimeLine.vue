@@ -1,7 +1,40 @@
 <script setup>
 import { animate } from 'motion'
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
+
+const expData = [
+    {
+        title: 'SHS - Information Communication Technology (ICT)',
+        date: 'June 2017 - March 2019',
+        content:
+            'I gained foundational skills in programming, multimedia design, and networking, it opened up my passion for technology through hands-on projects and practical learning in Siquijor State College.',
+    },
+    {
+        title: 'Bachelor of Science in Infomation Technology (BSIT)',
+        date: 'June 2019 - June 2023',
+        content:
+            'Continuing on the same school, I studied software development, networking, and system analysis, gaining technical expertise through hands-on projects and practical applications.',
+    },
+    {
+        title: 'Frontend Developer - RondeoCreates',
+        date: 'July 2023 - Jan 2024',
+        content:
+            'After graduating, I immediately dove into the world of working and creating solutions to real world problems as a frontend developer in a Freelance Company, gaining valuable experience.',
+    },
+    {
+        title: 'Wordpress Developer - Siquijor State College',
+        date: 'Jan 2024 - May 2024',
+        content:
+            'Later that year I was offered a contract and hired as a developer to create a functionality and feature for the wordpress website of my former school.',
+    },
+    {
+        title: 'Frontend Developer - RondeoCreates',
+        date: 'May 2024 - Present',
+        content:
+            'Finishing the contract, I got back into creating websites as a frontend developer and exploring new technologies and possibilities with various clients.',
+    },
+]
 
 const timelineContainerRef = ref(null)
 const position = ref(0)
@@ -77,7 +110,18 @@ const animateActivePoint = () => {
     points.forEach((element, index) => {
         animate(
             element,
-            { scale: index === activePoint.value ? 2 : 0.8 },
+
+            {
+                transform: 'translateX(-50%)',
+            },
+            { duration: 0 },
+        )
+        animate(
+            element,
+
+            {
+                transform: `translateX(-50%) scale(${index === activePoint.value ? 2 : 0.8})`,
+            },
             { duration: 0.5 },
         )
     })
@@ -95,8 +139,8 @@ onMounted(() => {
             <div class="timeline-container" ref="timelineContainerRef">
                 <div class="timeline">
                     <div
-                        v-for="(i, index) in 6"
-                        :key="i"
+                        v-for="(data, index) in expData"
+                        :key="index"
                         class="points"
                         @click="() => handlePointClick(index)"
                     ></div>
@@ -109,7 +153,9 @@ onMounted(() => {
                 <ArrowRight />
             </div>
         </div>
-        <div class="slider-body"></div>
+        <div class="slider-body">
+            <div>{{ expData[activePoint].date }}</div>
+        </div>
     </div>
 </template>
 
@@ -178,6 +224,12 @@ onMounted(() => {
     border: 5px solid var(--primary-color);
     border-radius: 50%;
     left: 50%;
-    transform: translate(-50%);
+    transform: translateX(-50%);
+}
+
+.slider-body {
+    width: fit-content;
+    margin: 0 auto;
+    background-color: red;
 }
 </style>
