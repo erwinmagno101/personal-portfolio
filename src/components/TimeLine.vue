@@ -56,7 +56,7 @@ const animateActivePoint = () => {
     points.forEach((element, index) => {
         animate(
             element,
-            { scale: index === activePoint.value ? 1.5 : 1 },
+            { scale: index === activePoint.value ? 1.5 : 0.8 },
             { duration: 0.5 },
         )
     })
