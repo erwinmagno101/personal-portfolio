@@ -1,6 +1,6 @@
 <script setup>
 import { animate } from 'motion'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
 
 const timelineContainerRef = ref(null)
@@ -13,21 +13,38 @@ const pointsPositions = () => {
     })
 }
 
+watch(
+    () => position.value,
+    newVal => {
+        console.log(newVal)
+    },
+)
+
+let isAnimating = false
+
 const slide = dir => {
+    if (isAnimating) return
+    isAnimating = true
+
     let points = timelineContainerRef.value.querySelectorAll('.points')
-    if (dir === 'left') {
+
+    if (dir === 'left' && position.value < (points.length - 1) * 20) {
         position.value += 20
     }
 
-    if (dir === 'right') {
+    if (dir === 'right' && position.value > 0) {
         position.value -= 20
     }
+
     points.forEach((element, index) => {
         animate(
             element,
             { left: `${50 + index * 20 - position.value}%` },
             { duration: 0.5 },
-        )
+        ).finished.then(() => {
+            if (index !== points.length - 1) return
+            isAnimating = false
+        })
     })
 }
 
