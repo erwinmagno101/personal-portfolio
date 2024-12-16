@@ -13,6 +13,17 @@ watch(
     },
 )
 
+watch(
+    () => sectionProgressStore.displayProgress,
+    newVal => {
+        animate(
+            indicatorRef.value,
+            { opacity: newVal ? [0, 1] : [1, 0] },
+            { duration: 0.2 },
+        )
+    },
+)
+
 onMounted(() => {
     animate(
         indicatorRef.value,
@@ -34,7 +45,7 @@ onMounted(() => {
     height: 100vh;
     position: fixed;
     z-index: 99;
-    left: 2px;
+    left: 0px;
 }
 
 .indicator {
@@ -42,6 +53,5 @@ onMounted(() => {
     width: 100%;
     opacity: 0.8;
     height: 0%;
-    border-radius: 5px;
 }
 </style>

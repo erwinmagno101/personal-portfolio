@@ -2,35 +2,48 @@
 import { animate, inView } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { LocateFixed } from 'lucide-vue-next'
+import PrimaryButton from '@/components/PrimaryButton.vue'
 
 const heroRef = ref(null)
 const ballRef = ref([])
+let isAnimating = false
 
 const getMousePosition = e => {
+    if (isAnimating) return
+    isAnimating = true
+
     ballRef.value.forEach(el => {
         let xDistanceToMove
         let yDistanceToMove
 
-        const ballrect = el.getBoundingClientRect()
-        let pointY = ballrect.top + ballrect.height / 2
-        let pointX = ballrect.left + ballrect.width / 2
+        requestAnimationFrame(() => {
+            const ballrect = el.getBoundingClientRect()
+            let pointY = ballrect.top + ballrect.height / 2
+            let pointX = ballrect.left + ballrect.width / 2
 
-        yDistanceToMove = (e.clientY - pointY) / 10
-        xDistanceToMove = (e.clientX - pointX) / 10
+            yDistanceToMove = (e.clientY - pointY) / 10
+            xDistanceToMove = (e.clientX - pointX) / 10
 
-        if (yDistanceToMove > 30) {
-            yDistanceToMove = 30
-        } else if (yDistanceToMove < -30) {
-            yDistanceToMove = -30
-        }
+            if (yDistanceToMove > 30) {
+                yDistanceToMove = 30
+            } else if (yDistanceToMove < -30) {
+                yDistanceToMove = -30
+            }
 
-        if (xDistanceToMove > 30) {
-            xDistanceToMove = 30
-        } else if (xDistanceToMove < -30) {
-            xDistanceToMove = -30
-        }
+            if (xDistanceToMove > 30) {
+                xDistanceToMove = 30
+            } else if (xDistanceToMove < -30) {
+                xDistanceToMove = -30
+            }
 
-        animate(el, { y: yDistanceToMove, x: xDistanceToMove }, { duration: 0 })
+            animate(
+                el,
+                { y: yDistanceToMove, x: xDistanceToMove },
+                { duration: 0.2 },
+            )
+
+            isAnimating = false
+        })
     })
 }
 
@@ -86,12 +99,17 @@ onUnmounted(() => {
                 <LocateFixed class="icon-base" />
                 <div>Based in the Philippines</div>
             </div>
+            <PrimaryButton class="action-btn" />
         </div>
-        <div class="action-btn">Get in touch</div>
     </section>
 </template>
 
 <style scoped>
+.action-btn {
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
 section {
     height: 900px;
     width: 100%;
@@ -132,13 +150,6 @@ section > div:nth-child(2) {
     width: fit-content;
     margin-left: auto;
     gap: 0.5rem;
-}
-
-.action-btn {
-    border: 1px solid black;
-    padding: 1rem;
-    font-size: 2rem;
-    margin-top: 50px;
 }
 
 .ball {

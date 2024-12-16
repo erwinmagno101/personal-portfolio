@@ -3,8 +3,7 @@ import { ArrowUpIcon } from 'lucide-vue-next'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { animate, scroll } from 'motion'
 
-const leftRef = ref(null)
-const rightRef = ref(null)
+const containerRef = ref(null)
 const showProgress = ref(false)
 let cancel
 
@@ -12,24 +11,18 @@ const scrollProgress = e => {
     const progress = Math.floor(e.progress * 100)
     progress > 20 ? (showProgress.value = true) : (showProgress.value = false)
 
-    if (progress <= 50) {
-        animate(leftRef.value, { height: `${0}%` }, { duration: 0 })
-        animate(rightRef.value, { height: `${progress * 2}%` }, { duration: 0 })
-        console.log(progress * 2)
-    }
-
-    if (progress >= 50) {
-        animate(rightRef.value, { height: `${100}%` }, { duration: 0 })
+    if (showProgress.value && containerRef.value)
         animate(
-            leftRef.value,
-            { height: `${(progress - 50) * 2}%` },
+            containerRef.value,
+            {
+                background: `conic-gradient(black 0% ${progress}%, white ${progress}% 100%)`,
+            },
             { duration: 0 },
         )
-    }
 }
 
 const scrollUp = () => {
-    document.getElementById('header').scrollIntoView({
+    document.querySelector('.canvas').scrollIntoView({
         behavior: 'smooth',
         block: 'start',
     })
@@ -46,13 +39,18 @@ onUnmounted(() => {
 
 <template>
     <div>
-        <div class="container" v-if="showProgress" @click="scrollUp">
-            <div class="cover">
-                <ArrowUpIcon width="24" height="24" />
+        <Transition name="fade">
+            <div
+                class="container"
+                ref="containerRef"
+                @click="scrollUp"
+                v-if="showProgress"
+            >
+                <div class="cover">
+                    <ArrowUpIcon width="24" height="24" />
+                </div>
             </div>
-            <div class="left-half" ref="leftRef"></div>
-            <div class="right-half" ref="rightRef"></div>
-        </div>
+        </Transition>
     </div>
 </template>
 
@@ -62,13 +60,21 @@ onUnmounted(() => {
     right: 60px;
     bottom: 60px;
     display: flex;
-    padding: 0.1rem;
+    padding: 1rem;
     border-radius: 100%;
     align-items: center;
     justify-content: center;
-    padding: 1px;
+    padding: 2px;
     overflow: hidden;
     line-height: 1;
+    cursor: pointer;
+    background: conic-gradient(
+        black 0% var(--progress, 0%),
+        white var(--progress, 0%) 100%
+    );
+    box-shadow: 2px 3px 13px -3px rgba(0, 0, 0, 0.37);
+    -webkit-box-shadow: 2px 3px 13px -3px rgba(0, 0, 0, 0.37);
+    -moz-box-shadow: 2px 3px 13px -3px rgba(0, 0, 0, 0.37);
 }
 
 .cover {
@@ -83,26 +89,19 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 0;
 }
 
-.left-half {
-    height: 0%;
-    background-color: black;
-    width: 50%;
-    position: absolute;
-    left: 0;
-    opacity: 0.7;
-    bottom: 0;
+.fade-enter-active,
+.fade-leave-active {
+    transition:
+        opacity 0.2s ease,
+        scale 0.2s ease;
 }
-.right-half {
-    height: 0%;
-    background-color: black;
-    width: 50%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    opacity: 0.7;
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    scale: 0.5;
 }
 </style>

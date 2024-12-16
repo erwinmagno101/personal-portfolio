@@ -71,6 +71,7 @@ onUnmounted(() => {
     gap: 5rem;
     width: fit-content;
     margin: 0 auto;
+    margin-bottom: 100px;
 }
 
 .date > div {
