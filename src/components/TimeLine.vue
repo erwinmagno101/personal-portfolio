@@ -37,6 +37,7 @@ const expData = [
 ]
 
 const timelineContainerRef = ref(null)
+const componentContainerRef = ref(null)
 const position = ref(0)
 const activePoint = ref(0)
 
@@ -125,6 +126,12 @@ const animateActivePoint = () => {
             { duration: 0.5 },
         )
     })
+
+    animate(
+        componentContainerRef.value.querySelector('.slider-body'),
+        { opacity: [0, 1] },
+        { duration: 1 },
+    )
 }
 
 onMounted(() => {
@@ -134,7 +141,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="component-container">
+    <div class="component-container" ref="componentContainerRef">
         <div class="slider-head">
             <div class="timeline-container" ref="timelineContainerRef">
                 <div class="timeline">
@@ -155,6 +162,8 @@ onMounted(() => {
         </div>
         <div class="slider-body">
             <div>{{ expData[activePoint].date }}</div>
+            <div>{{ expData[activePoint].title }}</div>
+            <div>{{ expData[activePoint].content }}</div>
         </div>
     </div>
 </template>
@@ -230,6 +239,6 @@ onMounted(() => {
 .slider-body {
     width: fit-content;
     margin: 0 auto;
-    background-color: red;
+    max-width: 50%;
 }
 </style>
