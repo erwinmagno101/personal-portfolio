@@ -77,7 +77,7 @@ const animateActivePoint = () => {
     points.forEach((element, index) => {
         animate(
             element,
-            { scale: index === activePoint.value ? 1.5 : 0.8 },
+            { scale: index === activePoint.value ? 2 : 0.8 },
             { duration: 0.5 },
         )
     })
@@ -172,10 +172,10 @@ onMounted(() => {
 .timeline > .points {
     pointer-events: all;
     position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: var(--primary-color);
-    border: 2px solid black;
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    border: 5px solid var(--primary-color);
     border-radius: 50%;
     left: 50%;
     transform: translate(-50%);
