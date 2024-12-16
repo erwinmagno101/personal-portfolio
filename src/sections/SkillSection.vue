@@ -43,16 +43,12 @@ onUnmounted(() => {
         <div class="section-content">
             <div>
                 <h3 class="sub-heading">Technologies</h3>
-                <p class="sub-description">
-                    Honed throughout my coding journey
-                </p>
+                <p class="sub-description">The Tools</p>
                 <TechGrid />
             </div>
             <div>
                 <h3 class="sub-heading">Experience</h3>
-                <p class="sub-description">
-                    Honed throughout my coding journey
-                </p>
+                <p class="sub-description">The Journey</p>
                 <ExperienceDate />
                 <TimeLine />
             </div>

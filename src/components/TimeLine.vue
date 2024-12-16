@@ -73,7 +73,7 @@ onMounted(() => {
         <div class="slider-head">
             <div class="timeline-container" ref="timelineContainerRef">
                 <div class="timeline">
-                    <div v-for="i in 5" :key="i" class="points"></div>
+                    <div v-for="i in 6" :key="i" class="points"></div>
                 </div>
             </div>
             <div class="arrow-left" @click="() => slide('left')">
