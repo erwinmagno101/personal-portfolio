@@ -257,6 +257,7 @@ onMounted(() => {
 }
 
 .timeline > .points {
+    cursor: pointer;
     pointer-events: all;
     position: absolute;
     width: 30px;
@@ -284,12 +285,12 @@ onMounted(() => {
 }
 
 .slider-body > div:nth-child(1) {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .slider-body > div:nth-child(2) {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 1rem;
 }
 </style>
