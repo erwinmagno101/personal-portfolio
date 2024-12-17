@@ -52,6 +52,10 @@ onUnmounted(() => {
                 <ExperienceDate />
                 <TimeLine />
             </div>
+            <div>
+                <h3 class="sub-heading">Certificates</h3>
+                <p class="sub-description">The Recognitions</p>
+            </div>
         </div>
     </section>
 </template>

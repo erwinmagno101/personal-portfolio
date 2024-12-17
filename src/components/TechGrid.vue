@@ -207,6 +207,10 @@ const colorMastery = mastery => {
             return 'green'
     }
 }
+
+const redirect = url => {
+    window.open(url, '_blank')
+}
 </script>
 
 <template>
@@ -218,6 +222,7 @@ const colorMastery = mastery => {
                         class="tech-block"
                         @mouseenter="e => enterHoverAnimte(e.target, i)"
                         @mouseleave="e => leaveHoverAnimate(e.target, i)"
+                        @click="() => redirect(skills[getSkillIndex(i)].link)"
                     >
                         <div>
                             <TechLogo :name="skills[getSkillIndex(i)].logo" />
@@ -301,6 +306,7 @@ const colorMastery = mastery => {
 }
 
 .tech-block {
+    cursor: pointer;
     pointer-events: all;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     background-color: black;
