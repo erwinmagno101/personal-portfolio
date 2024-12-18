@@ -15,7 +15,7 @@ const scrollProgress = e => {
         animate(
             containerRef.value,
             {
-                background: `conic-gradient(black 0% ${progress}%, white ${progress}% 100%)`,
+                background: `conic-gradient(var(--font-color) 0% ${progress}%, white ${progress}% 100%)`,
             },
             { duration: 0 },
         )
@@ -69,7 +69,7 @@ onUnmounted(() => {
     line-height: 1;
     cursor: pointer;
     background: conic-gradient(
-        black 0% var(--progress, 0%),
+        var(--font-color) 0% var(--progress, 0%),
         white var(--progress, 0%) 100%
     );
     box-shadow: 2px 3px 13px -3px rgba(0, 0, 0, 0.37);

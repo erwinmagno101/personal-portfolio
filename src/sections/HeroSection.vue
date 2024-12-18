@@ -165,7 +165,7 @@ section > div:nth-child(2) {
     content: '';
     width: 50px;
     height: 50px;
-    background-color: black;
+    background-color: var(--font-color);
     position: absolute;
     border-radius: 100%;
     left: 33%;

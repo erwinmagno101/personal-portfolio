@@ -50,7 +50,7 @@ onUnmounted(() => {
 }
 
 .btn {
-    border: 1px solid black;
+    border: 1px solid var(--font-color);
     padding: 1rem;
     font-size: 2rem;
     background-color: var(--primary-color);
@@ -60,7 +60,7 @@ onUnmounted(() => {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: var(--font-color);
     z-index: -99;
     opacity: 0;
     top: 10px;

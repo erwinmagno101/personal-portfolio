@@ -144,7 +144,13 @@ const animateInnerCircle = () => {
             timelineContainerRef.value.querySelectorAll('.inner-circle')[
                 activePoint.value
             ],
-            { borderColor: ['black', 'white', 'black'] },
+            {
+                borderColor: [
+                    'var(--font-color)',
+                    'white',
+                    'var(--font-color)',
+                ],
+            },
             {
                 at: 0,
             },
@@ -222,7 +228,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     position: absolute;
-    border: 1px solid black;
+    border: 1px solid var(--font-color);
     cursor: pointer;
 }
 
@@ -249,7 +255,7 @@ onMounted(() => {
 
 .timeline {
     flex: 1 1 0;
-    background-color: black;
+    background-color: var(--font-color);
     height: 2px;
     position: relative;
     display: flex;
@@ -262,7 +268,7 @@ onMounted(() => {
     position: absolute;
     width: 30px;
     height: 30px;
-    background-color: black;
+    background-color: var(--font-color);
     border: 5px solid var(--primary-color);
     border-radius: 50%;
     left: 50%;
@@ -274,7 +280,7 @@ onMounted(() => {
     height: 100%;
     border-radius: 50%;
     position: absolute;
-    border: 1px solid black;
+    border: 1px solid var(--font-color);
 }
 
 .slider-body {

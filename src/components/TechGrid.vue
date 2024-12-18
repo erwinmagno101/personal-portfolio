@@ -309,7 +309,7 @@ const redirect = url => {
     cursor: pointer;
     pointer-events: all;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    background-color: black;
+    background-color: var(--font-color);
     width: 100%;
     height: 100%;
     display: flex;
@@ -359,6 +359,6 @@ const redirect = url => {
 
 .tags-container > div {
     padding: 0.1rem 0.5rem;
-    border: 1px solid black;
+    border: 1px solid var(--font-color);
 }
 </style>

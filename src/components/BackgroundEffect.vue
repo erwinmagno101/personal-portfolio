@@ -66,7 +66,7 @@ onUnmounted(() => {
 .camera {
     width: 150px;
     height: 150px;
-    background-color: black;
+    background-color: var(--font-color);
     position: absolute;
     z-index: -98;
 }
