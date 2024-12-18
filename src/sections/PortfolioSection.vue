@@ -1,27 +1,26 @@
 <script setup>
-import ExperienceDate from '@/components/ExperienceDate.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import TechGrid from '@/components/TechGrid.vue'
 import { inView, scroll } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
-import TimeLine from '@/components/TimeLine.vue'
+import CertificateComponent from '@/components/CertificateComponent.vue'
 
 const sectionProgressStore = useSectionProgressStore()
 
-const skillRef = ref(null)
+const projectRef = ref(null)
 const isHeaderSticking = ref(false)
 let cancelScroll
 
 onMounted(() => {
-    inView(skillRef.value, () => {
+    inView(projectRef.value, () => {
         cancelScroll = scroll(
             e =>
                 sectionProgressStore.calculateProgress(
                     e,
                     isHeaderSticking.value,
                 ),
-            { target: skillRef.value },
+            { target: projectRef.value },
         )
 
         return () => {
@@ -38,19 +37,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section class="section" ref="skillRef">
-        <SectionHeader title="Skills" v-model="isHeaderSticking" />
+    <section class="section" ref="projectRef">
+        <SectionHeader title="Projects" v-model="isHeaderSticking" />
         <div class="section-content">
             <div>
-                <h3 class="sub-heading">Technologies</h3>
+                <h3 class="sub-heading">Projects</h3>
                 <p class="sub-description">The Tools</p>
                 <TechGrid />
             </div>
+
             <div>
-                <h3 class="sub-heading">Experience</h3>
-                <p class="sub-description">The Journey</p>
-                <ExperienceDate />
-                <TimeLine />
+                <h3 class="sub-heading">Certificates</h3>
+                <p class="sub-description">The Recognitions</p>
+                <CertificateComponent />
             </div>
         </div>
     </section>

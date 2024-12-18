@@ -5,6 +5,7 @@ import SkillSection from '@/sections/SkillSection.vue'
 import SectionProgress from '@/components/SectionProgress.vue'
 import ScrollProgress from '@/components/ScrollProgress.vue'
 import NavBar from '@/components/NavBar.vue'
+import PortfolioSection from '@/sections/PortfolioSection.vue'
 </script>
 
 <template>
@@ -18,6 +19,7 @@ import NavBar from '@/components/NavBar.vue'
         <main class="main">
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
+            <PortfolioSection></PortfolioSection>
         </main>
         <footer></footer>
     </div>
