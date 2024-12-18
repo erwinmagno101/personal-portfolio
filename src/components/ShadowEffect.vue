@@ -46,7 +46,8 @@ onUnmounted(() => {
 .effect-container {
     position: relative;
     cursor: pointer;
-    width: fit-content;
+    width: 100%;
+    height: 100%;
 }
 
 .shadow {

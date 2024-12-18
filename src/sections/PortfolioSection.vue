@@ -5,6 +5,7 @@ import { inView, scroll } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
 import CertificateComponent from '@/components/CertificateComponent.vue'
+import ProjectComponent from '@/components/ProjectComponent.vue'
 
 const sectionProgressStore = useSectionProgressStore()
 
@@ -42,8 +43,8 @@ onUnmounted(() => {
         <div class="section-content">
             <div>
                 <h3 class="sub-heading">Projects</h3>
-                <p class="sub-description">The Tools</p>
-                <TechGrid />
+                <p class="sub-description">The Marks</p>
+                <ProjectComponent />
             </div>
 
             <div>
