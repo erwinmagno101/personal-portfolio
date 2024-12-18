@@ -55,6 +55,11 @@ onUnmounted(() => {
             <div>
                 <h3 class="sub-heading">Certificates</h3>
                 <p class="sub-description">The Recognitions</p>
+                <div class="certificate-container">
+                    <div class="certificate-block" v-for="i in 6" :key="i">
+                        Certificate Placeholder
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -82,5 +87,23 @@ onUnmounted(() => {
 .sub-description {
     text-align: center;
     margin-bottom: 50px;
+}
+
+.certificate-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 400px);
+    gap: 1rem;
+    place-content: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.certificate-block {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--font-color);
 }
 </style>
