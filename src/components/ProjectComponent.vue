@@ -1,8 +1,14 @@
-<script setup></script>
+<script setup>
+import ShadowEffect from './ShadowEffect.vue'
+</script>
 
 <template>
     <div class="projects-container">
-        <div class="project-block" v-for="i in 3" :key="i">gg</div>
+        <div v-for="i in 3" :key="i">
+            <ShadowEffect>
+                <div class="project-block">gg</div>
+            </ShadowEffect>
+        </div>
     </div>
 </template>
 
@@ -11,14 +17,19 @@
     width: 80%;
     margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
     align-items: center;
     padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.projects-container > div {
+    padding: 2rem;
+    width: 50%;
 }
 
 .project-block {
-    width: 100%;
+    aspect-ratio: 1/0.6;
     border: 1px solid black;
+    background-color: var(--primary-color);
 }
 </style>

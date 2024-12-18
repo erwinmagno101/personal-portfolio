@@ -9,19 +9,19 @@ import ProjectComponent from '@/components/ProjectComponent.vue'
 
 const sectionProgressStore = useSectionProgressStore()
 
-const projectRef = ref(null)
+const portfolioRef = ref(null)
 const isHeaderSticking = ref(false)
 let cancelScroll
 
 onMounted(() => {
-    inView(projectRef.value, () => {
+    inView(portfolioRef.value, () => {
         cancelScroll = scroll(
             e =>
                 sectionProgressStore.calculateProgress(
                     e,
                     isHeaderSticking.value,
                 ),
-            { target: projectRef.value },
+            { target: portfolioRef.value },
         )
 
         return () => {
@@ -38,12 +38,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section class="section" ref="projectRef">
-        <SectionHeader title="Projects" v-model="isHeaderSticking" />
+    <section class="section" ref="portfolioRef">
+        <SectionHeader title="Portfolio" v-model="isHeaderSticking" />
         <div class="section-content">
             <div>
                 <h3 class="sub-heading">Projects</h3>
-                <p class="sub-description">The Marks</p>
+                <p class="sub-description">The Marks Left Behind</p>
                 <ProjectComponent />
             </div>
 
