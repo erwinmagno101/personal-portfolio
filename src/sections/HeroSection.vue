@@ -99,7 +99,7 @@ onUnmounted(() => {
                 <LocateFixed class="icon-base" />
                 <div>Based in the Philippines</div>
             </div>
-            <PrimaryButton class="action-btn" />
+            <PrimaryButton class="action-btn"> Get in touch </PrimaryButton>
         </div>
     </section>
 </template>
@@ -108,6 +108,8 @@ onUnmounted(() => {
 .action-btn {
     margin: 0 auto;
     margin-top: 50px;
+    font-size: 2rem;
+    width: fit-content;
 }
 
 section {

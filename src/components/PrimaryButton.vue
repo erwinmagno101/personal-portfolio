@@ -8,7 +8,7 @@ const btnRef = ref(null)
 const hoverAnim = () => {
     document.addEventListener('mousemove', getMousePosition)
 
-    animate(btnRef.value, { scale: 1.1 }, { duration: 0.1 })
+    animate(btnRef.value, { scale: 1.05 }, { duration: 0.1 })
     animate(shadowRef.value, { opacity: 1 }, { duration: 0.1 })
 }
 
@@ -35,8 +35,8 @@ onUnmounted(() => {
 
 <template>
     <div class="btn-container" ref="btnRef">
-        <div class="btn" @mouseover="hoverAnim" @mouseleave="exitHoverAnim">
-            Get in touch
+        <div @mouseover="hoverAnim" @mouseleave="exitHoverAnim">
+            <slot></slot>
         </div>
         <div class="shadow" ref="shadowRef"></div>
     </div>
@@ -45,15 +45,7 @@ onUnmounted(() => {
 <style scoped>
 .btn-container {
     position: relative;
-    width: fit-content;
     cursor: pointer;
-}
-
-.btn {
-    border: 1px solid var(--font-color);
-    padding: 1rem;
-    font-size: 2rem;
-    background-color: var(--primary-color);
 }
 
 .shadow {
