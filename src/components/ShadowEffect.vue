@@ -8,7 +8,7 @@ const componentRef = ref(null)
 const hoverAnim = () => {
     document.addEventListener('mousemove', getMousePosition)
 
-    animate(componentRef.value, { scale: 1.05 }, { duration: 0.1 })
+    animate(componentRef.value, { scale: 1.02 }, { duration: 0.1 })
     animate(shadowRef.value, { opacity: 1 }, { duration: 0.1 })
 }
 
@@ -23,9 +23,28 @@ const getMousePosition = e => {
 
     let effect_center_x_pos = effect_pos.width / 2 + effect_pos.x
 
-    let distanceMove = effect_center_x_pos - e.clientX
+    let distanceMoveX = Math.min(
+        (effect_center_x_pos - e.clientX) / 10,
+        effect_pos.width / 15,
+    )
 
-    animate(shadowRef.value, { x: distanceMove / 10 }, { duration: 0 })
+    if (Math.abs(distanceMoveX) < effect_pos.width / 25)
+        distanceMoveX =
+            distanceMoveX > 0
+                ? effect_pos.width / 25
+                : (effect_pos.width / 25) * -1
+
+    console.log(Math.abs(distanceMoveX))
+    console.log(effect_pos.width / 25)
+
+    animate(
+        shadowRef.value,
+        {
+            x: distanceMoveX,
+            y: Math.abs(distanceMoveX),
+        },
+        { duration: 0.2 },
+    )
 }
 
 onUnmounted(() => {
@@ -57,6 +76,6 @@ onUnmounted(() => {
     background-color: var(--font-color);
     z-index: -99;
     opacity: 0;
-    top: 10px;
+    top: 0px;
 }
 </style>
