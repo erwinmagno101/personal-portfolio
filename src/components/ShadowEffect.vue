@@ -18,33 +18,39 @@ const exitHoverAnim = () => {
     animate(shadowRef.value, { opacity: 0 }, { duration: 0.1 })
 }
 
+let isAnimating = false
+
 const getMousePosition = e => {
-    let effect_pos = shadowRef.value.getBoundingClientRect()
+    if (isAnimating) return
+    isAnimating = true
 
-    let effect_center_x_pos = effect_pos.width / 2 + effect_pos.x
+    requestAnimationFrame(() => {
+        let effect_pos = shadowRef.value.getBoundingClientRect()
 
-    let distanceMoveX = Math.min(
-        (effect_center_x_pos - e.clientX) / 10,
-        effect_pos.width / 15,
-    )
+        let effect_center_x_pos = effect_pos.width / 2 + effect_pos.x
 
-    if (Math.abs(distanceMoveX) < effect_pos.width / 25)
-        distanceMoveX =
-            distanceMoveX > 0
-                ? effect_pos.width / 25
-                : (effect_pos.width / 25) * -1
+        let distanceMoveX = Math.min(
+            (effect_center_x_pos - e.clientX) / 10,
+            effect_pos.width / 15,
+        )
 
-    console.log(Math.abs(distanceMoveX))
-    console.log(effect_pos.width / 25)
+        if (Math.abs(distanceMoveX) < effect_pos.width / 30)
+            distanceMoveX =
+                distanceMoveX > 0
+                    ? effect_pos.width / 30
+                    : (effect_pos.width / 30) * -1
 
-    animate(
-        shadowRef.value,
-        {
-            x: distanceMoveX,
-            y: Math.abs(distanceMoveX),
-        },
-        { duration: 0.2 },
-    )
+        animate(
+            shadowRef.value,
+            {
+                x: distanceMoveX,
+                y: Math.abs(distanceMoveX),
+            },
+            { duration: 0.2 },
+        )
+
+        isAnimating = false
+    })
 }
 
 onUnmounted(() => {
