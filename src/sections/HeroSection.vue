@@ -2,7 +2,7 @@
 import { animate, inView } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { LocateFixed } from 'lucide-vue-next'
-import PrimaryButton from '@/components/PrimaryButton.vue'
+import ShadowEffect from '@/components/ShadowEffect.vue'
 
 const heroRef = ref(null)
 const ballRef = ref([])
@@ -99,16 +99,27 @@ onUnmounted(() => {
                 <LocateFixed class="icon-base" />
                 <div>Based in the Philippines</div>
             </div>
-            <PrimaryButton class="action-btn"> Get in touch </PrimaryButton>
+            <div class="btn-container">
+                <ShadowEffect>
+                    <div class="action-btn">Get in touch</div>
+                </ShadowEffect>
+            </div>
         </div>
     </section>
 </template>
 
 <style scoped>
 .action-btn {
-    margin: 0 auto;
-    margin-top: 50px;
     font-size: 2rem;
+    width: fit-content;
+    background-color: var(--primary-color);
+    border: 1px solid var(--font-color);
+    padding: 1rem;
+    font-size: 2rem;
+}
+
+.btn-container {
+    margin: 0 auto;
     width: fit-content;
 }
 
