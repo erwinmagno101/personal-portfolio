@@ -331,6 +331,10 @@ const redirect = url => {
     background-color: var(--primary-color);
 }
 
+.floating-skill {
+    max-width: 300px;
+}
+
 .floating-skill > div:nth-child(1) {
     font-size: 1rem;
 }

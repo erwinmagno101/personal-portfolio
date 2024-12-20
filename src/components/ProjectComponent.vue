@@ -89,4 +89,8 @@ const projects_data = [
     border: 1px solid black;
     background-color: var(--primary-color);
 }
+
+.floating-project {
+    max-width: 500px;
+}
 </style>

@@ -46,7 +46,6 @@ onUnmounted(() => {
 <style scoped>
 .floating-block {
     pointer-events: none;
-    max-width: 300px;
     position: fixed;
     z-index: 99;
     background-color: var(--primary-color);
