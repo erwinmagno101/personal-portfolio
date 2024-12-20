@@ -20,7 +20,6 @@ import PortfolioSection from '@/sections/PortfolioSection.vue'
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
             <PortfolioSection></PortfolioSection>
-
         </main>
         <footer></footer>
     </div>

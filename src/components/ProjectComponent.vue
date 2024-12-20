@@ -1,12 +1,69 @@
 <script setup>
 import ShadowEffect from './ShadowEffect.vue'
+import { ref } from 'vue'
+import FloatingBlock from './FloatingBlock.vue'
+
+const hoverIndex = ref(null)
+
+const projects_data = [
+    {
+        name: 'Coolrate',
+        role: 'Frontend Web Developer',
+        description:
+            'Test Description Here Test Description Here Test Description Here Test Description Here',
+        highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
+        tags: ['Tech1', 'Tech2', 'Tech3'],
+    },
+    {
+        name: 'Trycicle',
+        role: 'Frontend Web Developer',
+        description: 'Test Description Here',
+        highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
+        tags: ['Tech1', 'Tech2', 'Tech3'],
+    },
+    {
+        name: 'TypeGuru',
+        role: 'Full Stack',
+        description: 'Test Description Here',
+        highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
+        tags: ['Tech1', 'Tech2', 'Tech3'],
+    },
+]
 </script>
 
 <template>
     <div class="projects-container">
-        <div v-for="i in 3" :key="i">
+        <div v-for="(project, index) in projects_data" :key="index">
             <ShadowEffect>
-                <div class="project-block">gg</div>
+                <div
+                    class="project-block"
+                    @mouseenter="hoverIndex = index"
+                    @mouseleave="hoverIndex = null"
+                >
+                    <FloatingBlock v-if="index === hoverIndex">
+                        <div class="floating-project">
+                            <div>Project Name : {{ project.name }}</div>
+                            <div>Role : {{ project.role }}</div>
+                            <div>{{ project.description }}</div>
+                            <div>
+                                <div
+                                    v-for="(value, index) in project.highlights"
+                                    :key="index"
+                                >
+                                    {{ value }}
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    v-for="(value, index) in project.tags"
+                                    :key="index"
+                                >
+                                    {{ value }}
+                                </div>
+                            </div>
+                        </div>
+                    </FloatingBlock>
+                </div>
             </ShadowEffect>
         </div>
     </div>

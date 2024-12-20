@@ -1,3 +1,4 @@
+w
 <script setup>
 import SectionHeader from '@/components/SectionHeader.vue'
 import TechGrid from '@/components/TechGrid.vue'
