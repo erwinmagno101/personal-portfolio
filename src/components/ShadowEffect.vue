@@ -8,13 +8,13 @@ const componentRef = ref(null)
 const hoverAnim = () => {
     document.addEventListener('mousemove', getMousePosition)
 
-    animate(componentRef.value, { scale: 1.02 }, { duration: 0.1 })
+    animate(componentRef.value, { scale: 1.02, x: 5, y: -5 }, { duration: 0.1 })
     animate(shadowRef.value, { opacity: 1 }, { duration: 0.1 })
 }
 
 const exitHoverAnim = () => {
     document.removeEventListener('mousemove', getMousePosition)
-    animate(componentRef.value, { scale: 1 }, { duration: 0.1 })
+    animate(componentRef.value, { scale: 1, x: 0, y: 0 }, { duration: 0.1 })
     animate(shadowRef.value, { opacity: 0 }, { duration: 0.1 })
 }
 
