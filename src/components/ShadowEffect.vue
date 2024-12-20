@@ -8,14 +8,14 @@ const componentRef = ref(null)
 const hoverAnim = () => {
     document.addEventListener('mousemove', getMousePosition)
 
-    animate(componentRef.value, { scale: 1.02, x: 5, y: -5 }, { duration: 0.1 })
+    animate(componentRef.value, { scale: 1.02 }, { duration: 0.1 })
     animate(shadowRef.value, { opacity: 1 }, { duration: 0.1 })
 }
 
 const exitHoverAnim = () => {
     document.removeEventListener('mousemove', getMousePosition)
     animate(componentRef.value, { scale: 1, x: 0, y: 0 }, { duration: 0.1 })
-    animate(shadowRef.value, { opacity: 0 }, { duration: 0.1 })
+    animate(shadowRef.value, { opacity: 0, x: 0, y: 0 }, { duration: 0.1 })
 }
 
 let isAnimating = false
@@ -30,15 +30,20 @@ const getMousePosition = e => {
         let effect_center_x_pos = effect_pos.width / 2 + effect_pos.x
 
         let distanceMoveX = Math.min(
-            (effect_center_x_pos - e.clientX) / 10,
-            effect_pos.width / 15,
+            Math.abs((effect_center_x_pos - e.clientX) / 10),
+            effect_pos.width / 30,
         )
 
-        if (Math.abs(distanceMoveX) < effect_pos.width / 30)
+        distanceMoveX =
+            (effect_center_x_pos - e.clientX) / 12 > 0
+                ? distanceMoveX
+                : distanceMoveX * -1
+
+        if (Math.abs(distanceMoveX) < effect_pos.width / 50)
             distanceMoveX =
                 distanceMoveX > 0
-                    ? effect_pos.width / 30
-                    : (effect_pos.width / 30) * -1
+                    ? effect_pos.width / 50
+                    : (effect_pos.width / 50) * -1
 
         animate(
             shadowRef.value,
@@ -47,6 +52,18 @@ const getMousePosition = e => {
                 y: Math.abs(distanceMoveX),
             },
             { duration: 0.2 },
+        )
+
+        let componentMoveX = (distanceMoveX * -1) / 4
+
+        componentMoveX =
+            componentMoveX > 0
+                ? componentMoveX
+                : componentMoveX + componentMoveX
+        animate(
+            componentRef.value,
+            { x: componentMoveX, y: -10 },
+            { duration: 0.1 },
         )
 
         isAnimating = false
