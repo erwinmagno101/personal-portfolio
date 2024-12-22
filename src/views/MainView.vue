@@ -6,26 +6,35 @@ import SectionProgress from '@/components/SectionProgress.vue'
 import ScrollProgress from '@/components/ScrollProgress.vue'
 import NavBar from '@/components/NavBar.vue'
 import PortfolioSection from '@/sections/PortfolioSection.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useColorGeneration } from '@/stores/colorgen'
 
 const colorGeneration = useColorGeneration()
 
-const currentColor = ref(null)
-
 const generateColor = () => {
-    currentColor.value = colorGeneration.generateRandomColor()
+    // const generatedColor = colorGeneration.generateRandomColor()
+    // changeTheme(generatedColor)
+    // localStorage.setItem('theme', JSON.stringify(generatedColor))
+}
 
+const changeTheme = color => {
     document.documentElement.style.setProperty(
         '--primary-color',
-        currentColor.value.colors.primary,
+        color.colors.primary,
     )
 
     document.documentElement.style.setProperty(
         '--accent-color',
-        currentColor.value.colors.secondary,
+        color.colors.secondary,
     )
 }
+
+onMounted(() => {
+    // const color = JSON.parse(localStorage.getItem('theme'))
+    // if (color) {
+    //     changeTheme(color)
+    // }
+})
 </script>
 
 <template>
