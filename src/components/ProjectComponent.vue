@@ -3,8 +3,6 @@ import ShadowEffect from './ShadowEffect.vue'
 import { ref } from 'vue'
 import FloatingBlock from './FloatingBlock.vue'
 
-const hoverIndex = ref(null)
-
 const projects_data = [
     {
         name: 'Coolrate',
@@ -86,32 +84,41 @@ const projects_data = [
 .img-container {
     width: 700px;
     height: 400px;
-    filter: grayscale(100%);
-    transition: filter 0.5s ease;
+    border: 1px solid var(--accent-color);
+    transition: border 0.5s ease;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.img-container:hover {
+.img-container > img:hover {
     filter: grayscale(0%);
 }
 
 .img-container > img {
+    transition: filter 0.5s ease;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid var(--font-color);
 }
 
 .right-align {
     right: 0;
     align-items: flex-end;
     text-align: right;
+    border-right: 1px solid var(--accent-color);
+    transition: border 0.5s ease;
+
+    padding-right: 1rem;
 }
 
 .left-align {
     left: 0;
     align-items: flex-start;
     text-align: left;
+    border-left: 1px solid var(--accent-color);
+    transition: border 0.5s ease;
+
+    padding-left: 1rem;
 }
 
 .description {
@@ -121,7 +128,6 @@ const projects_data = [
     transform: translate(0, -50%);
     display: flex;
     flex-direction: column;
-
     gap: 1rem;
     pointer-events: none;
 }
@@ -139,13 +145,19 @@ const projects_data = [
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1;
+    color: var(--accent-color);
+    transition: color 0.5s ease;
 }
 
 .description > div:nth-child(3) {
     background-color: var(--primary-color);
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--accent-color);
+    transition:
+        border 0.5s ease,
+        background-color 0.5s ease;
+
     padding: 1rem;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .description > div:nth-child(4) {
@@ -155,7 +167,16 @@ const projects_data = [
 }
 
 .description > div:nth-child(4) > div {
-    border: 1px solid var(--font-color);
+    border-radius: 5px;
+    padding: 0.1rem 0.5rem;
+    background-color: var(--primary-color);
+    transition: background-color 0.5s ease;
+}
+
+.description > div:nth-child(4) > div {
+    border: 1px solid var(--accent-color);
+    transition: border 0.5s ease;
+
     padding: 0 0.5rem;
     font-size: 0.9rem;
 }
