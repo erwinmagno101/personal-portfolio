@@ -6,6 +6,26 @@ import SectionProgress from '@/components/SectionProgress.vue'
 import ScrollProgress from '@/components/ScrollProgress.vue'
 import NavBar from '@/components/NavBar.vue'
 import PortfolioSection from '@/sections/PortfolioSection.vue'
+import { ref } from 'vue'
+import { useColorGeneration } from '@/stores/colorgen'
+
+const colorGeneration = useColorGeneration()
+
+const currentColor = ref(null)
+
+const generateColor = () => {
+    currentColor.value = colorGeneration.generateRandomColor()
+
+    document.documentElement.style.setProperty(
+        '--primary-color',
+        currentColor.value.colors.primary,
+    )
+
+    document.documentElement.style.setProperty(
+        '--accent-color',
+        currentColor.value.colors.secondary,
+    )
+}
 </script>
 
 <template>
@@ -16,7 +36,7 @@ import PortfolioSection from '@/sections/PortfolioSection.vue'
         <header id="header">
             <NavBar />
         </header>
-        <main class="main">
+        <main class="main" @click="generateColor">
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
             <PortfolioSection></PortfolioSection>

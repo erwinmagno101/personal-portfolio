@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { scroll, animate } from 'motion'
-import ColorPicker from './ColorPicker.vue'
 
 const navList = [
     { title: 'Home' },
@@ -67,7 +66,6 @@ onMounted(() => {
                 <div v-for="(nav, index) in navList" :key="index">
                     {{ nav.title }}
                 </div>
-                <ColorPicker />
             </div>
         </nav>
         <div class="settings">LOGO HERE</div>
