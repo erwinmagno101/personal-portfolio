@@ -88,7 +88,7 @@ onUnmounted(() => {
             FR<span class="ball"
                 ><div :ref="el => (ballRef[0] = el)"></div>
                 <div>O</div></span
-            >NT-END
+            >NT<span class="accent">-</span>END
         </div>
         <div>
             WEB DEVEL<span class="ball"
@@ -99,11 +99,11 @@ onUnmounted(() => {
                 <LocateFixed class="icon-base" />
                 <div>Based in the Philippines</div>
             </div>
-            <div class="btn-container">
-                <ShadowEffect>
-                    <div class="action-btn">Get in touch</div>
-                </ShadowEffect>
-            </div>
+        </div>
+        <div class="btn-container">
+            <ShadowEffect>
+                <div class="action-btn">Get in touch</div>
+            </ShadowEffect>
         </div>
     </section>
 </template>
@@ -113,7 +113,7 @@ onUnmounted(() => {
     font-size: 2rem;
     width: fit-content;
     background-color: var(--primary-color);
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--accent-color);
     padding: 1rem;
     font-size: 2rem;
     border-radius: 10px;
@@ -150,10 +150,12 @@ section > div:nth-child(2) {
 .name {
     font-size: 2rem;
     padding-left: 1rem;
+    color: var(--accent-color);
 }
 
 .name > div:nth-child(1) {
     font-size: 1.2rem;
+    color: var(--font-color);
 }
 
 .base {
@@ -164,6 +166,10 @@ section > div:nth-child(2) {
     width: fit-content;
     margin-left: auto;
     gap: 0.5rem;
+}
+
+.base > div {
+    color: var(--accent-color);
 }
 
 .ball {
@@ -179,10 +185,15 @@ section > div:nth-child(2) {
     content: '';
     width: 50px;
     height: 50px;
-    background-color: var(--font-color);
+    background-color: var(--accent-color);
     position: absolute;
     border-radius: 100%;
     left: 33%;
     top: 38%;
+    z-index: -99;
+}
+
+.accent {
+    color: var(--accent-color);
 }
 </style>
