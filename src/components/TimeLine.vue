@@ -2,7 +2,6 @@
 import { animate, timeline } from 'motion'
 import { onMounted, ref, watch } from 'vue'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
-import { at } from 'lodash'
 
 const expData = [
     {
@@ -146,9 +145,9 @@ const animateInnerCircle = () => {
             ],
             {
                 borderColor: [
-                    'var(--font-color)',
+                    'var(--accent-color)',
                     'white',
-                    'var(--font-color)',
+                    'var(--accent-color)',
                 ],
             },
             {
@@ -230,6 +229,7 @@ onMounted(() => {
     position: absolute;
     border: 1px solid var(--font-color);
     cursor: pointer;
+    transition: background-color 0.5s ease;
 }
 
 .arrow-left {
@@ -268,7 +268,7 @@ onMounted(() => {
     position: absolute;
     width: 30px;
     height: 30px;
-    background-color: var(--font-color);
+    background-color: var(--accent-color);
     border: 5px solid var(--primary-color);
     border-radius: 50%;
     left: 50%;
@@ -280,7 +280,7 @@ onMounted(() => {
     height: 100%;
     border-radius: 50%;
     position: absolute;
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--accent-color);
 }
 
 .slider-body {
