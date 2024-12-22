@@ -73,7 +73,7 @@ const projects_data = [
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 10rem;
+    gap: 15rem;
 }
 
 .project-block {
