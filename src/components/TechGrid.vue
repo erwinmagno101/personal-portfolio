@@ -317,6 +317,7 @@ const redirect = url => {
     pointer-events: all;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     background-color: var(--font-color);
+    transition: background-color 0.5s ease;
     width: 100%;
     height: 100%;
     display: flex;
@@ -335,6 +336,7 @@ const redirect = url => {
     align-items: center;
     flex-direction: column;
     background-color: var(--primary-color);
+    transition: background-color 0.5s ease;
 }
 
 .floating-skill {
@@ -370,6 +372,7 @@ const redirect = url => {
 .tags-container > div {
     padding: 0.1rem 0.5rem;
     border: 1px solid var(--accent-color);
+    border-radius: 5px;
     transition: border 1s ease;
 }
 </style>
