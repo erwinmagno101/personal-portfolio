@@ -42,9 +42,12 @@ const projects_data = [
             class="project-block"
             :style="{ flexDirection: index % 2 !== 0 ? 'row-reverse' : 'row' }"
         >
-            <div class="img-container">
-                <img src="../assets/images/Coolrate.png" />
-            </div>
+            <ShadowEffect>
+                <div class="img-container">
+                    <img src="../assets/images/Coolrate.png" />
+                </div>
+            </ShadowEffect>
+
             <div
                 class="description"
                 :class="[index % 2 !== 0 ? 'left-align' : 'right-align']"
@@ -89,6 +92,7 @@ const projects_data = [
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 .right-align {
