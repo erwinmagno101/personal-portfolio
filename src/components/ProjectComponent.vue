@@ -13,6 +13,7 @@ const projects_data = [
             'Test Description Here Test Description Here Test Description Here Test Description Here',
         highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
         tags: ['Tech1', 'Tech2', 'Tech3'],
+        images: ['../assets/images/Coolrate.png'],
     },
     {
         name: 'Trycicle',
@@ -20,6 +21,7 @@ const projects_data = [
         description: 'Test Description Here',
         highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
         tags: ['Tech1', 'Tech2', 'Tech3'],
+        images: ['../assets/images/Coolrate.png'],
     },
     {
         name: 'TypeGuru',
@@ -27,111 +29,91 @@ const projects_data = [
         description: 'Test Description Here',
         highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
         tags: ['Tech1', 'Tech2', 'Tech3'],
+        images: ['../assets/images/Coolrate.png'],
     },
 ]
 </script>
 
 <template>
     <div class="projects-container">
-        <div v-for="(project, index) in projects_data" :key="index">
-            <ShadowEffect>
-                <div
-                    class="project-block"
-                    @mouseenter="hoverIndex = index"
-                    @mouseleave="hoverIndex = null"
-                >
-                    <div>
-                        <img src="../assets/images/Coolrate.png" />
-                        <div class="project-name">{{ project.name }}</div>
-                    </div>
-                    <FloatingBlock v-if="index === hoverIndex">
-                        <div class="floating-project">
-                            <div>Project Name : {{ project.name }}</div>
-                            <div>Role : {{ project.role }}</div>
-                            <div>{{ project.description }}</div>
-                            <div>
-                                <div
-                                    v-for="(value, index) in project.highlights"
-                                    :key="index"
-                                >
-                                    {{ value }}
-                                </div>
-                            </div>
-                            <div>
-                                <div
-                                    v-for="(value, index) in project.tags"
-                                    :key="index"
-                                >
-                                    {{ value }}
-                                </div>
-                            </div>
-                        </div>
-                    </FloatingBlock>
+        <div
+            v-for="(data, index) in projects_data"
+            :key="index"
+            class="project-block"
+        >
+            <div class="img-container">
+                <img src="../assets/images/Coolrate.png" />
+            </div>
+            <div class="description">
+                <div>Featured Project</div>
+                <div>Test Project</div>
+                <div>
+                    Test Descriptions here Test Descriptions here Test Test
+                    Descriptions here Test Descriptions here Test Test
+                    Descriptions here Test Descriptions here Test Descriptions
+                    here Test Descriptions here Test Descriptions here
                 </div>
-            </ShadowEffect>
+                <div>tags</div>
+                <div>links</div>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
 .projects-container {
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
     display: flex;
-    align-items: center;
-    padding: 1rem;
-    flex-wrap: wrap;
-}
-
-.projects-container > div {
-    padding: 2rem;
-    width: 50%;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .project-block {
-    aspect-ratio: 1/0.6;
-    border: 1px solid black;
-    background-color: var(--primary-color);
-    padding: 0.5rem;
-}
-
-.project-block > div {
-    width: 100%;
-    height: 100%;
+    display: flex;
     position: relative;
-    filter: grayscale(100%);
 }
 
-.gradient {
-    background: rgb(255, 255, 255);
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(0, 0, 0, 0.700717787114846) 67%,
-        rgba(0, 0, 0, 1) 100%,
-        rgba(0, 0, 0, 1) 100%
-    );
+.img-container {
+    width: 700px;
+    height: 400px;
+}
+
+.img-container > img {
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
+    object-fit: cover;
 }
 
-.project-name {
-    font-size: 3rem;
-    text-transform: uppercase;
+.description {
+    max-width: 600px;
     position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    letter-spacing: 3px;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
 }
 
-.project-block > div > img {
-    width: 100%;
-    height: 100%;
+.description > div {
+    width: fit-content;
 }
-.floating-project {
-    max-width: 500px;
+
+.description > div:nth-child(1) {
+    font-size: 1rem;
+}
+
+.description > div:nth-child(2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.description > div:nth-child(3) {
+    background-color: var(--primary-color);
+    border: 1px solid var(--font-color);
+    padding: 1rem;
+    border-radius: 5px;
 }
 </style>
