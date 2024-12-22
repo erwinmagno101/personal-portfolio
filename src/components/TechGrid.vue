@@ -207,6 +207,10 @@ const colorMastery = mastery => {
             return 'green'
     }
 }
+
+const redirect = url => {
+    window.open(url, '_blank')
+}
 </script>
 
 <template>
@@ -218,6 +222,7 @@ const colorMastery = mastery => {
                         class="tech-block"
                         @mouseenter="e => enterHoverAnimte(e.target, i)"
                         @mouseleave="e => leaveHoverAnimate(e.target, i)"
+                        @click="() => redirect(skills[getSkillIndex(i)].link)"
                     >
                         <div>
                             <TechLogo :name="skills[getSkillIndex(i)].logo" />
@@ -301,9 +306,10 @@ const colorMastery = mastery => {
 }
 
 .tech-block {
+    cursor: pointer;
     pointer-events: all;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    background-color: black;
+    background-color: var(--font-color);
     width: 100%;
     height: 100%;
     display: flex;
@@ -323,6 +329,10 @@ const colorMastery = mastery => {
     align-items: center;
     flex-direction: column;
     background-color: var(--primary-color);
+}
+
+.floating-skill {
+    max-width: 300px;
 }
 
 .floating-skill > div:nth-child(1) {
@@ -353,6 +363,6 @@ const colorMastery = mastery => {
 
 .tags-container > div {
     padding: 0.1rem 0.5rem;
-    border: 1px solid black;
+    border: 1px solid var(--font-color);
 }
 </style>

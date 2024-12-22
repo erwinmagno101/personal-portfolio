@@ -5,7 +5,7 @@ import { scroll, animate } from 'motion'
 const navList = [
     { title: 'Home' },
     { title: 'Skills' },
-    { title: 'Project' },
+    { title: 'Portfolio' },
     { title: 'About' },
     { title: 'Contact' },
 ]

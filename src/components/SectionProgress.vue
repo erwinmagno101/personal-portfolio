@@ -49,7 +49,7 @@ onMounted(() => {
 }
 
 .indicator {
-    background-color: black;
+    background-color: var(--font-color);
     width: 100%;
     opacity: 0.8;
     height: 0%;
