@@ -81,10 +81,14 @@ onUnmounted(() => {
     line-height: 1;
     align-items: center;
     font-weight: 600;
+    color: var(--accent-color);
+    transition: color 0.5s ease;
 }
 
 .date > div > div {
     font-size: 1rem;
     font-weight: 400;
+    color: var(--font-color);
+    transition: color 0.5s ease;
 }
 </style>
