@@ -113,8 +113,10 @@ onUnmounted(() => {
     font-size: 2rem;
     width: fit-content;
     background-color: var(--primary-color);
-    border: 1px solid var(--font-color);
-
+    border: 1px solid var(--accent-color);
+    transition:
+        border 0.5s ease,
+        background-color 0.5s ease;
     padding: 1rem;
     font-size: 2rem;
     border-radius: 10px;
