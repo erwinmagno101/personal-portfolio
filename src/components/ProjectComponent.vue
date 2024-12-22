@@ -93,6 +93,7 @@ const projects_data = [
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
+    border: 1px solid var(--font-color);
 }
 
 .right-align {
