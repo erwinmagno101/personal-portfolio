@@ -86,6 +86,12 @@ const projects_data = [
 .img-container {
     width: 700px;
     height: 400px;
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+}
+
+.img-container:hover {
+    filter: grayscale(0%);
 }
 
 .img-container > img {

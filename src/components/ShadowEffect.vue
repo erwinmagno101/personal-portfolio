@@ -9,7 +9,7 @@ const hoverAnim = () => {
     document.addEventListener('mousemove', getMousePosition)
 
     animate(componentRef.value, { scale: 1.02 }, { duration: 0.1 })
-    animate(shadowRef.value, { opacity: 1 }, { duration: 0.1 })
+    animate(shadowRef.value, { opacity: 0.7 }, { duration: 0.1 })
 }
 
 const exitHoverAnim = () => {
@@ -94,8 +94,7 @@ onUnmounted(() => {
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 1px solid var(--font-color);
-    background-color: var(--primary-color);
+    background-color: var(--font-color);
     z-index: -99;
     opacity: 0;
     top: 0px;
