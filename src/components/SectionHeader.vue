@@ -31,7 +31,7 @@ watch(
                 {
                     fontSize: '15rem',
                     opacity: 0.3,
-                    color: 'var(--accent-color)',
+                    color: 'var(--font-color)',
                 },
                 { duration: 0.2 },
             )
