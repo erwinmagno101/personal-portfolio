@@ -117,6 +117,7 @@ const projects_data = [
     flex-direction: column;
 
     gap: 1rem;
+    pointer-events: none;
 }
 
 .description > div {

@@ -116,6 +116,7 @@ onUnmounted(() => {
     border: 1px solid var(--font-color);
     padding: 1rem;
     font-size: 2rem;
+    border-radius: 10px;
 }
 
 .btn-container {
