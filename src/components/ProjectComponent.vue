@@ -40,11 +40,15 @@ const projects_data = [
             v-for="(data, index) in projects_data"
             :key="index"
             class="project-block"
+            :style="{ flexDirection: index % 2 !== 0 ? 'row-reverse' : 'row' }"
         >
             <div class="img-container">
                 <img src="../assets/images/Coolrate.png" />
             </div>
-            <div class="description">
+            <div
+                class="description"
+                :class="[index % 2 !== 0 ? 'left-align' : 'right-align']"
+            >
                 <div>Featured Project</div>
                 <div>Test Project</div>
                 <div>
@@ -53,7 +57,9 @@ const projects_data = [
                     Descriptions here Test Descriptions here Test Descriptions
                     here Test Descriptions here Test Descriptions here
                 </div>
-                <div>tags</div>
+                <div>
+                    <div v-for="i in 5" :key="i">Tags{{ i }}</div>
+                </div>
                 <div>links</div>
             </div>
         </div>
@@ -66,7 +72,7 @@ const projects_data = [
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 5rem;
 }
 
 .project-block {
@@ -85,16 +91,27 @@ const projects_data = [
     object-fit: cover;
 }
 
+.right-align {
+    right: 0;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.left-align {
+    left: 0;
+    align-items: flex-start;
+    text-align: left;
+}
+
 .description {
     max-width: 600px;
     position: absolute;
-    right: 0;
     top: 50%;
     transform: translate(0, -50%);
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
+
+    gap: 1rem;
 }
 
 .description > div {
@@ -103,11 +120,13 @@ const projects_data = [
 
 .description > div:nth-child(1) {
     font-size: 1rem;
+    line-height: 1;
 }
 
 .description > div:nth-child(2) {
     font-size: 1.5rem;
     font-weight: 700;
+    line-height: 1;
 }
 
 .description > div:nth-child(3) {
@@ -115,5 +134,17 @@ const projects_data = [
     border: 1px solid var(--font-color);
     padding: 1rem;
     border-radius: 5px;
+}
+
+.description > div:nth-child(4) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.description > div:nth-child(4) > div {
+    border: 1px solid var(--font-color);
+    padding: 0 0.5rem;
+    font-size: 0.9rem;
 }
 </style>
