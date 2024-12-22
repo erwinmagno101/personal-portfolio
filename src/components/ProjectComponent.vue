@@ -40,6 +40,10 @@ const projects_data = [
                     @mouseenter="hoverIndex = index"
                     @mouseleave="hoverIndex = null"
                 >
+                    <div>
+                        <img src="../assets/images/Coolrate.png" />
+                        <div class="project-name">{{ project.name }}</div>
+                    </div>
                     <FloatingBlock v-if="index === hoverIndex">
                         <div class="floating-project">
                             <div>Project Name : {{ project.name }}</div>
@@ -88,8 +92,45 @@ const projects_data = [
     aspect-ratio: 1/0.6;
     border: 1px solid black;
     background-color: var(--primary-color);
+    padding: 0.5rem;
 }
 
+.project-block > div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    filter: grayscale(100%);
+}
+
+.gradient {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(0, 0, 0, 0.700717787114846) 67%,
+        rgba(0, 0, 0, 1) 100%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.project-name {
+    font-size: 3rem;
+    text-transform: uppercase;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    letter-spacing: 3px;
+}
+
+.project-block > div > img {
+    width: 100%;
+    height: 100%;
+}
 .floating-project {
     max-width: 500px;
 }

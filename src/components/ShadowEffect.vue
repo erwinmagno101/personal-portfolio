@@ -15,7 +15,7 @@ const hoverAnim = () => {
 const exitHoverAnim = () => {
     document.removeEventListener('mousemove', getMousePosition)
     animate(componentRef.value, { scale: 1, x: 0, y: 0 }, { duration: 0.1 })
-    animate(shadowRef.value, { opacity: 0, x: 0, y: 0 }, { duration: 0.1 })
+    animate(shadowRef.value, { x: 0, y: 0 }, { duration: 0.1 })
 }
 
 let isAnimating = false
