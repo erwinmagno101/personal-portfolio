@@ -49,7 +49,7 @@ onUnmounted(() => {
     position: fixed;
     z-index: 99;
     background-color: var(--primary-color);
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--accent-color);
     padding: 0.5rem 1rem;
 }
 </style>

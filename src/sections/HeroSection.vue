@@ -88,7 +88,7 @@ onUnmounted(() => {
             FR<span class="ball"
                 ><div :ref="el => (ballRef[0] = el)"></div>
                 <div>O</div></span
-            >NT<span class="accent">-</span>END
+            >NT-END
         </div>
         <div>
             WEB DEVEL<span class="ball"
@@ -113,7 +113,8 @@ onUnmounted(() => {
     font-size: 2rem;
     width: fit-content;
     background-color: var(--primary-color);
-    border: 1px solid var(--accent-color);
+    border: 1px solid var(--font-color);
+
     padding: 1rem;
     font-size: 2rem;
     border-radius: 10px;
@@ -151,6 +152,7 @@ section > div:nth-child(2) {
     font-size: 2rem;
     padding-left: 1rem;
     color: var(--accent-color);
+    transition: color 1s ease;
 }
 
 .name > div:nth-child(1) {
@@ -170,6 +172,7 @@ section > div:nth-child(2) {
 
 .base > div {
     color: var(--accent-color);
+    transition: color 1s ease;
 }
 
 .ball {
@@ -185,7 +188,7 @@ section > div:nth-child(2) {
     content: '';
     width: 50px;
     height: 50px;
-    background-color: var(--accent-color);
+    background-color: var(--font-color);
     position: absolute;
     border-radius: 100%;
     left: 33%;
@@ -195,5 +198,6 @@ section > div:nth-child(2) {
 
 .accent {
     color: var(--accent-color);
+    transition: color 1s ease;
 }
 </style>

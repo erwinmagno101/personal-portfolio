@@ -136,6 +136,7 @@ const skills = [
 
 const indeces = ref([])
 const hoverIndex = ref(null)
+const isHovering = ref(false)
 
 const pointGeneration = () => {
     let counter = 0
@@ -167,6 +168,7 @@ const getSkillIndex = i => {
 }
 
 const enterHoverAnimte = (el, i) => {
+    isHovering.value = true
     const points = document.querySelectorAll('.point')
     const target = indeces.value.find(el => el.point_index === i)
     hoverIndex.value = target.point_index
@@ -175,12 +177,13 @@ const enterHoverAnimte = (el, i) => {
 
     animate(
         el,
-        { scale: 1.2, filter: 'grayscale(0%) brightness(100%)' },
+        { scale: 1.2, backgroundColor: 'var(--accent-color)' },
         { duration: 0.2 },
     )
 }
 
 const leaveHoverAnimate = (el, i) => {
+    isHovering.value = false
     const points = document.querySelectorAll('.point')
     const target = indeces.value.find(el => el.point_index === i)
     hoverIndex.value = null
@@ -188,7 +191,7 @@ const leaveHoverAnimate = (el, i) => {
     points[target.skill_index].style.zIndex = 1
     animate(
         el,
-        { scale: 1, filter: 'grayscale(100%) brightness(110%)' },
+        { scale: 1, backgroundColor: 'var(--font-color)' },
         { duration: 0.2 },
     )
 }
@@ -225,7 +228,11 @@ const redirect = url => {
                         @click="() => redirect(skills[getSkillIndex(i)].link)"
                     >
                         <div>
-                            <TechLogo :name="skills[getSkillIndex(i)].logo" />
+                            <TechLogo
+                                :name="skills[getSkillIndex(i)].logo"
+                                :active="i === hoverIndex"
+                                :isHovering="isHovering"
+                            />
                         </div>
                     </div>
 
@@ -317,7 +324,6 @@ const redirect = url => {
     align-items: center;
     flex-direction: column;
     position: relative;
-    filter: grayscale(100%) brightness(110%);
 }
 
 .tech-block > div:first-of-type {
@@ -363,6 +369,7 @@ const redirect = url => {
 
 .tags-container > div {
     padding: 0.1rem 0.5rem;
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--accent-color);
+    transition: border 1s ease;
 }
 </style>
