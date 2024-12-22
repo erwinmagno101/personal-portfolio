@@ -75,7 +75,7 @@ const projects_data = [
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 5rem;
+    gap: 10rem;
 }
 
 .project-block {
