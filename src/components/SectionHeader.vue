@@ -30,15 +30,22 @@ watch(
                 heading,
                 {
                     fontSize: '15rem',
-                    opacity: 0.3,
+                    opacity: 0.1,
                     color: 'var(--font-color)',
+                    filter: 'blur(2px)',
                 },
                 { duration: 0.2 },
             )
         } else {
             animate(
                 heading,
-                { fontSize: '10rem', opacity: 1, color: 'var(--font-color)' },
+
+                {
+                    fontSize: '10rem',
+                    opacity: 1,
+                    color: 'var(--font-color)',
+                    filter: 'blur(0px)',
+                },
                 { duration: 0.2 },
             )
         }
@@ -68,7 +75,6 @@ onMounted(() => {
     position: sticky;
     top: 10px;
     min-height: 15rem;
-    margin-bottom: 300px;
 }
 
 h2 {

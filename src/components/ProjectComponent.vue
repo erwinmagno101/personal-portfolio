@@ -7,7 +7,7 @@ const projects_data = [
         role: 'Frontend Web Developer',
         type: 'Project Hire',
         description:
-            'CoolRate is a streamlined solution for managing financial and operational workflows in service and installation businesses. Designed with user efficiency in mind, the platform provides intuitive tools for tracking business performance, optimizing financial health, and improving overall operations. Its clean, responsive interface ensures a seamless experience across devices, making it an essential tool for modern business management.',
+            'CoolRate is a streamlined solution for managing financial and operational workflows in service and installation businesses. Designed with user efficiency in mind, the platform provides intuitive tools for tracking business performance and improving overall operations. ',
         tags: [
             'Vue 3',
             'Tailwind CSS',
@@ -23,7 +23,7 @@ const projects_data = [
         name: 'Trycicle Franchising System',
         type: 'Project Hire',
         role: 'Frontend Web Developer',
-        description: `A system designed to simplify and automate the tricycle franchising process. It provides an efficient platform for managing franchise applications, renewals, and approvals, ensuring compliance with local regulations. Key features include applicant tracking, fee computation, payment processing, and issuance of franchise permits. With a user-friendly interface and robust backend, reduces administrative overhead, and improves the overall experience.`,
+        description: `A system designed to simplify and automate the tricycle franchising process. It provides an efficient platform for managing franchise applications, renewals, and approvals, ensuring compliance with local regulations. With a user-friendly interface and robust backend, reduces administrative overhead.`,
         tags: [
             'Vue 3',
             'Tailwind CSS',
@@ -49,7 +49,7 @@ const projects_data = [
         type: 'Capstone Project',
         role: 'Full Stack',
         description:
-            'An easy-to-use app that helps travelers explore new places in the island of Siquijor. Users can view information about destinations, leave reviews, save their favorite spots with a heart feature, and report any issues with the app’s content. It’s a straightforward and interactive tool for anyone looking to make the most of their travels.',
+            'An easy-to-use app that helps travelers explore new places in the island of Siquijor. Users can view information about destinations, leave reviews, save their favorite spots. It’s a straightforward and interactive tool for anyone looking to make the most of their travels.',
         tags: ['Flutter', 'Dart', 'Firebase', 'Cloude Firestore', 'GCP'],
         images: ['../assets/images/Coolrate.png'],
     },
@@ -59,7 +59,7 @@ const projects_data = [
         type: 'Project Hire',
         role: 'Full Stack',
         description:
-            'This app provides a seamless language translation experience, supporting multiple languages for quick and accurate word and phrase translations. It also includes a mini game that helps users enhance their language skills in an engaging way, blending practical translation tools with an interactive learning element.',
+            'Language translator app, supporting multiple languages for quick and accurate word and phrase translations. It also includes a mini game that helps users enhance their language skills in an engaging way, blending practical translation tools with an interactive learning element.',
         tags: [
             'Java',
             'Gradle',
@@ -77,7 +77,7 @@ const projects_data = [
         type: 'Project Hire',
         role: 'Full Stack',
         description:
-            'The app provides a user-friendly interface that allows customers to browse restaurant menus, place orders, and track deliveries in real time. It features intuitive navigation with clear categories for quick food selection and live updates on delivery status. For delivery drivers, the app includes a system to manage orders with location tracking.',
+            'The app provides a user-friendly interface that allows customers to browse restaurant menus, place orders, and track deliveries. It features intuitive navigation with clear categories for quick food selection.',
         tags: [
             'Java',
             'Gradle',

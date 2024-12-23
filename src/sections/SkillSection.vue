@@ -58,7 +58,6 @@ onUnmounted(() => {
 
 <style scoped>
 .section {
-    min-height: 2000px;
     padding: 0 100px;
     display: flex;
     flex-direction: column;
