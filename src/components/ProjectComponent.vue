@@ -1,32 +1,92 @@
 <script setup>
 import ShadowEffect from './ShadowEffect.vue'
-import { ref } from 'vue'
-import FloatingBlock from './FloatingBlock.vue'
 
 const projects_data = [
     {
         name: 'Coolrate',
         role: 'Frontend Web Developer',
+        type: 'Project Hire',
         description:
-            'Test Description Here Test Description Here Test Description Here Test Description Here',
-        highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
-        tags: ['Tech1', 'Tech2', 'Tech3'],
+            'CoolRate is a streamlined solution for managing financial and operational workflows in service and installation businesses. Designed with user efficiency in mind, the platform provides intuitive tools for tracking business performance, optimizing financial health, and improving overall operations. Its clean, responsive interface ensures a seamless experience across devices, making it an essential tool for modern business management.',
+        tags: [
+            'Vue 3',
+            'Tailwind CSS',
+            'Javascript',
+            'Laravel',
+            'PHP',
+            'InertiaJS',
+            'MySQL',
+        ],
         images: ['../assets/images/Coolrate.png'],
     },
     {
-        name: 'Trycicle',
+        name: 'Trycicle Franchising System',
+        type: 'Project Hire',
         role: 'Frontend Web Developer',
-        description: 'Test Description Here',
-        highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
-        tags: ['Tech1', 'Tech2', 'Tech3'],
+        description: `A system designed to simplify and automate the tricycle franchising process. It provides an efficient platform for managing franchise applications, renewals, and approvals, ensuring compliance with local regulations. Key features include applicant tracking, fee computation, payment processing, and issuance of franchise permits. With a user-friendly interface and robust backend, reduces administrative overhead, and improves the overall experience.`,
+        tags: [
+            'Vue 3',
+            'Tailwind CSS',
+            'Javascript',
+            'Laravel',
+            'PHP',
+            'InertiaJS',
+            'SQLite',
+        ],
         images: ['../assets/images/Coolrate.png'],
     },
     {
         name: 'TypeGuru',
+        type: 'Personal Project',
         role: 'Full Stack',
-        description: 'Test Description Here',
-        highlights: ['highlights 1', 'highlights 2', 'highlights 3'],
-        tags: ['Tech1', 'Tech2', 'Tech3'],
+        description:
+            'A typing test platform inspire by the website monkeytype.com made out of passion for typing.',
+        tags: ['React Js', 'CSS', 'Javascript', 'Redux'],
+        images: ['../assets/images/Coolrate.png'],
+    },
+    {
+        name: 'Seekihod',
+        type: 'Capstone Project',
+        role: 'Full Stack',
+        description:
+            'An easy-to-use app that helps travelers explore new places in the island of Siquijor. Users can view information about destinations, leave reviews, save their favorite spots with a heart feature, and report any issues with the app’s content. It’s a straightforward and interactive tool for anyone looking to make the most of their travels.',
+        tags: ['Flutter', 'Dart', 'Firebase', 'Cloude Firestore', 'GCP'],
+        images: ['../assets/images/Coolrate.png'],
+    },
+
+    {
+        name: 'Language Translator App',
+        type: 'Project Hire',
+        role: 'Full Stack',
+        description:
+            'This app provides a seamless language translation experience, supporting multiple languages for quick and accurate word and phrase translations. It also includes a mini game that helps users enhance their language skills in an engaging way, blending practical translation tools with an interactive learning element.',
+        tags: [
+            'Java',
+            'Gradle',
+            'XML',
+            'Jetpack',
+            'okHttp',
+            'Android Studio',
+            'SQlite',
+        ],
+        images: ['../assets/images/Coolrate.png'],
+    },
+
+    {
+        name: 'Food Ordering App',
+        type: 'Project Hire',
+        role: 'Full Stack',
+        description:
+            'The app provides a user-friendly interface that allows customers to browse restaurant menus, place orders, and track deliveries in real time. It features intuitive navigation with clear categories for quick food selection and live updates on delivery status. For delivery drivers, the app includes a system to manage orders with location tracking.',
+        tags: [
+            'Java',
+            'Gradle',
+            'XML',
+            'Jetpack',
+            'okHttp',
+            'Android Studio',
+            'SQlite',
+        ],
         images: ['../assets/images/Coolrate.png'],
     },
 ]
@@ -50,16 +110,16 @@ const projects_data = [
                 class="description"
                 :class="[index % 2 !== 0 ? 'left-align' : 'right-align']"
             >
-                <div>Featured Project</div>
-                <div>Test Project</div>
+                <div>{{ data.type }}</div>
+                <div>{{ data.name }}</div>
+                <div>Role: {{ data.role }}</div>
                 <div>
-                    Test Descriptions here Test Descriptions here Test Test
-                    Descriptions here Test Descriptions here Test Test
-                    Descriptions here Test Descriptions here Test Descriptions
-                    here Test Descriptions here Test Descriptions here
+                    {{ data.description }}
                 </div>
                 <div>
-                    <div v-for="i in 5" :key="i">Tags{{ i }}</div>
+                    <div v-for="(tag, index) in data.tags" :key="index">
+                        {{ tag }}
+                    </div>
                 </div>
                 <div>links</div>
             </div>
@@ -149,7 +209,7 @@ const projects_data = [
     transition: color 0.5s ease;
 }
 
-.description > div:nth-child(3) {
+.description > div:nth-child(4) {
     background-color: var(--primary-color);
     border: 1px solid var(--accent-color);
     transition:
@@ -160,24 +220,21 @@ const projects_data = [
     border-radius: 10px;
 }
 
-.description > div:nth-child(4) {
+.description > div:nth-child(5) {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    justify-content: flex-end;
 }
 
-.description > div:nth-child(4) > div {
+.description > div:nth-child(5) > div {
+    border: 1px solid var(--accent-color);
+    transition:
+        border 0.5s ease,
+        background-color 0.5s ease;
+    background-color: var(--primary-color);
     border-radius: 5px;
     padding: 0.1rem 0.5rem;
-    background-color: var(--primary-color);
-    transition: background-color 0.5s ease;
-}
-
-.description > div:nth-child(4) > div {
-    border: 1px solid var(--accent-color);
-    transition: border 0.5s ease;
-
-    padding: 0 0.5rem;
     font-size: 0.9rem;
 }
 </style>
