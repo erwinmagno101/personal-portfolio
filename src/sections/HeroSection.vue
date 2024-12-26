@@ -99,11 +99,11 @@ onUnmounted(() => {
                 <LocateFixed class="icon-base" />
                 <div>Based in the Philippines</div>
             </div>
-            <div class="btn-container">
-                <ShadowEffect>
-                    <div class="action-btn">Get in touch</div>
-                </ShadowEffect>
-            </div>
+        </div>
+        <div class="btn-container">
+            <ShadowEffect>
+                <div class="action-btn">Get in touch</div>
+            </ShadowEffect>
         </div>
     </section>
 </template>
@@ -113,9 +113,13 @@ onUnmounted(() => {
     font-size: 2rem;
     width: fit-content;
     background-color: var(--primary-color);
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--accent-color);
+    transition:
+        border 0.5s ease,
+        background-color 0.5s ease;
     padding: 1rem;
     font-size: 2rem;
+    border-radius: 10px;
 }
 
 .btn-container {
@@ -149,10 +153,13 @@ section > div:nth-child(2) {
 .name {
     font-size: 2rem;
     padding-left: 1rem;
+    color: var(--accent-color);
+    transition: color 1s ease;
 }
 
 .name > div:nth-child(1) {
     font-size: 1.2rem;
+    color: var(--font-color);
 }
 
 .base {
@@ -163,6 +170,11 @@ section > div:nth-child(2) {
     width: fit-content;
     margin-left: auto;
     gap: 0.5rem;
+}
+
+.base > div {
+    color: var(--accent-color);
+    transition: color 1s ease;
 }
 
 .ball {
@@ -183,5 +195,11 @@ section > div:nth-child(2) {
     border-radius: 100%;
     left: 33%;
     top: 38%;
+    z-index: -99;
+}
+
+.accent {
+    color: var(--accent-color);
+    transition: color 1s ease;
 }
 </style>

@@ -47,12 +47,6 @@ onUnmounted(() => {
                 <p class="sub-description">The Marks Left Behind</p>
                 <ProjectComponent />
             </div>
-
-            <div>
-                <h3 class="sub-heading">Certificates</h3>
-                <p class="sub-description">The Recognitions</p>
-                <CertificateComponent />
-            </div>
         </div>
     </section>
 </template>
@@ -75,6 +69,7 @@ onUnmounted(() => {
 .sub-heading {
     font-size: 2rem;
     text-align: center;
+    font-weight: 600;
 }
 .sub-description {
     text-align: center;

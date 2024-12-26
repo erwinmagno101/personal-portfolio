@@ -48,8 +48,9 @@ onUnmounted(() => {
     pointer-events: none;
     position: fixed;
     z-index: 99;
+    border-radius: 10px;
     background-color: var(--primary-color);
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--accent-color);
     padding: 0.5rem 1rem;
 }
 </style>

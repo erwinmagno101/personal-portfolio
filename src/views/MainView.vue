@@ -6,6 +6,36 @@ import SectionProgress from '@/components/SectionProgress.vue'
 import ScrollProgress from '@/components/ScrollProgress.vue'
 import NavBar from '@/components/NavBar.vue'
 import PortfolioSection from '@/sections/PortfolioSection.vue'
+import { onMounted, ref } from 'vue'
+import { useColorGeneration } from '@/stores/colorgen'
+import AboutSection from '@/sections/AboutSection.vue'
+
+const colorGeneration = useColorGeneration()
+
+const generateColor = () => {
+    // const generatedColor = colorGeneration.generateRandomColor()
+    // changeTheme(generatedColor)
+    // localStorage.setItem('theme', JSON.stringify(generatedColor))
+}
+
+const changeTheme = color => {
+    document.documentElement.style.setProperty(
+        '--primary-color',
+        color.colors.primary,
+    )
+
+    document.documentElement.style.setProperty(
+        '--accent-color',
+        color.colors.secondary,
+    )
+}
+
+onMounted(() => {
+    // const color = JSON.parse(localStorage.getItem('theme'))
+    // if (color) {
+    //     changeTheme(color)
+    // }
+})
 </script>
 
 <template>
@@ -16,10 +46,11 @@ import PortfolioSection from '@/sections/PortfolioSection.vue'
         <header id="header">
             <NavBar />
         </header>
-        <main class="main">
+        <main class="main" @click="generateColor">
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
             <PortfolioSection></PortfolioSection>
+            <AboutSection></AboutSection>
         </main>
         <footer></footer>
     </div>
@@ -43,5 +74,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 300px;
+}
+footer {
+    padding-bottom: 5rem;
 }
 </style>
