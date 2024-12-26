@@ -30,9 +30,9 @@ watch(
                 heading,
                 {
                     fontSize: '15rem',
-                    opacity: 0.1,
+                    opacity: 0.3,
                     color: 'var(--font-color)',
-                    filter: 'blur(2px)',
+                    filter: 'blur(1px)',
                 },
                 { duration: 0.2 },
             )

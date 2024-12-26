@@ -1,26 +1,27 @@
+w
 <script setup>
 import SectionHeader from '@/components/SectionHeader.vue'
-import TechGrid from '@/components/TechGrid.vue'
 import { inView, scroll } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useSectionProgressStore } from '@/stores/section_progress'
-import CertificateComponent from '@/components/CertificateComponent.vue'
+import ExperienceDate from '@/components/ExperienceDate.vue'
+import TimeLine from '@/components/TimeLine.vue'
 
 const sectionProgressStore = useSectionProgressStore()
 
-const skillRef = ref(null)
+const aboutRef = ref(null)
 const isHeaderSticking = ref(false)
 let cancelScroll
 
 onMounted(() => {
-    inView(skillRef.value, () => {
+    inView(aboutRef.value, () => {
         cancelScroll = scroll(
             e =>
                 sectionProgressStore.calculateProgress(
                     e,
                     isHeaderSticking.value,
                 ),
-            { target: skillRef.value },
+            { target: aboutRef.value },
         )
 
         return () => {
@@ -37,18 +38,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section class="section" ref="skillRef">
-        <SectionHeader title="Skills" v-model="isHeaderSticking" />
+    <section class="section" ref="aboutRef">
+        <SectionHeader title="About" v-model="isHeaderSticking" />
         <div class="section-content">
             <div>
-                <h3 class="sub-heading">Technologies</h3>
-                <p class="sub-description">The Tools</p>
-                <TechGrid />
+                <h3 class="sub-heading">Bio</h3>
+                <p class="sub-description">Me, Myself, I</p>
             </div>
+
             <div>
-                <h3 class="sub-heading">Certificates</h3>
-                <p class="sub-description">The Recognitions</p>
-                <CertificateComponent />
+                <h3 class="sub-heading">Experience</h3>
+                <p class="sub-description">The Journey</p>
+                <ExperienceDate />
+                <TimeLine />
             </div>
         </div>
     </section>

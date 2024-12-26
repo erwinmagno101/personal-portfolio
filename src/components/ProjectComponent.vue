@@ -1,5 +1,6 @@
 <script setup>
 import ShadowEffect from './ShadowEffect.vue'
+import placeholderImage from '../assets/images/placeholder.jpg'
 
 const projects_data = [
     {
@@ -17,7 +18,7 @@ const projects_data = [
             'InertiaJS',
             'MySQL',
         ],
-        images: ['../assets/images/Coolrate.png'],
+        images: [placeholderImage],
     },
     {
         name: 'Trycicle Franchising System',
@@ -33,7 +34,7 @@ const projects_data = [
             'InertiaJS',
             'SQLite',
         ],
-        images: ['../assets/images/Coolrate.png'],
+        images: [placeholderImage],
     },
     {
         name: 'TypeGuru',
@@ -42,7 +43,7 @@ const projects_data = [
         description:
             'A typing test platform inspire by the website monkeytype.com made out of passion for typing.',
         tags: ['React Js', 'CSS', 'Javascript', 'Redux'],
-        images: ['../assets/images/Coolrate.png'],
+        images: [placeholderImage],
     },
     {
         name: 'Seekihod',
@@ -51,7 +52,7 @@ const projects_data = [
         description:
             'An easy-to-use app that helps travelers explore new places in the island of Siquijor. Users can view information about destinations, leave reviews, save their favorite spots. It’s a straightforward and interactive tool for anyone looking to make the most of their travels.',
         tags: ['Flutter', 'Dart', 'Firebase', 'Cloude Firestore', 'GCP'],
-        images: ['../assets/images/Coolrate.png'],
+        images: [placeholderImage],
     },
 
     {
@@ -69,7 +70,7 @@ const projects_data = [
             'Android Studio',
             'SQlite',
         ],
-        images: ['../assets/images/Coolrate.png'],
+        images: [placeholderImage],
     },
 
     {
@@ -87,7 +88,7 @@ const projects_data = [
             'Android Studio',
             'SQlite',
         ],
-        images: ['../assets/images/Coolrate.png'],
+        images: [placeholderImage],
     },
 ]
 </script>
@@ -102,7 +103,7 @@ const projects_data = [
         >
             <ShadowEffect>
                 <div class="img-container">
-                    <img src="../assets/images/Coolrate.png" />
+                    <img :src="data.images[0]" />
                 </div>
             </ShadowEffect>
 
@@ -133,7 +134,7 @@ const projects_data = [
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 15rem;
+    gap: 10rem;
 }
 
 .project-block {
@@ -144,7 +145,7 @@ const projects_data = [
 .img-container {
     width: 700px;
     height: 400px;
-    border: 1px solid var(--accent-color);
+    border: 2px solid var(--accent-color);
     transition: border 0.5s ease;
     border-radius: 10px;
     overflow: hidden;
@@ -165,7 +166,7 @@ const projects_data = [
     right: 0;
     align-items: flex-end;
     text-align: right;
-    border-right: 1px solid var(--accent-color);
+    border-right: 2px solid var(--accent-color);
     transition: border 0.5s ease;
 
     padding-right: 1rem;
@@ -175,10 +176,18 @@ const projects_data = [
     left: 0;
     align-items: flex-start;
     text-align: left;
-    border-left: 1px solid var(--accent-color);
+    border-left: 2px solid var(--accent-color);
     transition: border 0.5s ease;
 
     padding-left: 1rem;
+}
+
+.left-align > div:nth-child(5) {
+    justify-content: flex-start;
+}
+
+.right-align > div:nth-child(5) {
+    justify-content: flex-end;
 }
 
 .description {
@@ -211,7 +220,7 @@ const projects_data = [
 
 .description > div:nth-child(4) {
     background-color: var(--primary-color);
-    border: 1px solid var(--accent-color);
+    border: 2px solid var(--accent-color);
     transition:
         border 0.5s ease,
         background-color 0.5s ease;
@@ -224,11 +233,10 @@ const projects_data = [
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    justify-content: flex-end;
 }
 
 .description > div:nth-child(5) > div {
-    border: 1px solid var(--accent-color);
+    border: 2px solid var(--accent-color);
     transition:
         border 0.5s ease,
         background-color 0.5s ease;

@@ -8,6 +8,7 @@ import NavBar from '@/components/NavBar.vue'
 import PortfolioSection from '@/sections/PortfolioSection.vue'
 import { onMounted, ref } from 'vue'
 import { useColorGeneration } from '@/stores/colorgen'
+import AboutSection from '@/sections/AboutSection.vue'
 
 const colorGeneration = useColorGeneration()
 
@@ -49,6 +50,7 @@ onMounted(() => {
             <HeroSection></HeroSection>
             <SkillSection></SkillSection>
             <PortfolioSection></PortfolioSection>
+            <AboutSection></AboutSection>
         </main>
         <footer></footer>
     </div>
@@ -72,5 +74,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 300px;
+}
+footer {
+    padding-bottom: 5rem;
 }
 </style>
