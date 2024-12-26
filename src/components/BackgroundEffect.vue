@@ -55,7 +55,7 @@ onUnmounted(() => {
     z-index: -99;
     display: grid;
     grid-template-columns: repeat(auto-fill, calc(100vw / 19));
-    opacity: 0.08;
+    opacity: 0.2;
     filter: blur(1px);
 }
 
