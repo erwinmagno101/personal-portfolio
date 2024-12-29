@@ -1,60 +1,18 @@
 <script setup>
+import ScrollingBg from '@/components/widgets/ScrollingBg.vue'
 import { LocateFixed } from 'lucide-vue-next'
 import { animate } from 'motion'
 import { onMounted, ref } from 'vue'
 
 const heroRef = ref(null)
-
-const bgTextAnimation = () => {
-    const textElem1 = heroRef.value.querySelector('.bg-text-1')
-    const textElem2 = heroRef.value.querySelector('.bg-text-2')
-    const startAnim = () => {
-        animate(
-            textElem1,
-            { x: ['0%', '-35%'] },
-            { duration: 7, easing: 'linear' },
-        ).finished.then(loop)
-    }
-
-    const loop = () => {
-        animate(textElem1, { x: '0%' }, { duration: 0 })
-        requestAnimationFrame(() => startAnim())
-    }
-
-    requestAnimationFrame(() => startAnim())
-
-    const startAnim2 = () => {
-        animate(
-            textElem2,
-            { x: ['0%', '35.4%'] },
-            { duration: 8, easing: 'linear' },
-        ).finished.then(loop2)
-    }
-
-    const loop2 = () => {
-        animate(textElem2, { x: '0%' }, { duration: 0 })
-        requestAnimationFrame(() => startAnim2())
-    }
-
-    requestAnimationFrame(() => startAnim2())
-}
-
-onMounted(() => {
-    bgTextAnimation()
-})
 </script>
 
 <template>
     <section class="hero" ref="heroRef">
-        <div class="bg-text-1">
-            <div>FRONT_END</div>
-            <div>FRONT_END</div>
-            <div>FRONT_END</div>
-        </div>
-        <div class="bg-text-2">
-            <div>WEB_DEV</div>
-            <div>WEB_DEV</div>
-            <div>WEB_DEV</div>
+        <ScrollingBg />
+        <div>
+            <hr />
+            <div class="circle"></div>
         </div>
     </section>
 </template>
@@ -67,30 +25,18 @@ section {
     user-select: none;
     overflow-x: hidden;
     position: relative;
-}
-
-.bg-text-1 > *,
-.bg-text-2 > * {
-    font-size: 20rem;
-    font-weight: 900;
-    opacity: 0.1;
-}
-
-.bg-text-1,
-.bg-text-2 {
     display: flex;
-    gap: 20rem;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.bg-text-1 {
-    position: absolute;
-    left: -40%;
-    top: 10%;
+hr {
 }
 
-.bg-text-2 {
-    position: absolute;
-    right: -70%;
-    top: 60%;
+.circle {
+    border: 1px dashed white;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
 }
 </style>
