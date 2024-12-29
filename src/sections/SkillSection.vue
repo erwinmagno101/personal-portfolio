@@ -1,80 +1,150 @@
 <script setup>
-import SectionHeader from '@/components/SectionHeader.vue'
-import TechGrid from '@/components/TechGrid.vue'
-import { inView, scroll } from 'motion'
-import { onMounted, onUnmounted, ref } from 'vue'
-import { useSectionProgressStore } from '@/stores/section_progress'
-import CertificateComponent from '@/components/CertificateComponent.vue'
+import { at } from 'lodash'
+import { animate, timeline } from 'motion'
+import { onMounted } from 'vue'
 
-const sectionProgressStore = useSectionProgressStore()
+const services_data = [
+    {
+        title: 'Web Development',
+        tagline: 'Responsive and interactive.',
+        description:
+            'Building responsive and interactive websites using modern front-end frameworks and technologies.',
+    },
+    {
+        title: 'Web Maintenance',
+        tagline: 'Support and updates.',
+        description:
+            'Providing ongoing support and updates to ensure websites remain functional and up-to-date.',
+    },
+    {
+        title: 'Motion',
+        tagline: 'Engaging animations.',
+        description:
+            'Developing animations and interactive experiences to enhance user engagement.',
+    },
+    {
+        title: 'Responsive Design',
+        tagline: 'Optimized for all screens.',
+        description:
+            'Ensuring websites are optimized for all devices, from desktops to smartphones.',
+    },
+]
 
-const skillRef = ref(null)
-const isHeaderSticking = ref(false)
-let cancelScroll
+const hoverAnimation = e => {
+    const title = e.target.querySelector('.title')
+    const description = e.target.querySelector('.description')
+    const tagline = e.target.querySelector('.tagline')
+    const background = e.target.querySelector('.background')
 
-onMounted(() => {
-    inView(skillRef.value, () => {
-        cancelScroll = scroll(
-            e =>
-                sectionProgressStore.calculateProgress(
-                    e,
-                    isHeaderSticking.value,
-                ),
-            { target: skillRef.value },
-        )
+    const sequence = [
+        [title, { color: 'white' }, { duration: 0.2, at: 0 }],
+        [title, { y: [0, -50] }, { duration: 0.3, at: 0.1 }],
+        [background, { width: '100%' }, { duration: 0.2, at: 0 }],
+        [description, { opacity: 1, y: [100, 20] }, { duration: 0.2, at: 0.2 }],
+        [tagline, { opacity: 1, y: [100, 20] }, { duration: 0.2, at: 0.3 }],
+    ]
 
-        return () => {
-            cancelScroll()
-            cancelScroll = null
-        }
-    })
-})
+    timeline(sequence)
+}
 
-onUnmounted(() => {
-    cancelScroll()
-    cancelScroll = null
-})
+const leaveAnimation = e => {
+    const title = e.target.querySelector('.title')
+    const description = e.target.querySelector('.description')
+    const tagline = e.target.querySelector('.tagline')
+    const background = e.target.querySelector('.background')
+
+    const sequence = [
+        [title, { color: 'black' }, { duration: 0.1, at: 0 }],
+        [title, { y: 0 }, { duration: 0.3, at: 0.1 }],
+        [background, { width: '0%' }, { duration: 0.2, at: 0 }],
+        [description, { opacity: 0, y: 100 }, { duration: 0.2, at: 0 }],
+        [tagline, { opacity: 0, y: 100 }, { duration: 0.2, at: 0 }],
+    ]
+
+    timeline(sequence)
+}
+
+onMounted(() => {})
 </script>
 
 <template>
-    <section class="section" ref="skillRef">
-        <SectionHeader title="Skills" v-model="isHeaderSticking" />
-        <div class="section-content">
-            <div>
-                <h3 class="sub-heading">Technologies</h3>
-                <p class="sub-description">The Tools</p>
-                <TechGrid />
-            </div>
-            <div>
-                <h3 class="sub-heading">Certificates</h3>
-                <p class="sub-description">The Recognitions</p>
-                <CertificateComponent />
+    <section>
+        <h2>What I can do</h2>
+        <div class="services">
+            <div
+                class="item"
+                v-for="(data, i) in services_data"
+                :key="i"
+                @mouseenter="hoverAnimation"
+                @mouseleave="leaveAnimation"
+            >
+                <div class="title">
+                    {{ data.title }}
+                </div>
+                <div class="description">{{ data.description }}</div>
+                <div class="tagline">{{ data.tagline }}</div>
+                <div class="background"></div>
             </div>
         </div>
     </section>
 </template>
 
 <style scoped>
-.section {
-    padding: 0 100px;
-    display: flex;
-    flex-direction: column;
-    gap: 100px;
+h2 {
+    font-size: 1.5rem;
+    border-top: 1px solid black;
+    padding: 1rem 0;
+    padding-bottom: 2rem;
 }
 
-.section-content {
+.services {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     display: flex;
-    flex-direction: column;
-    gap: 200px;
+    height: 80vh;
 }
 
-.sub-heading {
+.services .item {
+    overflow: hidden;
+    flex: 1;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-right: 1px solid black;
+}
+
+.services .title {
     font-size: 2rem;
-    text-align: center;
-    font-weight: 600;
+    position: relative;
+    top: 45%;
 }
-.sub-description {
-    text-align: center;
-    margin-bottom: 50px;
+
+.services .description {
+    color: white;
+    height: fit-content;
+    position: relative;
+    top: 50%;
+    font-size: 1.1rem;
+    margin: 0 2rem;
+    opacity: 0;
+}
+
+.services .tagline {
+    color: white;
+    height: fit-content;
+    position: relative;
+    margin-top: auto;
+    bottom: 10%;
+    opacity: 0;
+}
+
+.services .background {
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    background-color: black;
+    z-index: -1;
 }
 </style>

@@ -2,7 +2,6 @@
 import { animate, inView } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { LocateFixed } from 'lucide-vue-next'
-import ShadowEffect from '@/components/ShadowEffect.vue'
 
 const heroRef = ref(null)
 const ballRef = ref([])
@@ -101,9 +100,7 @@ onUnmounted(() => {
             </div>
         </div>
         <div class="btn-container">
-            <ShadowEffect>
-                <div class="action-btn">Get in touch</div>
-            </ShadowEffect>
+            <div class="action-btn">Get in touch</div>
         </div>
     </section>
 </template>
@@ -111,12 +108,8 @@ onUnmounted(() => {
 <style scoped>
 .action-btn {
     font-size: 2rem;
-    width: fit-content;
     background-color: var(--primary-color);
     border: 1px solid var(--accent-color);
-    transition:
-        border 0.5s ease,
-        background-color 0.5s ease;
     padding: 1rem;
     font-size: 2rem;
     border-radius: 10px;
