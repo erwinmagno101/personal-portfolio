@@ -1,198 +1,96 @@
 <script setup>
-import { animate, inView } from 'motion'
-import { onMounted, onUnmounted, ref } from 'vue'
 import { LocateFixed } from 'lucide-vue-next'
+import { animate } from 'motion'
+import { onMounted, ref } from 'vue'
 
 const heroRef = ref(null)
-const ballRef = ref([])
-let isAnimating = false
 
-const getMousePosition = e => {
-    if (isAnimating) return
-    isAnimating = true
+const bgTextAnimation = () => {
+    const textElem1 = heroRef.value.querySelector('.bg-text-1')
+    const textElem2 = heroRef.value.querySelector('.bg-text-2')
+    const startAnim = () => {
+        animate(
+            textElem1,
+            { x: ['0%', '-35%'] },
+            { duration: 7, easing: 'linear' },
+        ).finished.then(loop)
+    }
 
-    ballRef.value.forEach(el => {
-        let xDistanceToMove
-        let yDistanceToMove
+    const loop = () => {
+        animate(textElem1, { x: '0%' }, { duration: 0 })
+        requestAnimationFrame(() => startAnim())
+    }
 
-        requestAnimationFrame(() => {
-            const ballrect = el.getBoundingClientRect()
-            let pointY = ballrect.top + ballrect.height / 2
-            let pointX = ballrect.left + ballrect.width / 2
+    requestAnimationFrame(() => startAnim())
 
-            yDistanceToMove = (e.clientY - pointY) / 10
-            xDistanceToMove = (e.clientX - pointX) / 10
+    const startAnim2 = () => {
+        animate(
+            textElem2,
+            { x: ['0%', '35.4%'] },
+            { duration: 8, easing: 'linear' },
+        ).finished.then(loop2)
+    }
 
-            if (yDistanceToMove > 30) {
-                yDistanceToMove = 30
-            } else if (yDistanceToMove < -30) {
-                yDistanceToMove = -30
-            }
+    const loop2 = () => {
+        animate(textElem2, { x: '0%' }, { duration: 0 })
+        requestAnimationFrame(() => startAnim2())
+    }
 
-            if (xDistanceToMove > 30) {
-                xDistanceToMove = 30
-            } else if (xDistanceToMove < -30) {
-                xDistanceToMove = -30
-            }
-
-            animate(
-                el,
-                { y: yDistanceToMove, x: xDistanceToMove },
-                { duration: 0.2 },
-            )
-
-            isAnimating = false
-        })
-    })
-}
-
-const animateIconLocation = () => {
-    let iconLocation = heroRef.value.querySelector('.icon-base')
-
-    animate(
-        iconLocation,
-        { rotate: 90 },
-        {
-            duration: 1,
-            repeat: Infinity,
-            repeatType: 'reverse',
-            easing: 'linear',
-        },
-    )
+    requestAnimationFrame(() => startAnim2())
 }
 
 onMounted(() => {
-    animateIconLocation()
-    inView(heroRef.value, () => {
-        document.addEventListener('mousemove', getMousePosition)
-
-        return () => {
-            document.removeEventListener('mousemove', getMousePosition)
-        }
-    })
-})
-
-onUnmounted(() => {
-    document.removeEventListener('mousemove', getMousePosition)
+    bgTextAnimation()
 })
 </script>
 
 <template>
     <section class="hero" ref="heroRef">
-        <div>
-            <div class="name">
-                <div>i am</div>
-                <div>Dan Erwin,</div>
-            </div>
-            FR<span class="ball"
-                ><div :ref="el => (ballRef[0] = el)"></div>
-                <div>O</div></span
-            >NT-END
+        <div class="bg-text-1">
+            <div>FRONT_END</div>
+            <div>FRONT_END</div>
+            <div>FRONT_END</div>
         </div>
-        <div>
-            WEB DEVEL<span class="ball"
-                ><div :ref="el => (ballRef[1] = el)"></div>
-                <div>O</div></span
-            >PER
-            <div class="base">
-                <LocateFixed class="icon-base" />
-                <div>Based in the Philippines</div>
-            </div>
-        </div>
-        <div class="btn-container">
-            <div class="action-btn">Get in touch</div>
+        <div class="bg-text-2">
+            <div>WEB_DEV</div>
+            <div>WEB_DEV</div>
+            <div>WEB_DEV</div>
         </div>
     </section>
 </template>
 
 <style scoped>
-.action-btn {
-    font-size: 2rem;
-    background-color: var(--primary-color);
-    border: 1px solid var(--accent-color);
-    padding: 1rem;
-    font-size: 2rem;
-    border-radius: 10px;
-}
-
-.btn-container {
-    margin: 0 auto;
-    width: fit-content;
-}
-
 section {
     height: 900px;
     width: 100%;
     line-height: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     user-select: none;
-}
-
-section > div:nth-child(1) {
-    font-size: 12rem;
-    width: fit-content;
-    font-weight: 400;
-}
-section > div:nth-child(2) {
-    font-size: 12rem;
-    width: fit-content;
-    margin: 0 auto;
-    font-weight: 400;
-}
-
-.name {
-    font-size: 2rem;
-    padding-left: 1rem;
-    color: var(--accent-color);
-    transition: color 1s ease;
-}
-
-.name > div:nth-child(1) {
-    font-size: 1.2rem;
-    color: var(--font-color);
-}
-
-.base {
-    font-size: 1.5rem;
-    padding-left: 1rem;
-    text-align: right;
-    display: flex;
-    width: fit-content;
-    margin-left: auto;
-    gap: 0.5rem;
-}
-
-.base > div {
-    color: var(--accent-color);
-    transition: color 1s ease;
-}
-
-.ball {
+    overflow-x: hidden;
     position: relative;
-    width: fit-content;
 }
 
-.ball > div:nth-child(2) {
-    display: inline-block;
+.bg-text-1 > *,
+.bg-text-2 > * {
+    font-size: 20rem;
+    font-weight: 900;
+    opacity: 0.1;
 }
 
-.ball > div:first-child {
-    content: '';
-    width: 50px;
-    height: 50px;
-    background-color: var(--font-color);
+.bg-text-1,
+.bg-text-2 {
+    display: flex;
+    gap: 20rem;
+}
+
+.bg-text-1 {
     position: absolute;
-    border-radius: 100%;
-    left: 33%;
-    top: 38%;
-    z-index: -99;
+    left: -40%;
+    top: 10%;
 }
 
-.accent {
-    color: var(--accent-color);
-    transition: color 1s ease;
+.bg-text-2 {
+    position: absolute;
+    right: -70%;
+    top: 60%;
 }
 </style>
