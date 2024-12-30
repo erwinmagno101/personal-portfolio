@@ -12,7 +12,7 @@ onMounted(() => {})
         <main class="main">
             <HeroSection />
         </main>
-        <footer></footer>
+        <!-- <footer></footer> -->
     </div>
 </template>
 
