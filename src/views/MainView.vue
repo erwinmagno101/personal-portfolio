@@ -18,7 +18,7 @@ onMounted(() => {})
 
 <style scoped>
 .canvas {
-    font-family: 'Inter', serif;
+    font-family: 'Poppins', serif;
     font-optical-sizing: auto;
     position: relative;
     font-style: normal;
