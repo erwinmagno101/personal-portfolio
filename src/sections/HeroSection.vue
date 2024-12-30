@@ -1,6 +1,6 @@
 <script setup>
 import ScrollingBg from '@/components/widgets/ScrollingBg.vue'
-import { LocateFixed, MoveDown } from 'lucide-vue-next'
+import { LocateFixed, ArrowDown, Github, Linkedin, Mail } from 'lucide-vue-next'
 import { animate } from 'motion'
 import { onMounted, ref } from 'vue'
 
@@ -15,10 +15,24 @@ const actionBtnAnim = (e, state) => {
     )
 }
 
+const socialBtnAnim = (e, state) => {
+    animate(e.target, { scale: state ? 1.1 : 1 }, { duration: 0.2 })
+    animate(
+        e.target.children[0],
+        { color: state ? 'black' : 'white' },
+        { duration: 0.1 },
+    )
+    animate(
+        e.target.children[1],
+        { height: state ? '100%' : '0%' },
+        { duration: 0.2 },
+    )
+}
+
 onMounted(() => {
     animate(
         heroRef.value.querySelector('.arrow'),
-        { y: [10, 0] },
+        { y: [5, -5] },
         {
             duration: 1,
             repeat: Infinity,
@@ -41,8 +55,33 @@ onMounted(() => {
             </div>
             <hr />
             <div>
-                <div>Philippines</div>
-                <div>based</div>
+                <div>based in Philippines</div>
+                <div class="socials">
+                    <div
+                        class="social"
+                        @mouseenter="e => socialBtnAnim(e, true)"
+                        @mouseleave="e => socialBtnAnim(e, false)"
+                    >
+                        <Github></Github>
+                        <div></div>
+                    </div>
+                    <div
+                        class="social"
+                        @mouseenter="e => socialBtnAnim(e, true)"
+                        @mouseleave="e => socialBtnAnim(e, false)"
+                    >
+                        <Linkedin></Linkedin>
+                        <div></div>
+                    </div>
+                    <div
+                        class="social"
+                        @mouseenter="e => socialBtnAnim(e, true)"
+                        @mouseleave="e => socialBtnAnim(e, false)"
+                    >
+                        <Mail></Mail>
+                        <div></div>
+                    </div>
+                </div>
             </div>
             <div
                 class="action-btn"
@@ -53,7 +92,9 @@ onMounted(() => {
                 <div>Get in Touch</div>
             </div>
         </div>
-        <div class="note">CHECK ME OUT <MoveDown class="arrow" /></div>
+        <div class="note">
+            CHECK ME OUT <ArrowDown class="arrow"></ArrowDown>
+        </div>
     </section>
 </template>
 
@@ -79,19 +120,56 @@ section {
 .content > div:nth-child(1) {
     font-size: 7rem;
     font-weight: 400;
-    transform: translateY(-60%);
+    position: absolute;
+    left: 0;
+    bottom: 20px;
     letter-spacing: -5px;
     text-wrap: nowrap;
 }
 
 .content > div:nth-child(3) {
-    font-size: 7rem;
-    font-weight: 400;
-    transform: translateY(60%);
-    letter-spacing: -5px;
-    margin-left: auto;
-    text-align: right;
+    font-size: 2rem;
+    font-weight: 300;
+    position: absolute;
+    right: 0;
+    top: 20px;
     text-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    gap: 1rem;
+}
+
+.socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.social {
+    border: 1px solid white;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.social > :first-child {
+    z-index: 2;
+}
+
+.social > div:nth-child(2) {
+    background-color: white;
+    width: 100%;
+    height: 0%;
+    position: absolute;
+    z-index: 1;
 }
 
 hr {
@@ -107,10 +185,17 @@ hr {
     position: absolute;
     bottom: 50px;
     margin-left: 50px;
+    display: flex;
+    align-items: center;
 }
 
 .arrow {
     margin-left: 1rem;
+}
+
+.location {
+    height: 5rem;
+    width: 5rem;
 }
 
 .action-btn {
