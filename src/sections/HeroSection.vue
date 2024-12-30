@@ -1,10 +1,34 @@
 <script setup>
 import ScrollingBg from '@/components/widgets/ScrollingBg.vue'
-import { LocateFixed } from 'lucide-vue-next'
+import { LocateFixed, MoveDown } from 'lucide-vue-next'
 import { animate } from 'motion'
 import { onMounted, ref } from 'vue'
 
 const heroRef = ref(null)
+
+const actionBtnAnim = (e, state) => {
+    animate(e.target, { color: state ? 'black' : 'white' }, { duration: 0.1 })
+    animate(
+        e.target.children[0],
+        { height: state ? '100%' : '0%' },
+        { duration: 0.2 },
+    )
+}
+
+onMounted(() => {
+    animate(
+        heroRef.value.querySelector('.arrow'),
+        { y: [10, 0] },
+        {
+            duration: 1,
+            repeat: Infinity,
+            direction: 'alternate',
+            type: 'spring',
+            stiffness: 50,
+            damping: 300,
+        },
+    )
+})
 </script>
 
 <template>
@@ -20,8 +44,16 @@ const heroRef = ref(null)
                 <div>Philippines</div>
                 <div>based</div>
             </div>
+            <div
+                class="action-btn"
+                @mouseenter="e => actionBtnAnim(e, true)"
+                @mouseleave="e => actionBtnAnim(e, false)"
+            >
+                <div></div>
+                <div>Get in Touch</div>
+            </div>
         </div>
-        <div class="note">CHECK ME OUT</div>
+        <div class="note">CHECK ME OUT <MoveDown class="arrow" /></div>
     </section>
 </template>
 
@@ -73,7 +105,36 @@ hr {
 
 .note {
     position: absolute;
-    bottom: 0;
+    bottom: 50px;
     margin-left: 50px;
+}
+
+.arrow {
+    margin-left: 1rem;
+}
+
+.action-btn {
+    background-color: black;
+    border: 1px solid white;
+    height: fit-content;
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.action-btn > div:nth-child(1) {
+    background-color: white;
+    width: 100%;
+    height: 0%;
+    position: absolute;
+    z-index: -1;
 }
 </style>
