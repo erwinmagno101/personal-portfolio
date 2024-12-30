@@ -11,7 +11,7 @@ const bgTextAnimation = () => {
         animate(
             textElem1,
             { x: ['0%', '-35%'] },
-            { duration: 7, easing: 'linear' },
+            { duration: 10, easing: 'linear' },
         ).finished.then(loop)
     }
 
@@ -26,7 +26,7 @@ const bgTextAnimation = () => {
         animate(
             textElem2,
             { x: ['0%', '35.4%'] },
-            { duration: 8, easing: 'linear' },
+            { duration: 10, easing: 'linear' },
         ).finished.then(loop2)
     }
 
