@@ -1,8 +1,9 @@
 <script setup>
 import ScrollingBg from '@/components/widgets/ScrollingBg.vue'
+import { at } from 'lodash'
 import { LocateFixed, ArrowDown, Github, Linkedin, Mail } from 'lucide-vue-next'
-import { animate, timeline, stagger } from 'motion'
-import { onMounted, ref } from 'vue'
+import { animate, timeline, stagger, scroll } from 'motion'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const heroRef = ref(null)
 
@@ -29,7 +30,9 @@ const socialBtnAnim = (e, state) => {
     )
 }
 
-const onMountAnimation = () => {
+let finishedEnterAnim = false
+
+const onEnterAnim = () => {
     const divider = heroRef.value.querySelector('.divider')
     const name = heroRef.value.querySelector('.name')
     const actionBtn = heroRef.value.querySelector('.action-btn')
@@ -62,7 +65,32 @@ const onMountAnimation = () => {
         ],
         [note, { opacity: [0, 1], y: [-25, 0] }, { duration: 0.2, delay: 0.2 }],
     ]
+    timeline(sequence).finished.then(() => (finishedEnterAnim = true))
+}
+
+const onExitAnim = event => {
+    if (event.deltaY < 0 || !finishedEnterAnim) return
+
+    const divider = heroRef.value.querySelector('.divider')
+    const name = heroRef.value.querySelector('.name')
+    const actionBtn = heroRef.value.querySelector('.action-btn')
+    const base = heroRef.value.querySelector('.base')
+    const social = heroRef.value.querySelectorAll('.social')
+    const note = heroRef.value.querySelector('.note')
+    const bg = heroRef.value.querySelector('.bg')
+
+    const sequence = [
+        [note, { y: [50], opacity: [1, 0] }, { duration: 0.2 }],
+        [bg, { opacity: [1, 0] }, { duration: 0.5 }],
+        [name, { x: [-50], opacity: [1, 0] }, { duration: 0.2, at: 0.5 }],
+        [social, { x: [50], opacity: [1, 0] }, { duration: 0.2, at: 0.5 }],
+        [base, { x: [50], opacity: [1, 0] }, { duration: 0.2, at: 0.5 }],
+        [divider, { width: ['100%', ' 0%'] }, { duration: 0.5, at: 1 }],
+        [divider, { opacity: 0 }, { duration: 0.1, at: 1.5 }],
+    ]
+
     timeline(sequence)
+    finishedEnterAnim = false
 }
 
 onMounted(() => {
@@ -79,13 +107,18 @@ onMounted(() => {
         },
     )
 
-    onMountAnimation()
+    onEnterAnim()
+    document.addEventListener('wheel', onExitAnim)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('wheel', onEnterAnim)
 })
 </script>
 
 <template>
     <section class="hero" ref="heroRef">
-        <ScrollingBg />
+        <ScrollingBg class="bg" />
         <div class="content">
             <div class="name">
                 <div>i am</div>
@@ -142,7 +175,7 @@ section {
     width: 100%;
     line-height: 1;
     user-select: none;
-    overflow-x: hidden;
+    overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
