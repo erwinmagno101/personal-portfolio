@@ -1,5 +1,5 @@
 <script setup>
-import { animate } from 'motion'
+import { animate, timeline } from 'motion'
 import { onMounted, ref } from 'vue'
 
 const bgRef = ref(null)
@@ -11,7 +11,7 @@ const bgTextAnimation = () => {
         animate(
             textElem1,
             { x: ['0%', '-35%'] },
-            { duration: 10, easing: 'linear' },
+            { duration: 15, easing: 'linear' },
         ).finished.then(loop)
     }
 
@@ -26,7 +26,7 @@ const bgTextAnimation = () => {
         animate(
             textElem2,
             { x: ['0%', '35.4%'] },
-            { duration: 10, easing: 'linear' },
+            { duration: 15, easing: 'linear' },
         ).finished.then(loop2)
     }
 
@@ -38,7 +38,20 @@ const bgTextAnimation = () => {
     requestAnimationFrame(() => startAnim2())
 }
 
+const onMountAnimation = () => {
+    const textElem1 = bgRef.value.querySelector('.bg-text-1')
+    const textElem2 = bgRef.value.querySelector('.bg-text-2')
+
+    const sequence = [
+        [textElem1, { opacity: [0, 1] }, { duration: 0.5 }],
+        [textElem2, { opacity: [0, 1] }, { duration: 0.5, at: 0 }],
+    ]
+
+    timeline(sequence, { delay: 1.3, easing: 'ease-in' })
+}
+
 onMounted(() => {
+    onMountAnimation()
     bgTextAnimation()
 })
 </script>
