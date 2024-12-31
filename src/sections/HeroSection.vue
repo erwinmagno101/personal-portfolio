@@ -1,7 +1,7 @@
 <script setup>
 import ScrollingBg from '@/components/widgets/ScrollingBg.vue'
 import { LocateFixed, ArrowDown, Github, Linkedin, Mail } from 'lucide-vue-next'
-import { animate } from 'motion'
+import { animate, timeline, stagger } from 'motion'
 import { onMounted, ref } from 'vue'
 
 const heroRef = ref(null)
@@ -29,6 +29,42 @@ const socialBtnAnim = (e, state) => {
     )
 }
 
+const onMountAnimation = () => {
+    const divider = heroRef.value.querySelector('.divider')
+    const name = heroRef.value.querySelector('.name')
+    const actionBtn = heroRef.value.querySelector('.action-btn')
+    const base = heroRef.value.querySelector('.base')
+    const social = heroRef.value.querySelectorAll('.social')
+    const note = heroRef.value.querySelector('.note')
+
+    const sequence = [
+        [actionBtn, { opacity: 0 }, { duration: 0 }],
+        [divider, { width: ['0%', '100%'] }, { duration: 1 }],
+        [
+            name.children[1],
+            { opacity: [0, 1], y: [20, 0] },
+            { duration: 0.2, easing: 'ease-out' },
+        ],
+        [
+            name.children[0],
+            { opacity: [0, 1], y: [25, 0] },
+            { duration: 0.2, easing: 'ease-out', at: 1.1 },
+        ],
+        [
+            base,
+            { opacity: [0, 1], y: [-20, 0] },
+            { duration: 0.2, easing: 'ease-out', at: 1 },
+        ],
+        [
+            social,
+            { opacity: [0, 1], y: [-25, 0] },
+            { duration: 0.2, delay: stagger(0.1) },
+        ],
+        [note, { opacity: [0, 1], y: [-25, 0] }, { duration: 0.2, delay: 0.2 }],
+    ]
+    timeline(sequence)
+}
+
 onMounted(() => {
     animate(
         heroRef.value.querySelector('.arrow'),
@@ -42,6 +78,8 @@ onMounted(() => {
             damping: 300,
         },
     )
+
+    onMountAnimation()
 })
 </script>
 
@@ -49,13 +87,13 @@ onMounted(() => {
     <section class="hero" ref="heroRef">
         <ScrollingBg />
         <div class="content">
-            <div>
+            <div class="name">
                 <div>i am</div>
                 <div>Dan Erwin</div>
             </div>
-            <hr />
+            <hr class="divider" />
             <div>
-                <div>based in Philippines</div>
+                <div class="base">based in Philippines</div>
                 <div class="socials">
                     <div
                         class="social"
@@ -115,6 +153,8 @@ section {
     margin: 0 50px;
     position: relative;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .content > div:nth-child(1) {
