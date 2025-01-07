@@ -52,7 +52,7 @@ const onMountAnimation = () => {
 
 onMounted(() => {
     onMountAnimation()
-    bgTextAnimation()
+    // bgTextAnimation()
 })
 </script>
 
@@ -60,12 +60,8 @@ onMounted(() => {
     <div ref="bgRef">
         <div class="bg-text-1">
             <div>FRONT_END</div>
-            <div>FRONT_END</div>
-            <div>FRONT_END</div>
         </div>
         <div class="bg-text-2">
-            <div>WEB_DEV</div>
-            <div>WEB_DEV</div>
             <div>WEB_DEV</div>
         </div>
     </div>
@@ -74,26 +70,26 @@ onMounted(() => {
 <style scoped>
 .bg-text-1 > *,
 .bg-text-2 > * {
-    font-size: 20rem;
+    font-size: 18rem;
     font-weight: 900;
     opacity: 0.1;
+}
+
+.bg-text-1 {
+    position: absolute;
+    top: 5%;
+}
+
+.bg-text-2 {
+    position: absolute;
+    top: 55%;
 }
 
 .bg-text-1,
 .bg-text-2 {
     display: flex;
     gap: 20rem;
-}
-
-.bg-text-1 {
-    position: absolute;
-    left: -40%;
-    top: 5%;
-}
-
-.bg-text-2 {
-    position: absolute;
-    right: -70%;
-    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 </style>
