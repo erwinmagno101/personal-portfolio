@@ -18,7 +18,9 @@ onMounted(() => {})
         <main class="main">
             <HeroSection v-if="!sw" v-model="sw" />
             <div class="sections" v-if="sw">
-                <SkillSection />
+                <div>
+                    <SkillSection />
+                </div>
             </div>
         </main>
         <!-- <footer></footer> -->
