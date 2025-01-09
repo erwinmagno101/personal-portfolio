@@ -5,6 +5,8 @@ import { LocateFixed, ArrowDown, Github, Linkedin, Mail } from 'lucide-vue-next'
 import { animate, timeline, stagger, scroll } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
 
+const sw = defineModel({})
+
 const heroRef = ref(null)
 
 const actionBtnAnim = (e, state) => {
@@ -89,7 +91,7 @@ const onExitAnim = event => {
         [divider, { opacity: 0 }, { duration: 0.1, at: 1.5 }],
     ]
 
-    timeline(sequence)
+    timeline(sequence).finished.then(() => (sw.value = true))
     finishedEnterAnim = false
 }
 
