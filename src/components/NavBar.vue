@@ -1,16 +1,85 @@
-<script setup></script>
+<script setup>
+import { animate } from 'motion'
+import { onMounted, onUnmounted, watch } from 'vue'
+import { ref } from 'vue'
+import CtaNav from './widgets/CtaNav.vue'
+
+const showNav = ref(true)
+const navRef = ref(null)
+
+const trackScrollDir = e => {
+    if (e.deltaY > 0) {
+        showNav.value = false
+    }
+
+    if (e.deltaY < 0) {
+        showNav.value = true
+    }
+}
+let animating = false
+
+const navAnimation = value => {
+    if (value) {
+        animate(navRef.value, { opacity: 1, y: [-30, 0] }, { duration: 0.2 })
+        return
+    }
+
+    animate(navRef.value, { opacity: 0, y: [0, -30] }, { duration: 0.2 })
+}
+
+watch(
+    () => showNav.value,
+    newVal => {
+        navAnimation(newVal)
+    },
+)
+
+onMounted(() => {
+    document.addEventListener('wheel', trackScrollDir)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('wheel', trackScrollDir)
+})
+</script>
 
 <template>
-    <nav>
+    <nav ref="navRef">
         <div>LOGO</div>
         <ul>
             <li>Home</li>
             <li>About</li>
             <li>Projects</li>
-            <li>Contact</li>
         </ul>
         <div>
-            <div>Get in touch</div>
+            <CtaNav />
         </div>
     </nav>
 </template>
+
+<style scoped>
+nav {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1rem 2rem;
+    align-items: center;
+}
+
+nav > :nth-child(1) {
+    flex: 1;
+}
+
+nav > :nth-child(2) {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
+
+nav > :nth-child(3) {
+    padding-left: 2rem;
+}
+</style>
