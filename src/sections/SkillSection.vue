@@ -54,7 +54,7 @@ const leaveAnimation = e => {
     const background = e.target.querySelector('.background')
 
     const sequence = [
-        [title, { color: 'black' }, { duration: 0.1, at: 0 }],
+        [title, { color: 'white' }, { duration: 0.1, at: 0 }],
         [title, { y: 0 }, { duration: 0.3, at: 0.1 }],
         [background, { width: '0%' }, { duration: 0.2, at: 0 }],
         [description, { opacity: 0, y: 100 }, { duration: 0.2, at: 0 }],
@@ -92,14 +92,14 @@ onMounted(() => {})
 <style scoped>
 h2 {
     font-size: 1.5rem;
-    border-top: 1px solid black;
+    border-top: 1px solid white;
     padding: 1rem 0;
     padding-bottom: 2rem;
 }
 
 .services {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid;
+    border-bottom: 1px solid white;
     display: flex;
     height: 80vh;
 }
@@ -112,13 +112,18 @@ h2 {
     display: flex;
     align-items: center;
     flex-direction: column;
-    border-right: 1px solid black;
+    border-right: 1px solid white;
+}
+
+.services .item:last-child {
+    border-right: 0px;
 }
 
 .services .title {
     font-size: 2rem;
     position: relative;
     top: 45%;
+    color: white;
 }
 
 .services .description {
