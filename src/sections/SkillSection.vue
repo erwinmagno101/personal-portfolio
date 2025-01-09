@@ -35,7 +35,8 @@ const services_data = [
 const skills = [
     {
         name: 'Flutter',
-        description: 'Cross-platform UI toolkit by Google.',
+        description:
+            'A cross-platform toolkit by Google for building modern, high-performance apps.',
         logo: 'flutter',
         link: 'https://flutter.dev/',
         tag: ['Framework', 'Mobile', 'UI', 'Tool'],
@@ -44,7 +45,8 @@ const skills = [
     },
     {
         name: 'Vue js',
-        description: 'Progressive JavaScript framework for UIs.',
+        description:
+            'A progressive JavaScript framework for creating fast, interactive, and reactive UIs.',
         logo: 'vue',
         link: 'https://vuejs.org/',
         tag: ['Framework', 'Frontend', 'JavaScript', 'UI'],
@@ -53,7 +55,8 @@ const skills = [
     },
     {
         name: 'React js',
-        description: 'JavaScript library for building UIs.',
+        description:
+            'A powerful JavaScript library for building reusable, component-driven user interfaces.',
         logo: 'react',
         link: 'https://react.dev/',
         tag: ['Framework', 'Frontend', 'JavaScript', 'Library'],
@@ -62,7 +65,8 @@ const skills = [
     },
     {
         name: 'Tailwind CSS',
-        description: 'A utility-first CSS framework',
+        description:
+            'A utility-first CSS framework for designing responsive, modern, and fast layouts.',
         logo: 'tailwind',
         link: 'https://tailwindcss.com/',
         tag: ['Framework', 'CSS', 'Frontend', 'Design'],
@@ -71,7 +75,8 @@ const skills = [
     },
     {
         name: 'Javascript',
-        description: 'Popular language for web development.',
+        description:
+            'The most popular programming language for developing interactive, dynamic web applications.',
         logo: 'javascript',
         link: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
         tag: ['Language', 'Frontend', 'Backend', 'Web'],
@@ -80,7 +85,8 @@ const skills = [
     },
     {
         name: 'Java',
-        description: 'Widely used language for cross-platform apps.',
+        description:
+            'A versatile programming language for enterprise-grade, mobile, and cross-platform applications.',
         logo: 'java',
         link: 'https://www.java.com/en/',
         tag: ['Language', 'Backend', 'Mobile', 'Enterprise'],
@@ -89,7 +95,8 @@ const skills = [
     },
     {
         name: 'Dart',
-        description: 'Programming language optimized for UIs.',
+        description:
+            'An efficient programming language optimized for creating beautiful, high-performance UIs.',
         logo: 'dart',
         link: 'https://dart.dev/',
         tag: ['Language', 'Frontend', 'Mobile', 'UI'],
@@ -98,7 +105,8 @@ const skills = [
     },
     {
         name: 'CSS',
-        description: 'Stylesheets for designing web pages.',
+        description:
+            'A styling language for designing visually appealing and responsive web layouts.',
         logo: 'css',
         link: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
         tag: ['Language', 'Design', 'Frontend', 'Web'],
@@ -107,7 +115,8 @@ const skills = [
     },
     {
         name: 'HTML',
-        description: 'Markup language for structuring web pages.',
+        description:
+            'The fundamental markup language for structuring and presenting content on the web.',
         logo: 'html',
         link: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
         tag: ['Language', 'Markup', 'Frontend', 'Web'],
@@ -116,7 +125,8 @@ const skills = [
     },
     {
         name: 'Mongo DB',
-        description: 'NoSQL database for flexible data storage.',
+        description:
+            'A NoSQL database offering flexible, scalable, and high-performance data storage.',
         logo: 'mongodb',
         link: 'https://www.mongodb.com/',
         tag: ['Database', 'NoSQL', 'Backend', 'Tool'],
@@ -125,7 +135,8 @@ const skills = [
     },
     {
         name: 'Firebase',
-        description: 'Backend-as-a-Service by Google.',
+        description:
+            'A Google-backed platform for backend development, including database, authentication, and hosting.',
         logo: 'firebase',
         link: 'https://firebase.google.com/',
         tag: ['Tool', 'Backend', 'Cloud', 'Database'],
@@ -134,7 +145,8 @@ const skills = [
     },
     {
         name: 'Android Studio',
-        description: 'Official IDE for Android development.',
+        description:
+            'The official integrated development environment (IDE) for creating Android applications.',
         logo: 'android',
         link: 'https://developer.android.com/studio',
         tag: ['Tool', 'IDE', 'Mobile', 'Development'],
@@ -143,7 +155,8 @@ const skills = [
     },
     {
         name: 'VS Code',
-        description: 'Lightweight, extensible code editor by Microsoft.',
+        description:
+            'A lightweight, extensible code editor with powerful features for development.',
         logo: 'vscode',
         link: 'https://code.visualstudio.com/',
         tag: ['Tool', 'IDE', 'Development', 'Open Source'],
@@ -152,7 +165,8 @@ const skills = [
     },
     {
         name: 'GitHub',
-        description: 'Hosting for version control and collaboration.',
+        description:
+            'A popular platform for version control, collaboration, and hosting open-source projects.',
         logo: 'github',
         link: 'https://github.com/',
         tag: ['Platform', 'Collaboration', 'Version Control', 'Tool'],
@@ -230,14 +244,14 @@ onMounted(() => {})
                 <div class="item" v-for="skill in skills" :key="skill">
                     <div class="logo-container">
                         <TechLogo :name="skill.logo" />
+                        <div>{{ skill.name }}</div>
                     </div>
                     <div class="content">
+                        <div>{{ skill.description }}</div>
                         <div>
-                            <div>{{ skill.name }}</div>
-                            <div>{{ skill.description }}</div>
-                        </div>
-                        <div @click="() => redirectLink(skill.link)">
-                            <SquareArrowOutUpRight />
+                            <div v-for="tag in skill.tag" :key="tag">
+                                #{{ tag }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -320,40 +334,47 @@ h2 {
 
 .technologies {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    max-width: 1300px;
-    margin: 0 auto;
-    justify-content: center;
+    gap: 2rem;
+    justify-content: baseline;
+    align-items: stretch;
 }
 
 .technologies .item {
-    border: 1px solid white;
     padding: 1rem;
     display: flex;
-    gap: 1rem;
-    max-width: 300px;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 400px;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.technologies .item .logo-container {
+    display: flex;
+    gap: 3rem;
     align-items: center;
+    width: 100%;
+}
+
+.technologies .item .logo-container > :nth-child(2) {
+    font-size: 2rem;
+    white-space: nowrap;
 }
 
 .technologies .item .content {
+    width: 100%;
     display: flex;
     flex-direction: column;
-
-    height: 100%;
+    gap: 1rem;
 }
 
-.technologies .item .content > div:first-child {
-    font-size: 1.1rem;
+.technologies .item .content > div:nth-child(2) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
 }
 
-.technologies .item .content > div:first-child > :nth-child(2) {
-    font-size: 0.8rem;
-}
-
-.technologies .item .content > div:last-child {
-    margin-top: auto;
-    margin-left: auto;
-    cursor: pointer;
+.technologies .item .content > div:nth-child(2) > div {
+    opacity: 0.5;
 }
 </style>
