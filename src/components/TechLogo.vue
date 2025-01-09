@@ -1,13 +1,11 @@
 <script setup>
 const props = defineProps({
     name: String,
-    active: Boolean,
-    isHovering: Boolean,
 })
 </script>
 
 <template>
-    <div class="logo" :class="[isHovering ? (active ? '' : 'grayscale') : '']">
+    <div class="logo">
         <svg
             v-if="name === 'dart'"
             xmlns="http://www.w3.org/2000/svg"
@@ -550,13 +548,5 @@ const props = defineProps({
 <style scoped>
 svg {
     width: 48px;
-}
-
-.logo {
-    transition: all 0.5s ease;
-}
-
-.grayscale {
-    filter: grayscale(100%);
 }
 </style>

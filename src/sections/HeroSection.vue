@@ -1,205 +1,300 @@
 <script setup>
-import { animate, inView } from 'motion'
+import ScrollingBg from '@/components/widgets/ScrollingBg.vue'
+import { at } from 'lodash'
+import { LocateFixed, ArrowDown, Github, Linkedin, Mail } from 'lucide-vue-next'
+import { animate, timeline, stagger, scroll } from 'motion'
 import { onMounted, onUnmounted, ref } from 'vue'
-import { LocateFixed } from 'lucide-vue-next'
-import ShadowEffect from '@/components/ShadowEffect.vue'
+
+const sw = defineModel({})
 
 const heroRef = ref(null)
-const ballRef = ref([])
-let isAnimating = false
 
-const getMousePosition = e => {
-    if (isAnimating) return
-    isAnimating = true
-
-    ballRef.value.forEach(el => {
-        let xDistanceToMove
-        let yDistanceToMove
-
-        requestAnimationFrame(() => {
-            const ballrect = el.getBoundingClientRect()
-            let pointY = ballrect.top + ballrect.height / 2
-            let pointX = ballrect.left + ballrect.width / 2
-
-            yDistanceToMove = (e.clientY - pointY) / 10
-            xDistanceToMove = (e.clientX - pointX) / 10
-
-            if (yDistanceToMove > 30) {
-                yDistanceToMove = 30
-            } else if (yDistanceToMove < -30) {
-                yDistanceToMove = -30
-            }
-
-            if (xDistanceToMove > 30) {
-                xDistanceToMove = 30
-            } else if (xDistanceToMove < -30) {
-                xDistanceToMove = -30
-            }
-
-            animate(
-                el,
-                { y: yDistanceToMove, x: xDistanceToMove },
-                { duration: 0.2 },
-            )
-
-            isAnimating = false
-        })
-    })
-}
-
-const animateIconLocation = () => {
-    let iconLocation = heroRef.value.querySelector('.icon-base')
-
+const actionBtnAnim = (e, state) => {
+    animate(e.target, { color: state ? 'black' : 'white' }, { duration: 0.1 })
     animate(
-        iconLocation,
-        { rotate: 90 },
-        {
-            duration: 1,
-            repeat: Infinity,
-            repeatType: 'reverse',
-            easing: 'linear',
-        },
+        e.target.children[0],
+        { height: state ? '100%' : '0%' },
+        { duration: 0.2 },
     )
 }
 
-onMounted(() => {
-    animateIconLocation()
-    inView(heroRef.value, () => {
-        document.addEventListener('mousemove', getMousePosition)
+const socialBtnAnim = (e, state) => {
+    animate(e.target, { scale: state ? 1.1 : 1 }, { duration: 0.2 })
+    animate(
+        e.target.children[0],
+        { color: state ? 'black' : 'white' },
+        { duration: 0.1 },
+    )
+    animate(
+        e.target.children[1],
+        { height: state ? '100%' : '0%' },
+        { duration: 0.2 },
+    )
+}
 
-        return () => {
-            document.removeEventListener('mousemove', getMousePosition)
-        }
-    })
+let finishedEnterAnim = false
+
+const onEnterAnim = () => {
+    const divider = heroRef.value.querySelector('.divider')
+    const name = heroRef.value.querySelector('.name')
+    const actionBtn = heroRef.value.querySelector('.action-btn')
+    const base = heroRef.value.querySelector('.base')
+    const social = heroRef.value.querySelectorAll('.social')
+    const note = heroRef.value.querySelector('.note')
+
+    const sequence = [
+        [actionBtn, { opacity: 0 }, { duration: 0 }],
+        [divider, { width: ['0%', '100%'] }, { duration: 1 }],
+        [
+            name.children[1],
+            { opacity: [0, 1], y: [20, 0] },
+            { duration: 0.2, easing: 'ease-out' },
+        ],
+        [
+            name.children[0],
+            { opacity: [0, 1], y: [25, 0] },
+            { duration: 0.2, easing: 'ease-out', at: 1.1 },
+        ],
+        [
+            base,
+            { opacity: [0, 1], y: [-20, 0] },
+            { duration: 0.2, easing: 'ease-out', at: 1 },
+        ],
+        [
+            social,
+            { opacity: [0, 1], y: [-25, 0] },
+            { duration: 0.2, delay: stagger(0.1) },
+        ],
+        [note, { opacity: [0, 1], y: [-25, 0] }, { duration: 0.2, delay: 0.2 }],
+    ]
+    timeline(sequence).finished.then(() => (finishedEnterAnim = true))
+}
+
+const onExitAnim = event => {
+    if (event.deltaY < 0 || !finishedEnterAnim) return
+
+    const divider = heroRef.value.querySelector('.divider')
+    const name = heroRef.value.querySelector('.name')
+    const actionBtn = heroRef.value.querySelector('.action-btn')
+    const base = heroRef.value.querySelector('.base')
+    const social = heroRef.value.querySelectorAll('.social')
+    const note = heroRef.value.querySelector('.note')
+    const bg = heroRef.value.querySelector('.bg')
+
+    const sequence = [
+        [note, { y: [50], opacity: [1, 0] }, { duration: 0.2 }],
+        [bg, { opacity: [1, 0] }, { duration: 0.5 }],
+        [name, { x: [-50], opacity: [1, 0] }, { duration: 0.2, at: 0.5 }],
+        [social, { x: [50], opacity: [1, 0] }, { duration: 0.2, at: 0.5 }],
+        [base, { x: [50], opacity: [1, 0] }, { duration: 0.2, at: 0.5 }],
+        [divider, { width: ['100%', ' 0%'] }, { duration: 0.5, at: 1 }],
+        [divider, { opacity: 0 }, { duration: 0.1, at: 1.5 }],
+    ]
+
+    timeline(sequence).finished.then(() => (sw.value = true))
+    finishedEnterAnim = false
+}
+
+onMounted(() => {
+    animate(
+        heroRef.value.querySelector('.arrow'),
+        { y: [5, -5] },
+        {
+            duration: 1,
+            repeat: Infinity,
+            direction: 'alternate',
+            type: 'spring',
+            stiffness: 50,
+            damping: 300,
+        },
+    )
+
+    onEnterAnim()
+    document.addEventListener('wheel', onExitAnim)
 })
 
 onUnmounted(() => {
-    document.removeEventListener('mousemove', getMousePosition)
+    document.removeEventListener('wheel', onExitAnim)
 })
 </script>
 
 <template>
     <section class="hero" ref="heroRef">
-        <div>
+        <ScrollingBg class="bg" />
+        <div class="content">
             <div class="name">
                 <div>i am</div>
-                <div>Dan Erwin,</div>
+                <div>Dan Erwin</div>
             </div>
-            FR<span class="ball"
-                ><div :ref="el => (ballRef[0] = el)"></div>
-                <div>O</div></span
-            >NT-END
-        </div>
-        <div>
-            WEB DEVEL<span class="ball"
-                ><div :ref="el => (ballRef[1] = el)"></div>
-                <div>O</div></span
-            >PER
-            <div class="base">
-                <LocateFixed class="icon-base" />
-                <div>Based in the Philippines</div>
+            <hr class="divider" />
+            <div>
+                <div class="base">based in Philippines</div>
+                <div class="socials">
+                    <div
+                        class="social"
+                        @mouseenter="e => socialBtnAnim(e, true)"
+                        @mouseleave="e => socialBtnAnim(e, false)"
+                    >
+                        <Github></Github>
+                        <div></div>
+                    </div>
+                    <div
+                        class="social"
+                        @mouseenter="e => socialBtnAnim(e, true)"
+                        @mouseleave="e => socialBtnAnim(e, false)"
+                    >
+                        <Linkedin></Linkedin>
+                        <div></div>
+                    </div>
+                    <div
+                        class="social"
+                        @mouseenter="e => socialBtnAnim(e, true)"
+                        @mouseleave="e => socialBtnAnim(e, false)"
+                    >
+                        <Mail></Mail>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="action-btn"
+                @mouseenter="e => actionBtnAnim(e, true)"
+                @mouseleave="e => actionBtnAnim(e, false)"
+            >
+                <div></div>
+                <div>Get in Touch</div>
             </div>
         </div>
-        <div class="btn-container">
-            <ShadowEffect>
-                <div class="action-btn">Get in touch</div>
-            </ShadowEffect>
+        <div class="note">
+            CHECK ME OUT <ArrowDown class="arrow"></ArrowDown>
         </div>
     </section>
 </template>
 
 <style scoped>
-.action-btn {
-    font-size: 2rem;
-    width: fit-content;
-    background-color: var(--primary-color);
-    border: 1px solid var(--accent-color);
-    transition:
-        border 0.5s ease,
-        background-color 0.5s ease;
-    padding: 1rem;
-    font-size: 2rem;
-    border-radius: 10px;
-}
-
-.btn-container {
-    margin: 0 auto;
-    width: fit-content;
-}
-
 section {
     height: 900px;
     width: 100%;
     line-height: 1;
+    user-select: none;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.content {
+    margin: 0 50px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content > div:nth-child(1) {
+    font-size: 7rem;
+    font-weight: 400;
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    letter-spacing: -5px;
+    text-wrap: nowrap;
+}
+
+.content > div:nth-child(3) {
+    font-size: 2rem;
+    font-weight: 300;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    text-wrap: nowrap;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    user-select: none;
+    height: fit-content;
+    gap: 1rem;
 }
 
-section > div:nth-child(1) {
-    font-size: 12rem;
-    width: fit-content;
-    font-weight: 400;
-}
-section > div:nth-child(2) {
-    font-size: 12rem;
-    width: fit-content;
-    margin: 0 auto;
-    font-weight: 400;
-}
-
-.name {
-    font-size: 2rem;
-    padding-left: 1rem;
-    color: var(--accent-color);
-    transition: color 1s ease;
-}
-
-.name > div:nth-child(1) {
-    font-size: 1.2rem;
-    color: var(--font-color);
-}
-
-.base {
-    font-size: 1.5rem;
-    padding-left: 1rem;
-    text-align: right;
+.socials {
     display: flex;
-    width: fit-content;
-    margin-left: auto;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
-.base > div {
-    color: var(--accent-color);
-    transition: color 1s ease;
-}
-
-.ball {
-    position: relative;
-    width: fit-content;
-}
-
-.ball > div:nth-child(2) {
-    display: inline-block;
-}
-
-.ball > div:first-child {
-    content: '';
-    width: 50px;
+.social {
+    border: 1px solid white;
     height: 50px;
-    background-color: var(--font-color);
-    position: absolute;
-    border-radius: 100%;
-    left: 33%;
-    top: 38%;
-    z-index: -99;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.accent {
-    color: var(--accent-color);
-    transition: color 1s ease;
+.social > :first-child {
+    z-index: 2;
+}
+
+.social > div:nth-child(2) {
+    background-color: white;
+    width: 100%;
+    height: 0%;
+    position: absolute;
+    z-index: 1;
+}
+
+hr {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1px;
+    background-color: white;
+}
+
+.note {
+    position: absolute;
+    bottom: 50px;
+    margin-left: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    margin-left: 1rem;
+}
+
+.location {
+    height: 5rem;
+    width: 5rem;
+}
+
+.action-btn {
+    background-color: black;
+    border: 1px solid white;
+    height: fit-content;
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.action-btn > div:nth-child(1) {
+    background-color: white;
+    width: 100%;
+    height: 0%;
+    position: absolute;
+    z-index: -1;
 }
 </style>

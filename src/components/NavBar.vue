@@ -1,94 +1,86 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
-import { scroll, animate } from 'motion'
+import { animate } from 'motion'
+import { onMounted, onUnmounted, watch } from 'vue'
+import { ref } from 'vue'
+import CtaNav from './widgets/CtaNav.vue'
 
-const navList = [
-    { title: 'Home' },
-    { title: 'Skills' },
-    { title: 'Portfolio' },
-    { title: 'About' },
-    { title: 'Contact' },
-]
+const showNav = ref(true)
+const navRef = ref(null)
 
-const scrolled = ref(false)
-const navContainerRef = ref(false)
+const trackScrollDir = e => {
+    if (e.deltaY > 0) {
+        showNav.value = false
+    }
 
-const trackScroll = progress => {
-    scrolled.value = progress > 0 ? true : false
+    if (e.deltaY < 0) {
+        showNav.value = true
+    }
+}
+let animating = false
+
+const navAnimation = value => {
+    if (value) {
+        animate(navRef.value, { opacity: 1, y: [-30, 0] }, { duration: 0.2 })
+        return
+    }
+
+    animate(navRef.value, { opacity: 0, y: [0, -30] }, { duration: 0.2 })
 }
 
 watch(
-    () => scrolled.value,
+    () => showNav.value,
     newVal => {
-        animateNav(newVal)
+        navAnimation(newVal)
     },
 )
 
-const animateNav = condition => {
-    const logo = navContainerRef.value.querySelector('.logo')
-    const settings = navContainerRef.value.querySelector('.settings')
-
-    if (condition) {
-        animate(
-            logo,
-            { opacity: 0, pointerEvents: 'none' },
-            { duration: 0.2, delay: 0.2 },
-        )
-        animate(
-            settings,
-            { opacity: 0, pointerEvents: 'none' },
-            { duration: 0.2, delay: 0.2 },
-        )
-    } else {
-        animate(
-            logo,
-            { opacity: 1, pointerEvents: 'all' },
-            { duration: 0.2, delay: 0.2 },
-        )
-        animate(
-            settings,
-            { opacity: 1, pointerEvents: 'all' },
-            { duration: 0.2, delay: 0.2 },
-        )
-    }
-}
-
 onMounted(() => {
-    scroll(e => trackScroll(e.y.progress))
+    document.addEventListener('wheel', trackScrollDir)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('wheel', trackScrollDir)
 })
 </script>
 
 <template>
-    <div class="nav-container" ref="navContainerRef">
-        <div class="logo" @click="console.log('gg')">LOGO HERE</div>
-        <nav>
-            <div>
-                <div v-for="(nav, index) in navList" :key="index">
-                    {{ nav.title }}
-                </div>
-            </div>
-        </nav>
-        <div class="settings">LOGO HERE</div>
-    </div>
+    <nav ref="navRef">
+        <div>LOGO</div>
+        <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Projects</li>
+        </ul>
+        <div>
+            <CtaNav />
+        </div>
+    </nav>
 </template>
 
 <style scoped>
-.nav-container {
-    width: 100%;
-    display: flex;
-}
-
 nav {
-    flex: 1 1 0;
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1rem 2rem;
+    align-items: center;
+    background-color: black;
 }
 
-nav > div:first-child {
+nav > :nth-child(1) {
+    flex: 1;
+}
+
+nav > :nth-child(2) {
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 1rem;
-    padding: 0.5rem;
-    width: fit-content;
-    margin: 0 auto;
+    list-style: none;
+}
+
+nav > :nth-child(3) {
+    padding-left: 2rem;
 }
 </style>

@@ -1,65 +1,38 @@
 <script setup>
-import BackgroundEffect from '@/components/BackgroundEffect.vue'
 import HeroSection from '@/sections/HeroSection.vue'
+import { onMounted } from 'vue'
 import SkillSection from '@/sections/SkillSection.vue'
-import SectionProgress from '@/components/SectionProgress.vue'
-import ScrollProgress from '@/components/ScrollProgress.vue'
+import { ref } from 'vue'
 import NavBar from '@/components/NavBar.vue'
-import PortfolioSection from '@/sections/PortfolioSection.vue'
-import { onMounted, ref } from 'vue'
-import { useColorGeneration } from '@/stores/colorgen'
-import AboutSection from '@/sections/AboutSection.vue'
 
-const colorGeneration = useColorGeneration()
+const sw = ref(false)
 
-const generateColor = () => {
-    // const generatedColor = colorGeneration.generateRandomColor()
-    // changeTheme(generatedColor)
-    // localStorage.setItem('theme', JSON.stringify(generatedColor))
-}
-
-const changeTheme = color => {
-    document.documentElement.style.setProperty(
-        '--primary-color',
-        color.colors.primary,
-    )
-
-    document.documentElement.style.setProperty(
-        '--accent-color',
-        color.colors.secondary,
-    )
-}
-
-onMounted(() => {
-    // const color = JSON.parse(localStorage.getItem('theme'))
-    // if (color) {
-    //     changeTheme(color)
-    // }
-})
+onMounted(() => {})
 </script>
 
 <template>
     <div class="canvas">
-        <BackgroundEffect />
-        <SectionProgress />
-        <ScrollProgress />
-        <header id="header">
+        <header id="header" v-if="sw">
             <NavBar />
         </header>
-        <main class="main" @click="generateColor">
-            <HeroSection></HeroSection>
-            <SkillSection></SkillSection>
-            <PortfolioSection></PortfolioSection>
-            <AboutSection></AboutSection>
+        <main class="main">
+            <HeroSection v-if="!sw" v-model="sw" />
+            <div class="sections" v-if="sw">
+                <div>
+                    <SkillSection />
+                </div>
+            </div>
         </main>
-        <footer></footer>
+        <!-- <footer></footer> -->
     </div>
 </template>
 
 <style scoped>
 .canvas {
-    font-family: 'Google Sans Flex', sans-serif;
+    font-family: 'Poppins', serif;
+    font-optical-sizing: auto;
     position: relative;
+    font-style: normal;
 }
 
 header {
@@ -77,5 +50,9 @@ main {
 }
 footer {
     padding-bottom: 5rem;
+}
+
+.sections {
+    padding: 5rem;
 }
 </style>
