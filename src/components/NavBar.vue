@@ -67,6 +67,7 @@ nav {
     left: 0;
     padding: 1rem 2rem;
     align-items: center;
+    background-color: black;
 }
 
 nav > :nth-child(1) {
