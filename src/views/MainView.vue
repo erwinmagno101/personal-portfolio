@@ -2,15 +2,24 @@
 import HeroSection from '@/sections/HeroSection.vue'
 import { onMounted } from 'vue'
 import SkillSection from '@/sections/SkillSection.vue'
+import { ref } from 'vue'
+import NavBar from '@/components/NavBar.vue'
+
+const sw = ref(false)
 
 onMounted(() => {})
 </script>
 
 <template>
     <div class="canvas">
-        <!-- <header id="header"></header> -->
+        <header id="header" v-if="sw">
+            <NavBar />
+        </header>
         <main class="main">
-            <HeroSection />
+            <HeroSection v-if="!sw" v-model="sw" />
+            <div class="sections" v-if="sw">
+                <SkillSection />
+            </div>
         </main>
         <!-- <footer></footer> -->
     </div>
@@ -39,5 +48,9 @@ main {
 }
 footer {
     padding-bottom: 5rem;
+}
+
+.sections {
+    padding: 5rem;
 }
 </style>
