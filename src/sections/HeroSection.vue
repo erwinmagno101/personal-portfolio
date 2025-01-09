@@ -114,7 +114,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    document.removeEventListener('wheel', onEnterAnim)
+    document.removeEventListener('wheel', onExitAnim)
 })
 </script>
 
