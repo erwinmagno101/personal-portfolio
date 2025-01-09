@@ -37,7 +37,7 @@ const hoverAnimation = e => {
     const background = e.target.querySelector('.background')
 
     const sequence = [
-        [title, { color: 'white' }, { duration: 0.2, at: 0 }],
+        [title, { color: 'black' }, { duration: 0.2, at: 0 }],
         [title, { y: [0, -50] }, { duration: 0.3, at: 0.1 }],
         [background, { width: '100%' }, { duration: 0.2, at: 0 }],
         [description, { opacity: 1, y: [100, 20] }, { duration: 0.2, at: 0.2 }],
@@ -124,32 +124,35 @@ h2 {
     position: relative;
     top: 45%;
     color: white;
+    z-index: 2;
 }
 
 .services .description {
-    color: white;
+    color: black;
     height: fit-content;
     position: relative;
     top: 50%;
     font-size: 1.1rem;
     margin: 0 2rem;
     opacity: 0;
+    z-index: 2;
 }
 
 .services .tagline {
-    color: white;
+    color: black;
     height: fit-content;
     position: relative;
     margin-top: auto;
     bottom: 10%;
     opacity: 0;
+    z-index: 2;
 }
 
 .services .background {
     position: absolute;
     width: 0%;
     height: 100%;
-    background-color: black;
-    z-index: -1;
+    background-color: white;
+    z-index: 1;
 }
 </style>
