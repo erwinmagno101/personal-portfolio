@@ -148,7 +148,7 @@ const skills = [
 ]
 
 const techRef = ref(null)
-
+let scrollAnimationId = null
 const autoScrollAnimation = () => {
     const dimension = techRef.value.getBoundingClientRect()
     const distance = (techRef.value.scrollWidth - dimension.width) * -1
@@ -175,7 +175,7 @@ const autoScrollAnimation = () => {
         ],
     ]
 
-    timeline(sequence, { repeat: Infinity })
+    scrollAnimationId = timeline(sequence, { repeat: Infinity })
 }
 
 let cachedElement = null
@@ -184,18 +184,21 @@ const isPressing = ref(false)
 let dragPoint = 0
 const pressLogic = e => {
     if (e.type === 'mousedown') {
+        scrollAnimationId.pause()
         dragPoint = e.clientX
         isPressing.value = true
         techRef.value.addEventListener('mousemove', dragingLogic)
         return
     }
+    scrollAnimationId.play()
     dragPoint = 0
     isPressing.value = false
     techRef.value.removeEventListener('mousemove', dragingLogic)
 }
 
 const dragingLogic = e => {
-    console.log(e)
+    const distance = e.clientX - dragPoint
+    animate(techRef.value, { x: distance }, { duration: 0 })
 }
 
 onMounted(() => {
@@ -244,6 +247,7 @@ const redirectLink = link => {
     justify-content: baseline;
     align-items: stretch;
     cursor: grab;
+    user-select: none;
 }
 
 .technologies .item {
