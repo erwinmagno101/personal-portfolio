@@ -8,7 +8,8 @@ const showNav = ref(true)
 const navRef = ref(null)
 
 const trackScrollDir = e => {
-    if (e.deltaY > 0) {
+    console.log()
+    if (e.deltaY > 0 && document.documentElement.scrollTop > 50) {
         showNav.value = false
     }
 
