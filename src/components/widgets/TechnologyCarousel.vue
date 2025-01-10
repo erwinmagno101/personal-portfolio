@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import TechLogo from '../TechLogo.vue'
 import { animate, timeline } from 'motion'
 
@@ -153,9 +153,6 @@ const autoScrollAnimation = () => {
     const dimension = techRef.value.getBoundingClientRect()
     const distance = (techRef.value.scrollWidth - dimension.width) * -1
     const duration = (distance * -1) / (techRef.value.children.length * 5)
-    console.log((distance * -1) / (techRef.value.children.length * 5))
-
-    console.log(distance * -1)
 
     const sequence = [
         [
@@ -164,7 +161,7 @@ const autoScrollAnimation = () => {
             {
                 delay: 0.5,
                 duration: duration,
-                easing: 'ease-out',
+                easing: 'linear',
             },
         ],
         [
@@ -173,7 +170,7 @@ const autoScrollAnimation = () => {
             {
                 delay: 0.5,
                 duration: duration,
-                easing: 'ease-out',
+                easing: 'linear',
             },
         ],
     ]
@@ -181,8 +178,41 @@ const autoScrollAnimation = () => {
     timeline(sequence, { repeat: Infinity })
 }
 
+let cachedElement = null
+
+const isPressing = ref(false)
+let dragPoint = 0
+const pressLogic = e => {
+    if (e.type === 'mousedown') {
+        dragPoint = e.clientX
+        isPressing.value = true
+        techRef.value.addEventListener('mousemove', dragingLogic)
+        return
+    }
+    dragPoint = 0
+    isPressing.value = false
+    techRef.value.removeEventListener('mousemove', dragingLogic)
+}
+
+const dragingLogic = e => {
+    console.log(e)
+}
+
 onMounted(() => {
+    cachedElement = techRef.value
     autoScrollAnimation()
+    techRef.value.addEventListener('mousedown', pressLogic)
+    techRef.value.addEventListener('mouseup', pressLogic)
+})
+
+onUnmounted(() => {
+    if (cachedElement) {
+        cachedElement.addEventListener('mousedown', pressLogic)
+        cachedElement.removeEventListener('mouseup', pressLogic)
+        cachedElement.removeEventListener('mousemove', dragingLogic)
+    }
+
+    cachedElement = null
 })
 
 const redirectLink = link => {
@@ -213,6 +243,7 @@ const redirectLink = link => {
     gap: 2rem;
     justify-content: baseline;
     align-items: stretch;
+    cursor: grab;
 }
 
 .technologies .item {
