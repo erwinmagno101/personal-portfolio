@@ -17,7 +17,6 @@ const trackScrollDir = e => {
         showNav.value = true
     }
 }
-let animating = false
 
 const navAnimation = value => {
     if (value) {
