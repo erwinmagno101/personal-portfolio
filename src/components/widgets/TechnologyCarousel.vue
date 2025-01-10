@@ -182,8 +182,11 @@ let cachedElement = null
 
 const isPressing = ref(false)
 let dragPoint = 0
+let xPosition = 0
 const pressLogic = e => {
     if (e.type === 'mousedown') {
+        xPosition = techRef.value.getBoundingClientRect().x
+
         scrollAnimationId.pause()
         dragPoint = e.clientX
         isPressing.value = true
@@ -198,7 +201,10 @@ const pressLogic = e => {
 
 const dragingLogic = e => {
     const distance = e.clientX - dragPoint
-    animate(techRef.value, { x: distance }, { duration: 0 })
+    animate(techRef.value, { x: distance + xPosition - 80 }, { duration: 0 })
+}
+const handleOutOfBounds = () => {
+    techRef.value.removeEventListener('mousemove', dragingLogic)
 }
 
 onMounted(() => {
@@ -214,8 +220,6 @@ onUnmounted(() => {
         cachedElement.removeEventListener('mouseup', pressLogic)
         cachedElement.removeEventListener('mousemove', dragingLogic)
     }
-
-    cachedElement = null
 })
 
 const redirectLink = link => {
@@ -224,7 +228,7 @@ const redirectLink = link => {
 </script>
 
 <template>
-    <div class="technologies" ref="techRef">
+    <div class="technologies" ref="techRef" @mouseleave="handleOutOfBounds">
         <div class="item" v-for="skill in skills" :key="skill">
             <div class="logo-container">
                 <TechLogo :name="skill.logo" />
