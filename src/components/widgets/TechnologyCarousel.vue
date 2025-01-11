@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import TechLogo from '../TechLogo.vue'
 import { animate, timeline } from 'motion'
+import { DiscAlbum } from 'lucide-vue-next'
 
 const skills = [
     {
@@ -149,6 +150,8 @@ const skills = [
 
 const techRef = ref(null)
 let scrollAnimationId = null
+let xPosition = 0
+
 const autoScrollAnimation = () => {
     const dimension = techRef.value.getBoundingClientRect()
     const distance = (techRef.value.scrollWidth - dimension.width) * -1
@@ -157,7 +160,7 @@ const autoScrollAnimation = () => {
     const sequence = [
         [
             techRef.value,
-            { x: [0, distance] },
+            { x: [xPosition, distance] },
             {
                 delay: 0.5,
                 duration: duration,
@@ -182,26 +185,34 @@ let cachedElement = null
 
 const isPressing = ref(false)
 let dragPoint = 0
-let xPosition = 0
 const pressLogic = e => {
+    const boundingBox = techRef.value.getBoundingClientRect()
+    xPosition = boundingBox.x
     if (e.type === 'mousedown') {
-        xPosition = techRef.value.getBoundingClientRect().x
-
-        scrollAnimationId.pause()
+        // scrollAnimationId.cancel()
         dragPoint = e.clientX
         isPressing.value = true
         techRef.value.addEventListener('mousemove', dragingLogic)
         return
     }
-    scrollAnimationId.play()
+    // autoScrollAnimation()
     dragPoint = 0
     isPressing.value = false
     techRef.value.removeEventListener('mousemove', dragingLogic)
 }
 
 const dragingLogic = e => {
-    const distance = e.clientX - dragPoint
-    animate(techRef.value, { x: distance + xPosition - 80 }, { duration: 0 })
+    const dimension = techRef.value.getBoundingClientRect()
+    let distance = e.clientX - dragPoint
+    let calculatedTravel = Math.min(
+        Math.max(
+            distance * 2 + xPosition,
+            (techRef.value.scrollWidth - dimension.width - 80) * -1,
+        ),
+        80,
+    )
+
+    animate(techRef.value, { x: calculatedTravel - 80 }, { duration: 0 })
 }
 const handleOutOfBounds = () => {
     techRef.value.removeEventListener('mousemove', dragingLogic)
@@ -209,7 +220,7 @@ const handleOutOfBounds = () => {
 
 onMounted(() => {
     cachedElement = techRef.value
-    autoScrollAnimation()
+    // autoScrollAnimation()
     techRef.value.addEventListener('mousedown', pressLogic)
     techRef.value.addEventListener('mouseup', pressLogic)
 })
@@ -247,7 +258,6 @@ const redirectLink = link => {
 <style scoped>
 .technologies {
     display: flex;
-    gap: 2rem;
     justify-content: baseline;
     align-items: stretch;
     cursor: grab;
@@ -255,11 +265,11 @@ const redirectLink = link => {
 }
 
 .technologies .item {
-    padding: 1rem;
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    max-width: 400px;
+    max-width: 450px;
     flex-shrink: 0;
     width: 100%;
 }
