@@ -39,7 +39,11 @@ const hoverAnimation = e => {
     const sequence = [
         [title, { color: 'black' }, { duration: 0.2, at: 0 }],
         [title, { y: [0, -50] }, { duration: 0.3, at: 0.1 }],
-        [background, { width: '100%' }, { duration: 0.2, at: 0 }],
+        [
+            background,
+            { width: '100%' },
+            { duration: 0.2, at: 0, easing: 'ease-out' },
+        ],
         [description, { opacity: 1, y: [100, 20] }, { duration: 0.2, at: 0.2 }],
         [tagline, { opacity: 1, y: [100, 20] }, { duration: 0.2, at: 0.3 }],
     ]
@@ -56,7 +60,11 @@ const leaveAnimation = e => {
     const sequence = [
         [title, { color: 'white' }, { duration: 0.1, at: 0 }],
         [title, { y: 0 }, { duration: 0.3, at: 0.1 }],
-        [background, { width: '0%' }, { duration: 0.2, at: 0 }],
+        [
+            background,
+            { width: '0%' },
+            { duration: 0.2, at: 0, easing: 'ease-out' },
+        ],
         [description, { opacity: 0, y: 100 }, { duration: 0.2, at: 0 }],
         [tagline, { opacity: 0, y: 100 }, { duration: 0.2, at: 0 }],
     ]
