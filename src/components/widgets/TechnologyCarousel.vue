@@ -154,13 +154,13 @@ let xPosition = 0
 
 const autoScrollAnimation = () => {
     const dimension = techRef.value.getBoundingClientRect()
-    const distance = (techRef.value.scrollWidth - dimension.width) * -1
+    const distance = (techRef.value.scrollWidth - dimension.width - 80) * -1
     const duration = (distance * -1) / (techRef.value.children.length * 5)
 
     const sequence = [
         [
             techRef.value,
-            { x: [xPosition, distance] },
+            { x: [dimension.x - 80, distance] },
             {
                 delay: 0.5,
                 duration: duration,
@@ -189,13 +189,13 @@ const pressLogic = e => {
     const boundingBox = techRef.value.getBoundingClientRect()
     xPosition = boundingBox.x
     if (e.type === 'mousedown') {
-        // scrollAnimationId.cancel()
+        scrollAnimationId.cancel()
         dragPoint = e.clientX
         isPressing.value = true
         techRef.value.addEventListener('mousemove', dragingLogic)
         return
     }
-    // autoScrollAnimation()
+    autoScrollAnimation()
     dragPoint = 0
     isPressing.value = false
     techRef.value.removeEventListener('mousemove', dragingLogic)
@@ -220,7 +220,7 @@ const handleOutOfBounds = () => {
 
 onMounted(() => {
     cachedElement = techRef.value
-    // autoScrollAnimation()
+    autoScrollAnimation()
     techRef.value.addEventListener('mousedown', pressLogic)
     techRef.value.addEventListener('mouseup', pressLogic)
 })
