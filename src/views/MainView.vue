@@ -1,7 +1,7 @@
 <script setup>
 import HeroSection from '@/sections/HeroSection.vue'
 import { onMounted } from 'vue'
-import SkillSection from '@/sections/SkillSection.vue'
+import AboutSection from '@/sections/AboutSection.vue'
 import { ref } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 
@@ -19,7 +19,7 @@ onMounted(() => {})
             <HeroSection v-if="!sw" v-model="sw" />
             <div class="sections" v-if="sw">
                 <div>
-                    <SkillSection />
+                    <AboutSection />
                 </div>
             </div>
         </main>
