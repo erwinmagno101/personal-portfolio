@@ -53,7 +53,7 @@ onMounted(() => {})
 section {
     display: flex;
     flex-direction: column;
-    gap: 300px;
+    gap: 100px;
     overflow-x: hidden;
 }
 
