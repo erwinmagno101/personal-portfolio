@@ -6,6 +6,7 @@ import CtaNav from './widgets/CtaNav.vue'
 
 const showNav = ref(true)
 const navRef = ref(null)
+const sw = defineModel()
 
 const trackScrollDir = e => {
     console.log()
@@ -47,7 +48,7 @@ onUnmounted(() => {
     <nav ref="navRef">
         <div>LOGO</div>
         <ul>
-            <li>Home</li>
+            <li @click="sw = false">Home</li>
             <li>About</li>
             <li>Projects</li>
         </ul>
@@ -68,6 +69,10 @@ nav {
     padding: 1rem 2rem;
     align-items: center;
     background-color: black;
+}
+
+ul > li {
+    cursor: pointer;
 }
 
 nav > :nth-child(1) {

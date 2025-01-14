@@ -13,7 +13,7 @@ onMounted(() => {})
 <template>
     <div class="canvas">
         <header id="header" v-if="sw">
-            <NavBar />
+            <NavBar v-model="sw" />
         </header>
         <main class="main">
             <HeroSection v-if="!sw" v-model="sw" />
