@@ -1,13 +1,34 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import TechnologyCarousel from '@/components/widgets/TechnologyCarousel.vue'
 import ServicesCp from '@/components/widgets/ServicesCp.vue'
+import { animate, inView, stagger } from 'motion'
 
-onMounted(() => {})
+const aboutSectionRef = ref(null)
+const taglineMountAnimation = () => {
+    const tagLine = aboutSectionRef.value.querySelector('.tag-line')
+    const tagLineArr = [...tagLine.children]
+
+    const linesArr = []
+
+    tagLineArr.forEach(el => {
+        if (el.children.length > 0) linesArr.push(el.children[0])
+    })
+
+    animate(linesArr, { width: '100%' }, { duration: 3, delay: stagger(1) })
+    animate(
+        tagLine.children,
+        { opacity: [0, 1] },
+        { duration: 2, delay: stagger(1) },
+    )
+}
+onMounted(() => {
+    inView('.tag-line', taglineMountAnimation)
+})
 </script>
 
 <template>
-    <section>
+    <section ref="aboutSectionRef">
         <div>
             <ServicesCp />
         </div>
@@ -68,6 +89,10 @@ h2 {
     font-size: 10rem;
 }
 
+.tag-line > * {
+    opacity: 0;
+}
+
 .tag-line > div:nth-child(1),
 .tag-line > div:nth-child(2) {
     display: flex;
@@ -79,8 +104,8 @@ h2 {
 .tag-line > div:nth-child(1) > div,
 .tag-line > div:nth-child(2) > div {
     height: 10px;
-    flex: 1;
     background-color: white;
+    width: 0%;
 }
 
 .tag-line > div:last-child {
