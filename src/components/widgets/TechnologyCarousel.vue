@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import TechLogo from '../TechLogo.vue'
-import { animate, timeline } from 'motion'
+import { animate, inView, scroll, timeline } from 'motion'
 import { DiscAlbum } from 'lucide-vue-next'
 
 const skills = [
@@ -149,88 +149,50 @@ const skills = [
 ]
 
 const techRef = ref(null)
-let scrollAnimationId = null
-let xPosition = 0
 
-const autoScrollAnimation = () => {
-    const dimension = techRef.value.getBoundingClientRect()
-    const distance = (techRef.value.scrollWidth - dimension.width - 80) * -1
-    const duration = (distance * -1) / (techRef.value.children.length * 5)
+let scrollPosition = 0
 
-    const sequence = [
-        [
-            techRef.value,
-            { x: [dimension.x - 80, distance] },
-            {
-                delay: 0.5,
-                duration: duration,
-                easing: 'linear',
-            },
-        ],
-        [
-            techRef.value,
-            { x: [distance, 0] },
-            {
-                delay: 0.5,
-                duration: duration,
-                easing: 'linear',
-            },
-        ],
-    ]
-
-    scrollAnimationId = timeline(sequence, { repeat: Infinity })
+function preventScroll() {
+    scrollPosition = window.scrollY
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollPosition}px`
+    document.body.style.width = '100%'
 }
 
-let cachedElement = null
+function allowScroll() {
+    document.body.style.overflow = ''
+    document.body.style.position = ''
+    document.body.style.top = ''
+    window.scrollTo(0, scrollPosition) // Restore the previous scroll position
+}
 
-const isPressing = ref(false)
-let dragPoint = 0
-const pressLogic = e => {
-    const boundingBox = techRef.value.getBoundingClientRect()
-    xPosition = boundingBox.x
-    if (e.type === 'mousedown') {
-        scrollAnimationId.cancel()
-        dragPoint = e.clientX
-        isPressing.value = true
-        techRef.value.addEventListener('mousemove', dragingLogic)
-        return
+let scrollDistance = 0
+
+const handleScrollingAnimation = info => {
+    const dimension = techRef.value.getBoundingClientRect()
+    if (info.y.current > info.y.offset[1]) {
+        preventScroll()
+        window.addEventListener('wheel', e => {
+            const normalizedDelta = e.deltaY * (e.deltaMode === 1 ? 16 : 1)
+            if (
+                scrollDistance >= 0 &&
+                scrollDistance <=
+                    techRef.value.scrollWidth - dimension.width - 80
+            )
+                scrollDistance += normalizedDelta
+            scrollDistance = Math.min(
+                Math.max(scrollDistance, 0),
+                techRef.value.scrollWidth - dimension.width - 80,
+            )
+
+            animate(techRef.value, { x: -scrollDistance }, { duration: 0 })
+        })
     }
-    autoScrollAnimation()
-    dragPoint = 0
-    isPressing.value = false
-    techRef.value.removeEventListener('mousemove', dragingLogic)
-}
-
-const dragingLogic = e => {
-    const dimension = techRef.value.getBoundingClientRect()
-    let distance = e.clientX - dragPoint
-    let calculatedTravel = Math.min(
-        Math.max(
-            distance * 2 + xPosition,
-            (techRef.value.scrollWidth - dimension.width - 80) * -1,
-        ),
-        80,
-    )
-
-    animate(techRef.value, { x: calculatedTravel - 80 }, { duration: 0 })
-}
-const handleOutOfBounds = () => {
-    techRef.value.removeEventListener('mousemove', dragingLogic)
 }
 
 onMounted(() => {
-    cachedElement = techRef.value
-    autoScrollAnimation()
-    techRef.value.addEventListener('mousedown', pressLogic)
-    techRef.value.addEventListener('mouseup', pressLogic)
-})
-
-onUnmounted(() => {
-    if (cachedElement) {
-        cachedElement.addEventListener('mousedown', pressLogic)
-        cachedElement.removeEventListener('mouseup', pressLogic)
-        cachedElement.removeEventListener('mousemove', dragingLogic)
-    }
+    scroll(handleScrollingAnimation, { target: techRef.value })
 })
 
 const redirectLink = link => {
@@ -260,7 +222,6 @@ const redirectLink = link => {
     display: flex;
     justify-content: baseline;
     align-items: stretch;
-    cursor: grab;
     user-select: none;
 }
 
