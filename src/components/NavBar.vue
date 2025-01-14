@@ -37,6 +37,7 @@ watch(
 
 onMounted(() => {
     document.addEventListener('wheel', trackScrollDir)
+    animate(navRef.value, { opacity: [0, 1], y: [-30, 0] }, { duration: 0.2 })
 })
 
 onUnmounted(() => {
