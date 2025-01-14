@@ -12,11 +12,6 @@ onMounted(() => {})
             <ServicesCp />
         </div>
 
-        <div>
-            <h2>Technologies and Tools</h2>
-            <TechnologyCarousel />
-        </div>
-
         <div class="tag-line">
             <div>
                 INTERACTIVE
@@ -28,6 +23,12 @@ onMounted(() => {})
             </div>
             <div>VISUAL DYNAMICS</div>
         </div>
+
+        <div>
+            <h2>Technologies and Tools</h2>
+            <TechnologyCarousel />
+        </div>
+
         <div>
             <div class="quote">
                 <div class="image">

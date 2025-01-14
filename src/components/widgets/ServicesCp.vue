@@ -1,5 +1,6 @@
 <script setup>
-import { animate, timeline } from 'motion'
+import { animate, stagger, timeline } from 'motion'
+import { onMounted, ref } from 'vue'
 
 const services_data = [
     {
@@ -28,7 +29,10 @@ const services_data = [
     },
 ]
 
+const servicesRef = ref(null)
+
 const hoverAnimation = e => {
+    if (!mountanimFinished) return
     const title = e.target.querySelector('.title')
     const description = e.target.querySelector('.description')
     const tagline = e.target.querySelector('.tagline')
@@ -50,6 +54,7 @@ const hoverAnimation = e => {
 }
 
 const leaveAnimation = e => {
+    if (!mountanimFinished) return
     const title = e.target.querySelector('.title')
     const description = e.target.querySelector('.description')
     const tagline = e.target.querySelector('.tagline')
@@ -69,10 +74,28 @@ const leaveAnimation = e => {
 
     timeline(sequence)
 }
+
+let mountanimFinished = false
+
+const mountAnimation = () => {
+    const items = servicesRef.value.querySelectorAll('.item')
+    animate(
+        items,
+        { opacity: [0, 1], x: [-100, 0] },
+        { duration: 0.5, delay: stagger(0.1) },
+    ).finished.then(() => (mountanimFinished = true))
+}
+
+let cachedElement = null
+
+onMounted(() => {
+    cachedElement = servicesRef.value
+    mountAnimation()
+})
 </script>
 
 <template>
-    <div class="services">
+    <div class="services" ref="servicesRef">
         <div
             class="item"
             v-for="(data, i) in services_data"
