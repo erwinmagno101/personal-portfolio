@@ -86,10 +86,7 @@ const mountAnimation = () => {
     ).finished.then(() => (mountanimFinished = true))
 }
 
-let cachedElement = null
-
 onMounted(() => {
-    cachedElement = servicesRef.value
     mountAnimation()
 })
 </script>
