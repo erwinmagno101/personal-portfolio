@@ -169,15 +169,15 @@ function allowScroll() {
     document.body.style.top = ''
     window.scrollTo(0, scrollPosition)
     setTimeout(() => {
-        scrolling = false
+        scrolling.value = false
     }, 300)
 }
 
 let scrollDistance = 0
-let scrolling = false
+const scrolling = ref(true)
 
 const handleScrollingAnimation = info => {
-    if (scrolling) {
+    if (scrolling.value) {
         if (info.y.current > info.y.offset[1]) {
             preventScroll()
         }
@@ -210,11 +210,63 @@ const handleWheelScroll = e => {
     }
 }
 
+watch(
+    () => scrolling.value,
+    newVal => {
+        if (!newVal) {
+            techRef.value.addEventListener('mousedown', pressLogic)
+            techRef.value.addEventListener('mouseup', pressLogic)
+        }
+    },
+)
+
+let cancel = null
+
+let cachedElement = null
+let xPosition = 0
+const isPressing = ref(false)
+let dragPoint = 0
+const pressLogic = e => {
+    const boundingBox = techRef.value.getBoundingClientRect()
+    xPosition = boundingBox.x
+    if (e.type === 'mousedown') {
+        dragPoint = e.clientX
+        isPressing.value = true
+        techRef.value.addEventListener('mousemove', dragingLogic)
+        return
+    }
+    dragPoint = 0
+    isPressing.value = false
+    techRef.value.removeEventListener('mousemove', dragingLogic)
+}
+const dragingLogic = e => {
+    const dimension = techRef.value.getBoundingClientRect()
+    let distance = e.clientX - dragPoint
+    let calculatedTravel = Math.min(
+        Math.max(
+            distance * 2 + xPosition,
+            (techRef.value.scrollWidth - dimension.width - 80) * -1,
+        ),
+        80,
+    )
+
+    animate(techRef.value, { x: calculatedTravel - 80 }, { duration: 0 })
+}
+const handleOutOfBounds = () => {
+    techRef.value.removeEventListener('mousemove', dragingLogic)
+}
 onMounted(() => {
-    scroll(handleScrollingAnimation, { target: techRef.value })
-    inView(heading.value, () => {
-        scrolling = true
-    })
+    cancel = scroll(handleScrollingAnimation, { target: techRef.value })
+})
+
+onUnmounted(() => {
+    window.removeEventListener('wheel', handleWheelScroll)
+    cancel()
+    if (cachedElement) {
+        cachedElement.addEventListener('mousedown', pressLogic)
+        cachedElement.removeEventListener('mouseup', pressLogic)
+        cachedElement.removeEventListener('mousemove', dragingLogic)
+    }
 })
 
 const redirectLink = link => {
