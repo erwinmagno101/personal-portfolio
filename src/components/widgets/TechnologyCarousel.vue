@@ -315,6 +315,14 @@ h2 {
     width: 100%;
 }
 
+.technologies > .item:first-child {
+    padding-left: 0px;
+}
+
+.technologies > .item:last-child {
+    padding-right: 0px;
+}
+
 .technologies .item .logo-container {
     display: flex;
     gap: 3rem;

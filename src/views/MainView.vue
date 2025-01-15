@@ -4,6 +4,7 @@ import { onMounted } from 'vue'
 import AboutSection from '@/sections/AboutSection.vue'
 import { ref } from 'vue'
 import NavBar from '@/components/NavBar.vue'
+import ProjectSection from '@/sections/ProjectSection.vue'
 
 const sw = ref(false)
 
@@ -20,6 +21,9 @@ onMounted(() => {})
             <div class="sections" v-if="sw">
                 <div>
                     <AboutSection />
+                </div>
+                <div>
+                    <ProjectSection />
                 </div>
             </div>
         </main>
@@ -42,7 +46,12 @@ header {
     top: 0px;
     z-index: 99;
 }
-
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    overflow-x: hidden;
+}
 main {
     display: flex;
     flex-direction: column;

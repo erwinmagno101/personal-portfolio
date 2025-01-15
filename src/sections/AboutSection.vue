@@ -71,13 +71,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-section {
-    display: flex;
-    flex-direction: column;
-    gap: 100px;
-    overflow-x: hidden;
-}
-
 h2 {
     font-size: 1.5rem;
     padding: 1rem 0;
@@ -117,7 +110,6 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 10rem;
-    height: 200vh;
 }
 
 .quote .image > img {
