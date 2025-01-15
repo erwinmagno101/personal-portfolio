@@ -69,7 +69,7 @@ nav {
     left: 0;
     padding: 1rem 2rem;
     align-items: center;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 ul > li {
