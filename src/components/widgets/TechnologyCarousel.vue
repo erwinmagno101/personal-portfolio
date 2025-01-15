@@ -294,6 +294,10 @@ const redirectLink = link => {
 </template>
 
 <style scoped>
+h2 {
+    margin-bottom: 1rem;
+}
+
 .technologies {
     display: flex;
     justify-content: baseline;
