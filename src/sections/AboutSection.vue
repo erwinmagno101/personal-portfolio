@@ -46,7 +46,6 @@ onMounted(() => {
         </div>
 
         <div>
-            <h2>Technologies and Tools</h2>
             <TechnologyCarousel />
         </div>
 
@@ -118,6 +117,7 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 10rem;
+    height: 200vh;
 }
 
 .quote .image > img {

@@ -149,10 +149,12 @@ const skills = [
 ]
 
 const techRef = ref(null)
+const heading = ref(null)
 
 let scrollPosition = 0
 
 function preventScroll() {
+    window.addEventListener('wheel', handleWheelScroll)
     scrollPosition = window.scrollY
     document.body.style.overflow = 'hidden'
     document.body.style.position = 'fixed'
@@ -161,11 +163,11 @@ function preventScroll() {
 }
 
 function allowScroll() {
+    window.removeEventListener('wheel', handleWheelScroll)
     document.body.style.overflow = ''
     document.body.style.position = ''
     document.body.style.top = ''
     window.scrollTo(0, scrollPosition)
-    window.removeEventListener('wheel', handleWheelScroll)
     setTimeout(() => {
         scrolling = false
     }, 300)
@@ -173,10 +175,12 @@ function allowScroll() {
 
 let scrollDistance = 0
 let scrolling = false
+
 const handleScrollingAnimation = info => {
-    if (info.y.current > info.y.offset[1] && scrolling) {
-        preventScroll()
-        window.addEventListener('wheel', handleWheelScroll)
+    if (scrolling) {
+        if (info.y.current > info.y.offset[1]) {
+            preventScroll()
+        }
     }
 }
 
@@ -200,11 +204,17 @@ const handleWheelScroll = e => {
     if (scrollDistance === techRef.value.scrollWidth - dimension.width - 80) {
         allowScroll()
     }
+
+    if (scrollDistance === 0) {
+        allowScroll()
+    }
 }
 
 onMounted(() => {
     scroll(handleScrollingAnimation, { target: techRef.value })
-    inView(techRef.value, () => (scrolling = true))
+    inView(heading.value, () => {
+        scrolling = true
+    })
 })
 
 const redirectLink = link => {
@@ -213,6 +223,8 @@ const redirectLink = link => {
 </script>
 
 <template>
+    <h2 ref="heading">Technologies and Tools</h2>
+
     <div class="technologies" ref="techRef" @mouseleave="handleOutOfBounds">
         <div class="item" v-for="skill in skills" :key="skill">
             <div class="logo-container">
