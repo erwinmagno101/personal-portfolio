@@ -46,10 +46,10 @@ header {
     top: 0px;
     z-index: 99;
 }
-section {
+.sections {
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 200px;
     overflow-x: hidden;
 }
 main {

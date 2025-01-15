@@ -71,6 +71,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 200px;
+    overflow-x: hidden;
+}
 h2 {
     font-size: 1.5rem;
     padding: 1rem 0;
