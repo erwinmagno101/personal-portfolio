@@ -13,8 +13,14 @@
                     </div>
                     <div class="content">
                         <div>Title here</div>
-                        <div>Description</div>
-                        <div>tags</div>
+                        <div>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Voluptatum mollitia cum saepe praesentium
+                            consectetur blanditiis dolore veritatis.
+                        </div>
+                        <div>
+                            <div v-for="i in 5" :key="i">#test</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,12 +52,9 @@ section > div > :first-child {
 
 .project {
     flex: 1;
-    background: red;
     min-width: 500px;
     max-width: 600px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
     gap: 1rem;
 }
@@ -66,5 +69,19 @@ section > div > :first-child {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.project .content > div:nth-child(1) {
+    font-size: 1.5rem;
+}
+
+.project .content > div:nth-child(2) {
+    opacity: 0.5;
+}
+.project .content > div:nth-child(3) {
+    opacity: 0.5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
 }
 </style>
