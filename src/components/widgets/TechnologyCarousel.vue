@@ -164,35 +164,47 @@ function allowScroll() {
     document.body.style.overflow = ''
     document.body.style.position = ''
     document.body.style.top = ''
-    window.scrollTo(0, scrollPosition) // Restore the previous scroll position
+    window.scrollTo(0, scrollPosition)
+    window.removeEventListener('wheel', handleWheelScroll)
+    setTimeout(() => {
+        scrolling = false
+    }, 300)
 }
 
 let scrollDistance = 0
-
+let scrolling = false
 const handleScrollingAnimation = info => {
-    const dimension = techRef.value.getBoundingClientRect()
-    if (info.y.current > info.y.offset[1]) {
+    if (info.y.current > info.y.offset[1] && scrolling) {
         preventScroll()
-        window.addEventListener('wheel', e => {
-            const normalizedDelta = e.deltaY * (e.deltaMode === 1 ? 16 : 1)
-            if (
-                scrollDistance >= 0 &&
-                scrollDistance <=
-                    techRef.value.scrollWidth - dimension.width - 80
-            )
-                scrollDistance += normalizedDelta
-            scrollDistance = Math.min(
-                Math.max(scrollDistance, 0),
-                techRef.value.scrollWidth - dimension.width - 80,
-            )
+        window.addEventListener('wheel', handleWheelScroll)
+    }
+}
 
-            animate(techRef.value, { x: -scrollDistance }, { duration: 0 })
-        })
+const handleWheelScroll = e => {
+    const dimension = techRef.value.getBoundingClientRect()
+
+    const normalizedDelta = e.deltaY * (e.deltaMode === 1 ? 16 : 1)
+    if (
+        scrollDistance >= 0 &&
+        scrollDistance <= techRef.value.scrollWidth - dimension.width - 80
+    )
+        scrollDistance += normalizedDelta
+
+    scrollDistance = Math.min(
+        Math.max(scrollDistance, 0),
+        techRef.value.scrollWidth - dimension.width - 80,
+    )
+
+    animate(techRef.value, { x: -scrollDistance }, { duration: 0 })
+
+    if (scrollDistance === techRef.value.scrollWidth - dimension.width - 80) {
+        allowScroll()
     }
 }
 
 onMounted(() => {
     scroll(handleScrollingAnimation, { target: techRef.value })
+    inView(techRef.value, () => (scrolling = true))
 })
 
 const redirectLink = link => {
