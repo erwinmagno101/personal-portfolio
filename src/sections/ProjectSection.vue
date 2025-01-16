@@ -6,6 +6,8 @@
             <div class="projects-container">
                 <div class="project" v-for="i in 3" :key="i">
                     <div class="img-container">
+                        <div class="title">Title here</div>
+                        <div class="background"></div>
                         <img
                             src="https://placehold.co/400x500"
                             alt="Project Image"
@@ -63,12 +65,30 @@ section > div > :first-child {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .project .img-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.img-container .title {
+    position: absolute;
+    z-index: 1;
+    font-size: 5rem;
+}
+
+.img-container .background {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    position: absolute;
 }
 
 .project .content > div:nth-child(1) {
