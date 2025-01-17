@@ -171,6 +171,9 @@ const pressLogic = e => {
 }
 
 let isAnimating = false
+
+const progress = ref(0)
+let completion
 const dragingLogic = e => {
     if (isAnimating) return
     isAnimating = true
@@ -179,23 +182,46 @@ const dragingLogic = e => {
     let calculatedTravel = Math.min(
         Math.max(
             distance * 2 + xPosition,
-            (techRef.value.scrollWidth - dimension.width - 80) * -1,
+            -(techRef.value.scrollWidth - dimension.width),
         ),
-        80,
+        0,
     )
     requestAnimationFrame(() => {
         animate(
             techRef.value,
-            { x: calculatedTravel - 80 },
+            { x: calculatedTravel },
             { duration: 0.5, easing: 'ease-out' },
         )
+        progress.value = Math.abs(calculatedTravel)
         isAnimating = false
     })
 }
 const handleOutOfBounds = () => {
     techRef.value.removeEventListener('mousemove', dragingLogic)
+    if (isPressing.value) isPressing.value = false
 }
+
+const progressBar = ref(null)
+
+watch(
+    () => progress.value,
+    newVal => {
+        calculateProgress(newVal)
+    },
+)
+
+const calculateProgress = progress => {
+    let normalized = Math.floor((progress / completion) * 100)
+    console.log(normalized)
+    if (normalized < 2) normalized = 0
+    animate(progressBar.value, {
+        width: `${normalized}%`,
+    })
+}
+
 onMounted(() => {
+    completion =
+        techRef.value.scrollWidth - techRef.value.getBoundingClientRect().width
     techRef.value.addEventListener('mousedown', pressLogic)
     techRef.value.addEventListener('mouseup', pressLogic)
 })
@@ -230,6 +256,8 @@ const redirectLink = link => {
             </div>
         </div>
     </div>
+
+    <div class="scroll-progress" ref="progressBar"></div>
 </template>
 
 <style scoped>
@@ -289,5 +317,12 @@ h2 {
 
 .technologies .item .content > div:nth-child(2) > div {
     opacity: 0.5;
+}
+
+.scroll-progress {
+    margin-top: 1rem;
+    height: 1px;
+    background-color: white;
+    width: 0%;
 }
 </style>
