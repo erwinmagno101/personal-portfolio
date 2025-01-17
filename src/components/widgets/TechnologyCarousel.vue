@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, ref, watch } from 'vue'
 import TechLogo from '../TechLogo.vue'
 import { animate, inView, scroll, timeline } from 'motion'
 import { DiscAlbum } from 'lucide-vue-next'
+import { debounce } from 'lodash'
 
 const skills = [
     {
@@ -151,8 +152,6 @@ const skills = [
 const techRef = ref(null)
 const heading = ref(null)
 
-let cancel = null
-
 let cachedElement = null
 let xPosition = 0
 const isPressing = ref(false)
@@ -170,7 +169,11 @@ const pressLogic = e => {
     isPressing.value = false
     techRef.value.removeEventListener('mousemove', dragingLogic)
 }
+
+let isAnimating = false
 const dragingLogic = e => {
+    if (isAnimating) return
+    isAnimating = true
     const dimension = techRef.value.getBoundingClientRect()
     let distance = e.clientX - dragPoint
     let calculatedTravel = Math.min(
@@ -180,8 +183,14 @@ const dragingLogic = e => {
         ),
         80,
     )
-
-    animate(techRef.value, { x: calculatedTravel - 80 }, { duration: 0 })
+    requestAnimationFrame(() => {
+        animate(
+            techRef.value,
+            { x: calculatedTravel - 80 },
+            { duration: 0.5, easing: 'ease-out' },
+        )
+        isAnimating = false
+    })
 }
 const handleOutOfBounds = () => {
     techRef.value.removeEventListener('mousemove', dragingLogic)
@@ -192,7 +201,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    cancel()
     if (cachedElement) {
         cachedElement.addEventListener('mousedown', pressLogic)
         cachedElement.removeEventListener('mouseup', pressLogic)
