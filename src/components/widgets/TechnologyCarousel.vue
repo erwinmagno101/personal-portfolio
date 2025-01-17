@@ -151,75 +151,6 @@ const skills = [
 const techRef = ref(null)
 const heading = ref(null)
 
-let scrollPosition = 0
-
-function preventScroll() {
-    window.addEventListener('wheel', handleWheelScroll)
-    scrollPosition = window.scrollY
-    document.body.style.overflow = 'hidden'
-    document.body.style.position = 'fixed'
-    document.body.style.top = `-${scrollPosition}px`
-    document.body.style.width = '100%'
-}
-
-function allowScroll() {
-    window.removeEventListener('wheel', handleWheelScroll)
-    document.body.style.overflow = ''
-    document.body.style.position = ''
-    document.body.style.top = ''
-    window.scrollTo(0, scrollPosition)
-    setTimeout(() => {
-        scrolling.value = false
-    }, 300)
-}
-
-let scrollDistance = 0
-const scrolling = ref(true)
-
-const handleScrollingAnimation = info => {
-    if (scrolling.value) {
-        if (info.y.current > info.y.offset[1]) {
-            preventScroll()
-        }
-    }
-}
-
-const handleWheelScroll = e => {
-    const dimension = techRef.value.getBoundingClientRect()
-
-    const normalizedDelta = e.deltaY * (e.deltaMode === 1 ? 16 : 1)
-    if (
-        scrollDistance >= 0 &&
-        scrollDistance <= techRef.value.scrollWidth - dimension.width - 80
-    )
-        scrollDistance += normalizedDelta
-
-    scrollDistance = Math.min(
-        Math.max(scrollDistance, 0),
-        techRef.value.scrollWidth - dimension.width - 80,
-    )
-
-    animate(techRef.value, { x: -scrollDistance }, { duration: 0 })
-
-    if (scrollDistance === techRef.value.scrollWidth - dimension.width - 80) {
-        allowScroll()
-    }
-
-    if (scrollDistance === 0) {
-        allowScroll()
-    }
-}
-
-watch(
-    () => scrolling.value,
-    newVal => {
-        if (!newVal) {
-            techRef.value.addEventListener('mousedown', pressLogic)
-            techRef.value.addEventListener('mouseup', pressLogic)
-        }
-    },
-)
-
 let cancel = null
 
 let cachedElement = null
@@ -256,11 +187,11 @@ const handleOutOfBounds = () => {
     techRef.value.removeEventListener('mousemove', dragingLogic)
 }
 onMounted(() => {
-    cancel = scroll(handleScrollingAnimation, { target: techRef.value })
+    techRef.value.addEventListener('mousedown', pressLogic)
+    techRef.value.addEventListener('mouseup', pressLogic)
 })
 
 onUnmounted(() => {
-    window.removeEventListener('wheel', handleWheelScroll)
     cancel()
     if (cachedElement) {
         cachedElement.addEventListener('mousedown', pressLogic)

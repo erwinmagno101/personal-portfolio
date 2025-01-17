@@ -12,7 +12,7 @@ const hoverAnimation = e => {
     animate(
         content.children,
         { opacity: 1, y: [50, 0] },
-        { duration: 0.2, delay: stagger(0.05) },
+        { duration: 0.2, delay: stagger(0.1) },
     )
 }
 
@@ -84,7 +84,7 @@ const exitHoverAnimation = e => {
 
 .img-container .title {
     position: absolute;
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
     padding: 0 2rem;
 }

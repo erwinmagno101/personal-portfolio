@@ -5,10 +5,15 @@ import AboutSection from '@/sections/AboutSection.vue'
 import { ref } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import ProjectSection from '@/sections/ProjectSection.vue'
+import { useScrollingStore } from '@/stores/scroll'
+
+const scrollingStore = useScrollingStore()
+
+onMounted(() => {
+    scrollingStore.init()
+})
 
 const sw = ref(false)
-
-onMounted(() => {})
 </script>
 
 <template>
