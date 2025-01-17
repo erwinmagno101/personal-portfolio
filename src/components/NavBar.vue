@@ -74,6 +74,12 @@ nav {
 
 ul > li {
     cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+ul > li:hover {
+    opacity: 1;
 }
 
 nav > :nth-child(1) {
