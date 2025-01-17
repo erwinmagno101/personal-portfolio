@@ -57,11 +57,13 @@ const exitHoverAnimation = e => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    overflow: hidden;
+    position: relative;
 }
 
 .project .img-container {
     width: 100%;
-    height: 700px;
+    height: 800px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -90,7 +92,11 @@ const exitHoverAnimation = e => {
 }
 
 .project .content {
-    pointer-events: unset;
+    position: absolute;
+    color: black;
+    z-index: 10;
+    bottom: 0;
+    padding: 1rem;
 }
 
 .project .content > div:nth-child(1) {
