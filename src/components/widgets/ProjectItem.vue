@@ -1,6 +1,10 @@
 <script setup>
 import { animate, stagger } from 'motion'
 
+const props = defineProps({
+    data: Object,
+})
+
 const hoverAnimation = e => {
     const bg = e.target.querySelector('.img')
     const content = e.target.querySelector('.content')
@@ -27,7 +31,7 @@ const exitHoverAnimation = e => {
         @mouseleave="exitHoverAnimation"
     >
         <div class="img-container">
-            <div class="title">Title here</div>
+            <div class="title">{{ props.data.name }}</div>
             <div class="background"></div>
             <img
                 class="img"
@@ -36,14 +40,12 @@ const exitHoverAnimation = e => {
             />
         </div>
         <div class="content">
-            <div>Title here</div>
+            <div>{{ props.data.name }}</div>
             <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptatum mollitia cum saepe praesentium consectetur blanditiis
-                dolore veritatis.
+                {{ props.data.description }}
             </div>
             <div>
-                <div v-for="i in 5" :key="i">#test</div>
+                <div v-for="tag in props.data.tags" :key="tag">#{{ tag }}</div>
             </div>
         </div>
     </div>
@@ -53,7 +55,7 @@ const exitHoverAnimation = e => {
 .project {
     flex: 1;
     min-width: 500px;
-    max-width: 600px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -82,7 +84,9 @@ const exitHoverAnimation = e => {
 
 .img-container .title {
     position: absolute;
-    font-size: 5rem;
+    font-size: 3rem;
+    text-align: center;
+    padding: 0 2rem;
 }
 
 .img-container .background {
@@ -96,7 +100,7 @@ const exitHoverAnimation = e => {
     color: black;
     z-index: 10;
     bottom: 0;
-    padding: 1rem;
+    padding: 1.5rem;
 }
 
 .project .content > div:nth-child(1) {
