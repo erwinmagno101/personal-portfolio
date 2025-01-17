@@ -74,14 +74,22 @@ const personalProjects = [
         <div>
             <h2>Featured Projects</h2>
             <div class="projects-container">
-                <ProjectItem v-for="i in 3" :key="i" />
+                <ProjectItem
+                    v-for="data in featuredProjects"
+                    :key="data"
+                    :data="data"
+                />
             </div>
         </div>
 
         <div>
             <h2>Personal Projects</h2>
             <div class="projects-container">
-                <ProjectItem v-for="i in 3" :key="i" />
+                <ProjectItem
+                    v-for="data in personalProjects"
+                    :key="data"
+                    :data="data"
+                />
             </div>
         </div>
     </section>
