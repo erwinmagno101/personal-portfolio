@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import TechnologyCarousel from '@/components/widgets/TechnologyCarousel.vue'
 import ServicesCp from '@/components/widgets/ServicesCp.vue'
 import { animate, inView, stagger } from 'motion'
+import { Quote } from 'lucide-vue-next'
 
 const aboutSectionRef = ref(null)
 const taglineMountAnimation = () => {
@@ -60,9 +61,9 @@ onMounted(() => {
                 </div>
                 <div class="content">
                     <div>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Amet voluptatum quisquam id. Necessitatibus,
-                        magnam ab?
+                        eat, code, sleep, repeat
+                        <Quote class="quote-bg" />
+                        <Quote class="quote-bg" />
                     </div>
                     <div>
                         <div>Dan Erwin C. Magno</div>
@@ -131,5 +132,43 @@ h2 {
 
 .quote .image > img {
     border-radius: 50%;
+}
+
+.quote .content {
+}
+
+.quote .content > div:nth-child(1) {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.quote .content > div:nth-child(2) {
+    font-size: 2rem;
+    opacity: 0.7;
+}
+
+.quote .content > div:nth-child(2) > div:last-child {
+    font-size: 1rem;
+}
+
+.quote-bg:nth-of-type(1) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: fit-content;
+    height: 100%;
+    opacity: 0.1;
+    transform: rotateY(180deg) translateY(-50%);
+}
+
+.quote-bg:nth-of-type(2) {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: fit-content;
+    height: 100%;
+    opacity: 0.1;
+    transform: translateY(50%);
 }
 </style>
