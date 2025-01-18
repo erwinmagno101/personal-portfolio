@@ -224,12 +224,12 @@ const mountAnimation = () => {
     animate(
         headingRef.value,
         { opacity: 1, y: [50, 0] },
-        { duration: 0.3, delay: 0.3 },
+        { duration: 0.5, delay: 0.3 },
     )
     animate(
         items,
         { opacity: 1, x: [-50, 0] },
-        { duration: 0.3, delay: stagger(0.1, { start: 0.4 }) },
+        { duration: 0.5, delay: stagger(0.1, { start: 0.6 }) },
     )
 }
 
