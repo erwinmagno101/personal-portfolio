@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import TechLogo from '../TechLogo.vue'
-import { animate, inView, scroll, timeline } from 'motion'
+import { animate, inView, scroll, stagger, timeline } from 'motion'
 import { DiscAlbum } from 'lucide-vue-next'
 import { debounce } from 'lodash'
 
@@ -150,7 +150,7 @@ const skills = [
 ]
 
 const techRef = ref(null)
-const heading = ref(null)
+const headingRef = ref(null)
 
 let cachedElement = null
 let xPosition = 0
@@ -219,11 +219,28 @@ const calculateProgress = progress => {
     })
 }
 
+const mountAnimation = () => {
+    const items = techRef.value.querySelectorAll('.item')
+    animate(
+        headingRef.value,
+        { opacity: 1, y: [50, 0] },
+        { duration: 0.3, delay: 0.3 },
+    )
+    animate(
+        items,
+        { opacity: 1, x: [-50, 0] },
+        { duration: 0.3, delay: stagger(0.1, { start: 0.4 }) },
+    )
+}
+
 onMounted(() => {
     completion =
         techRef.value.scrollWidth - techRef.value.getBoundingClientRect().width
     techRef.value.addEventListener('mousedown', pressLogic)
     techRef.value.addEventListener('mouseup', pressLogic)
+    inView(techRef.value, () => {
+        mountAnimation()
+    })
 })
 
 onUnmounted(() => {
@@ -240,7 +257,7 @@ const redirectLink = link => {
 </script>
 
 <template>
-    <h2 ref="heading">Technologies and Tools</h2>
+    <h2 ref="headingRef">Technologies and Tools</h2>
 
     <div class="technologies" ref="techRef" @mouseleave="handleOutOfBounds">
         <div class="item" v-for="skill in skills" :key="skill">
@@ -263,6 +280,7 @@ const redirectLink = link => {
 <style scoped>
 h2 {
     margin-bottom: 1rem;
+    opacity: 0;
 }
 
 .technologies {
@@ -280,6 +298,7 @@ h2 {
     max-width: 450px;
     flex-shrink: 0;
     width: 100%;
+    opacity: 0;
 }
 
 .technologies > .item:first-child {
