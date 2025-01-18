@@ -15,11 +15,15 @@ const taglineMountAnimation = () => {
         if (el.children.length > 0) linesArr.push(el.children[0])
     })
 
-    animate(linesArr, { width: '100%' }, { duration: 3, delay: stagger(1) })
+    animate(
+        linesArr,
+        { width: '100%' },
+        { duration: 1, delay: stagger(0.7, { start: 1 }) },
+    )
     animate(
         tagLine.children,
-        { opacity: [0, 1] },
-        { duration: 2, delay: stagger(1) },
+        { opacity: [0, 1], y: [100, 0] },
+        { duration: 0.8, delay: stagger(0.7, { start: 0.5 }) },
     )
 }
 onMounted(() => {
@@ -94,9 +98,16 @@ h2 {
 .tag-line > div:nth-child(1),
 .tag-line > div:nth-child(2) {
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 1rem;
+    width: 100%;
+}
+
+.tag-line > div:nth-child(1) {
+    justify-content: left;
+}
+.tag-line > div:nth-child(2) {
+    justify-content: right;
 }
 
 .tag-line > div:nth-child(1) > div,
