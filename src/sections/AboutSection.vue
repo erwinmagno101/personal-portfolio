@@ -134,18 +134,16 @@ h2 {
     border-radius: 50%;
 }
 
-.quote .content {
-}
-
 .quote .content > div:nth-child(1) {
     font-size: 4rem;
-    margin-bottom: 2rem;
+    margin-bottom: 5rem;
     position: relative;
 }
 
 .quote .content > div:nth-child(2) {
     font-size: 2rem;
     opacity: 0.7;
+    text-align: center;
 }
 
 .quote .content > div:nth-child(2) > div:last-child {
