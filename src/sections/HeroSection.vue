@@ -173,7 +173,8 @@ onUnmounted(() => {
 
 <style scoped>
 section {
-    height: 900px;
+    height: 100vh;
+    min-height: 600px;
     width: 100%;
     line-height: 1;
     user-select: none;
@@ -200,6 +201,10 @@ section {
     bottom: 20px;
     letter-spacing: -5px;
     text-wrap: nowrap;
+}
+
+.hero-content > div:nth-child(1) > div:nth-child(1) {
+    font-size: 3rem;
 }
 
 .hero-content > div:nth-child(3) {
@@ -259,6 +264,7 @@ hr {
 .note {
     position: absolute;
     bottom: 50px;
+    left: 0;
     margin-left: 50px;
     display: flex;
     align-items: center;
@@ -296,5 +302,45 @@ hr {
     height: 0%;
     position: absolute;
     z-index: -1;
+}
+
+@media (max-width: 1024px) {
+    .hero-content {
+        margin: 0 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-content > div:nth-child(1) {
+        font-size: 4rem;
+    }
+
+    .hero-content > div:nth-child(1) > div:nth-child(1) {
+        font-size: 2rem;
+    }
+
+    .hero-content > div:nth-child(3) {
+        font-size: 1rem;
+    }
+
+    .social {
+        height: 30px;
+        width: 30px;
+    }
+
+    .social > :first-child {
+        z-index: 2;
+        width: 15px;
+    }
+
+    .note {
+        bottom: 50px;
+        margin-left: 20px;
+        font-size: 0.7rem;
+    }
+
+    .arrow {
+        width: 20px;
+    }
 }
 </style>
