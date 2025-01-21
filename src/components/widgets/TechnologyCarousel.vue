@@ -212,7 +212,6 @@ watch(
 
 const calculateProgress = progress => {
     let normalized = Math.floor((progress / completion) * 100)
-    console.log(normalized)
     if (normalized < 2) normalized = 0
     animate(progressBar.value, {
         width: `${normalized}%`,
