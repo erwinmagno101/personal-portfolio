@@ -1,7 +1,6 @@
 <script setup>
 import ProjectItem from '@/components/widgets/ProjectItem.vue'
-import { animate, inView, stagger } from 'motion'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 const featuredProjects = [
     {
@@ -72,21 +71,6 @@ const personalProjects = [
 ]
 
 const projectSectionRef = ref(null)
-
-const featuredMountAnimation = () => {
-    const featuredProjects = projectSectionRef.value.querySelector('.featured')
-    animate(
-        featuredProjects.children,
-        { opacity: [0, 1] },
-        { duration: 1, delay: stagger(0.1) },
-    )
-}
-
-onMounted(() => {
-    inView('.featured', featuredMountAnimation, {
-        margin: '0px 0px -300px 0px',
-    })
-})
 </script>
 <template>
     <section ref="projectSectionRef">
