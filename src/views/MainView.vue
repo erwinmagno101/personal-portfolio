@@ -4,22 +4,31 @@ import { onMounted } from 'vue'
 import AboutSection from '@/sections/AboutSection.vue'
 import { ref } from 'vue'
 import NavBar from '@/components/NavBar.vue'
+import ProjectSection from '@/sections/ProjectSection.vue'
+import { useScrollingStore } from '@/stores/scroll'
+
+const scrollingStore = useScrollingStore()
+
+onMounted(() => {
+    scrollingStore.init()
+})
 
 const sw = ref(false)
-
-onMounted(() => {})
 </script>
 
 <template>
     <div class="canvas">
         <header id="header" v-if="sw">
-            <NavBar />
+            <NavBar v-model="sw" />
         </header>
         <main class="main">
             <HeroSection v-if="!sw" v-model="sw" />
             <div class="sections" v-if="sw">
                 <div>
                     <AboutSection />
+                </div>
+                <div>
+                    <ProjectSection />
                 </div>
             </div>
         </main>
@@ -42,7 +51,12 @@ header {
     top: 0px;
     z-index: 99;
 }
-
+.sections {
+    display: flex;
+    flex-direction: column;
+    gap: 200px;
+    overflow-x: hidden;
+}
 main {
     display: flex;
     flex-direction: column;

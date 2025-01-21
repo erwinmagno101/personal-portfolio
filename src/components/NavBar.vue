@@ -6,6 +6,7 @@ import CtaNav from './widgets/CtaNav.vue'
 
 const showNav = ref(true)
 const navRef = ref(null)
+const sw = defineModel()
 
 const trackScrollDir = e => {
     console.log()
@@ -36,6 +37,7 @@ watch(
 
 onMounted(() => {
     document.addEventListener('wheel', trackScrollDir)
+    animate(navRef.value, { opacity: [0, 1], y: [-30, 0] }, { duration: 0.2 })
 })
 
 onUnmounted(() => {
@@ -47,7 +49,7 @@ onUnmounted(() => {
     <nav ref="navRef">
         <div>LOGO</div>
         <ul>
-            <li>Home</li>
+            <li @click="sw = false">Home</li>
             <li>About</li>
             <li>Projects</li>
         </ul>
@@ -67,7 +69,17 @@ nav {
     left: 0;
     padding: 1rem 2rem;
     align-items: center;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+ul > li {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+ul > li:hover {
+    opacity: 1;
 }
 
 nav > :nth-child(1) {

@@ -70,7 +70,7 @@ onMounted(() => {
 <style scoped>
 .bg-text-1 > *,
 .bg-text-2 > * {
-    font-size: 18rem;
+    font-size: clamp(3rem, 15vw, 18rem);
     font-weight: 900;
     opacity: 0.1;
 }
@@ -91,5 +91,15 @@ onMounted(() => {
     gap: 20rem;
     left: 50%;
     transform: translateX(-50%);
+}
+
+@media (max-width: 640px) {
+    .bg-text-1 {
+        top: 20%;
+    }
+
+    .bg-text-2 {
+        top: 65%;
+    }
 }
 </style>

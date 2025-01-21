@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import TechLogo from '../TechLogo.vue'
-import { animate, timeline } from 'motion'
+import { animate, inView, scroll, stagger, timeline } from 'motion'
 import { DiscAlbum } from 'lucide-vue-next'
+import { debounce } from 'lodash'
 
 const skills = [
     {
@@ -149,80 +150,97 @@ const skills = [
 ]
 
 const techRef = ref(null)
-let scrollAnimationId = null
-let xPosition = 0
-
-const autoScrollAnimation = () => {
-    const dimension = techRef.value.getBoundingClientRect()
-    const distance = (techRef.value.scrollWidth - dimension.width - 80) * -1
-    const duration = (distance * -1) / (techRef.value.children.length * 5)
-
-    const sequence = [
-        [
-            techRef.value,
-            { x: [dimension.x - 80, distance] },
-            {
-                delay: 0.5,
-                duration: duration,
-                easing: 'linear',
-            },
-        ],
-        [
-            techRef.value,
-            { x: [distance, 0] },
-            {
-                delay: 0.5,
-                duration: duration,
-                easing: 'linear',
-            },
-        ],
-    ]
-
-    scrollAnimationId = timeline(sequence, { repeat: Infinity })
-}
+const headingRef = ref(null)
 
 let cachedElement = null
-
+let xPosition = 0
 const isPressing = ref(false)
 let dragPoint = 0
 const pressLogic = e => {
     const boundingBox = techRef.value.getBoundingClientRect()
     xPosition = boundingBox.x
     if (e.type === 'mousedown') {
-        scrollAnimationId.cancel()
         dragPoint = e.clientX
         isPressing.value = true
         techRef.value.addEventListener('mousemove', dragingLogic)
         return
     }
-    autoScrollAnimation()
     dragPoint = 0
     isPressing.value = false
     techRef.value.removeEventListener('mousemove', dragingLogic)
 }
 
+let isAnimating = false
+
+const progress = ref(0)
+let completion
 const dragingLogic = e => {
+    if (isAnimating) return
+    isAnimating = true
     const dimension = techRef.value.getBoundingClientRect()
     let distance = e.clientX - dragPoint
     let calculatedTravel = Math.min(
         Math.max(
             distance * 2 + xPosition,
-            (techRef.value.scrollWidth - dimension.width - 80) * -1,
+            -(techRef.value.scrollWidth - dimension.width),
         ),
-        80,
+        0,
     )
-
-    animate(techRef.value, { x: calculatedTravel - 80 }, { duration: 0 })
+    requestAnimationFrame(() => {
+        animate(
+            techRef.value,
+            { x: calculatedTravel },
+            { duration: 0.5, easing: 'ease-out' },
+        )
+        progress.value = Math.abs(calculatedTravel)
+        isAnimating = false
+    })
 }
 const handleOutOfBounds = () => {
     techRef.value.removeEventListener('mousemove', dragingLogic)
+    if (isPressing.value) isPressing.value = false
+}
+
+const progressBar = ref(null)
+
+watch(
+    () => progress.value,
+    newVal => {
+        calculateProgress(newVal)
+    },
+)
+
+const calculateProgress = progress => {
+    let normalized = Math.floor((progress / completion) * 100)
+    console.log(normalized)
+    if (normalized < 2) normalized = 0
+    animate(progressBar.value, {
+        width: `${normalized}%`,
+    })
+}
+
+const mountAnimation = () => {
+    const items = techRef.value.querySelectorAll('.item')
+    animate(
+        headingRef.value,
+        { opacity: 1, y: [50, 0] },
+        { duration: 0.5, delay: 0.3 },
+    )
+    animate(
+        items,
+        { opacity: 1, x: [-50, 0] },
+        { duration: 0.5, delay: stagger(0.1, { start: 0.6 }) },
+    )
 }
 
 onMounted(() => {
-    cachedElement = techRef.value
-    autoScrollAnimation()
+    completion =
+        techRef.value.scrollWidth - techRef.value.getBoundingClientRect().width
     techRef.value.addEventListener('mousedown', pressLogic)
     techRef.value.addEventListener('mouseup', pressLogic)
+    inView(techRef.value, () => {
+        mountAnimation()
+    })
 })
 
 onUnmounted(() => {
@@ -239,6 +257,8 @@ const redirectLink = link => {
 </script>
 
 <template>
+    <h2 ref="headingRef">Technologies and Tools</h2>
+
     <div class="technologies" ref="techRef" @mouseleave="handleOutOfBounds">
         <div class="item" v-for="skill in skills" :key="skill">
             <div class="logo-container">
@@ -253,14 +273,20 @@ const redirectLink = link => {
             </div>
         </div>
     </div>
+
+    <div class="scroll-progress" ref="progressBar"></div>
 </template>
 
 <style scoped>
+h2 {
+    margin-bottom: 1rem;
+    opacity: 0;
+}
+
 .technologies {
     display: flex;
     justify-content: baseline;
     align-items: stretch;
-    cursor: grab;
     user-select: none;
 }
 
@@ -272,6 +298,15 @@ const redirectLink = link => {
     max-width: 450px;
     flex-shrink: 0;
     width: 100%;
+    opacity: 0;
+}
+
+.technologies > .item:first-child {
+    padding-left: 0px;
+}
+
+.technologies > .item:last-child {
+    padding-right: 0px;
 }
 
 .technologies .item .logo-container {
@@ -286,7 +321,7 @@ const redirectLink = link => {
     white-space: nowrap;
 }
 
-.technologies .item .content {
+.technologies .item .hero-content {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -301,5 +336,12 @@ const redirectLink = link => {
 
 .technologies .item .content > div:nth-child(2) > div {
     opacity: 0.5;
+}
+
+.scroll-progress {
+    margin-top: 1rem;
+    height: 1px;
+    background-color: white;
+    width: 0%;
 }
 </style>
