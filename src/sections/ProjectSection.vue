@@ -1,6 +1,7 @@
 <script setup>
 import ProjectItem from '@/components/widgets/ProjectItem.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { animate, inView } from 'motion'
 
 const featuredProjects = [
     {
@@ -71,27 +72,39 @@ const personalProjects = [
 ]
 
 const projectSectionRef = ref(null)
+
+const headingMountAnim = e => {
+    animate(e.target, { opacity: 1, y: [50, 0] }, { duration: 0.5 })
+}
+
+onMounted(() => {
+    inView('.project-heading', headingMountAnim, {
+        margin: '0px 0px -400px 0px',
+    })
+})
 </script>
 <template>
     <section ref="projectSectionRef">
         <div>
-            <h2>Featured Projects</h2>
+            <h2 class="project-heading">Featured Projects</h2>
             <div class="projects-container featured">
                 <ProjectItem
-                    v-for="data in featuredProjects"
+                    v-for="(data, index) in featuredProjects"
                     :key="data"
                     :data="data"
+                    :index="index"
                 />
             </div>
         </div>
 
         <div>
-            <h2>Personal Projects</h2>
+            <h2 class="project-heading">Personal Projects</h2>
             <div class="projects-container personal">
                 <ProjectItem
-                    v-for="data in personalProjects"
+                    v-for="(data, index) in personalProjects"
                     :key="data"
                     :data="data"
+                    :index="index"
                 />
             </div>
         </div>
@@ -99,6 +112,10 @@ const projectSectionRef = ref(null)
 </template>
 
 <style scoped>
+h2 {
+    opacity: 0;
+}
+
 section {
     display: flex;
     flex-direction: column;
