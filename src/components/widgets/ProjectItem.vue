@@ -124,7 +124,7 @@ onMounted(() => {
     background-color: black;
 }
 
-.project .hero-content {
+.project .content {
     position: absolute;
     color: black;
     z-index: 10;

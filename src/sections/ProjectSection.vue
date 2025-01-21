@@ -119,7 +119,7 @@ h2 {
 section {
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 300px;
     overflow-x: hidden;
 }
 .projects-container {
