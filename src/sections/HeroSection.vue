@@ -121,7 +121,7 @@ onUnmounted(() => {
 <template>
     <section class="hero" ref="heroRef">
         <ScrollingBg class="bg" />
-        <div class="content">
+        <div class="hero-content">
             <div class="name">
                 <div>i am</div>
                 <div>Dan Erwin</div>
@@ -184,7 +184,7 @@ section {
     justify-content: center;
 }
 
-.content {
+.hero-content {
     margin: 0 50px;
     position: relative;
     display: flex;
@@ -192,7 +192,7 @@ section {
     align-items: center;
 }
 
-.content > div:nth-child(1) {
+.hero-content > div:nth-child(1) {
     font-size: 7rem;
     font-weight: 400;
     position: absolute;
@@ -202,7 +202,7 @@ section {
     text-wrap: nowrap;
 }
 
-.content > div:nth-child(3) {
+.hero-content > div:nth-child(3) {
     font-size: 2rem;
     font-weight: 300;
     position: absolute;
