@@ -95,7 +95,7 @@ const exitHoverAnimation = e => {
     background-color: black;
 }
 
-.project .content {
+.project .hero-content {
     position: absolute;
     color: black;
     z-index: 10;
