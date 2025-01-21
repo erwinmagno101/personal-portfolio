@@ -321,7 +321,7 @@ h2 {
     white-space: nowrap;
 }
 
-.technologies .item .content {
+.technologies .item .hero-content {
     width: 100%;
     display: flex;
     flex-direction: column;
