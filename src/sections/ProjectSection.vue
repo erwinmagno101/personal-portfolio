@@ -1,5 +1,7 @@
 <script setup>
 import ProjectItem from '@/components/widgets/ProjectItem.vue'
+import { animate, inView, stagger } from 'motion'
+import { onMounted, ref } from 'vue'
 
 const featuredProjects = [
     {
@@ -68,12 +70,29 @@ const personalProjects = [
         tags: ['Java', 'Gradle', 'XML', 'Android Studio', 'SQLite'],
     },
 ]
+
+const projectSectionRef = ref(null)
+
+const featuredMountAnimation = () => {
+    const featuredProjects = projectSectionRef.value.querySelector('.featured')
+    animate(
+        featuredProjects.children,
+        { opacity: [0, 1] },
+        { duration: 1, delay: stagger(0.1) },
+    )
+}
+
+onMounted(() => {
+    inView('.featured', featuredMountAnimation, {
+        margin: '0px 0px -300px 0px',
+    })
+})
 </script>
 <template>
-    <section>
+    <section ref="projectSectionRef">
         <div>
             <h2>Featured Projects</h2>
-            <div class="projects-container">
+            <div class="projects-container featured">
                 <ProjectItem
                     v-for="data in featuredProjects"
                     :key="data"
@@ -84,7 +103,7 @@ const personalProjects = [
 
         <div>
             <h2>Personal Projects</h2>
-            <div class="projects-container">
+            <div class="projects-container personal">
                 <ProjectItem
                     v-for="data in personalProjects"
                     :key="data"
