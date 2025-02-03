@@ -1,13 +1,15 @@
 <script setup>
 import HeroSection from '@/sections/HeroSection.vue'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import AboutSection from '@/sections/AboutSection.vue'
 import { ref } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import ProjectSection from '@/sections/ProjectSection.vue'
 import { useScrollingStore } from '@/stores/scroll'
+import { useMediaStore } from '@/stores/media'
 
 const scrollingStore = useScrollingStore()
+const mediaStore = useMediaStore()
 
 onMounted(() => {
     scrollingStore.init()
@@ -17,7 +19,7 @@ const sw = ref(false)
 </script>
 
 <template>
-    <div class="canvas">
+    <div class="canvas" v-if="!mediaStore.isMobile">
         <header id="header" v-if="sw">
             <NavBar v-model="sw" />
         </header>
@@ -34,9 +36,22 @@ const sw = ref(false)
         </main>
         <!-- <footer></footer> -->
     </div>
+    <div v-else class="mobile">
+        <div>Mobile Responsiveness Under Construction...</div>
+        <div>Visit the Website on PC</div>
+    </div>
 </template>
 
 <style scoped>
+.mobile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 1rem;
+}
+
 .canvas {
     font-family: 'Poppins', serif;
     font-optical-sizing: auto;

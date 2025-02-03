@@ -5,13 +5,14 @@ import { ref } from 'vue'
 export const useMediaStore = defineStore('media', () => {
     const isMobile = ref(null)
 
+    const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
+
     const updateIsMobile = e => {
         isMobile.value = e.matches
     }
 
-    const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
-
     onMounted(() => {
+        isMobile.value = mediaQuery.matches // ✅ Initialize immediately
         mediaQuery.addEventListener('change', updateIsMobile)
     })
 

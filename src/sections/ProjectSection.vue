@@ -2,6 +2,11 @@
 import ProjectItem from '@/components/widgets/ProjectItem.vue'
 import { onMounted, ref } from 'vue'
 import { animate, inView } from 'motion'
+import coolrateimg from '@/assets/images/1.png'
+import tricycleimg from '@/assets/images/2.png'
+import seekihodimg from '@/assets/images/3.png'
+import translatorimg from '@/assets/images/4.png'
+import foodappimg from '@/assets/images/5.png'
 
 const featuredProjects = [
     {
@@ -17,6 +22,7 @@ const featuredProjects = [
             'Inertia Js',
             'MySql',
         ],
+        img: coolrateimg,
     },
     {
         name: 'Trycicle Franchising',
@@ -31,22 +37,24 @@ const featuredProjects = [
             'Inertia Js',
             'SQLite',
         ],
+        img: tricycleimg,
     },
 ]
 
 const personalProjects = [
-    {
-        name: 'Type Guru',
-        description:
-            'A typing test platform inspire by the website monkeytype.com made out of passion for typing.',
-        tags: ['React Js', 'CSS', 'Javascript', 'Redux'],
-    },
+    // {
+    //     name: 'Type Guru',
+    //     description:
+    //         'A typing test platform inspire by the website monkeytype.com made out of passion for typing.',
+    //     tags: ['React Js', 'CSS', 'Javascript', 'Redux'],
+    // },
 
     {
         name: 'Seekihood',
         description:
             'An easy-to-use app that helps travelers explore new places in the island of Siquijor. Users can view information about destinations, leave reviews, save their favorite spots. It’s a straightforward and interactive tool for anyone looking to make the most of their travels.',
         tags: ['Flutter', 'Dart', 'Firebase', 'Cloud Firestore', 'GCP'],
+        img: seekihodimg,
     },
 
     {
@@ -62,12 +70,14 @@ const personalProjects = [
             'Android Studio',
             'SQLite',
         ],
+        img: translatorimg,
     },
     {
         name: 'Food Delivery App',
         description:
             'The app provides a user-friendly interface that allows customers to browse restaurant menus, place orders, and track deliveries. It features intuitive navigation with clear categories for quick food selection.',
         tags: ['Java', 'Gradle', 'XML', 'Android Studio', 'SQLite'],
+        img: foodappimg,
     },
 ]
 

@@ -17,7 +17,7 @@ const hoverAnimation = e => {
     animate(
         content.children,
         { opacity: 1, y: [50, 0] },
-        { duration: 0.2, delay: stagger(0.1) },
+        { duration: 0.2, delay: stagger(0.05) },
     )
 }
 
@@ -59,13 +59,11 @@ onMounted(() => {
         <div class="img-container">
             <div class="title">{{ props.data.name }}</div>
             <div class="background"></div>
-            <img
-                class="img"
-                src="https://placehold.co/400x500"
-                alt="Project Image"
-            />
+            <img class="img" :src="data.img" alt="Project Image" />
         </div>
         <div class="content">
+            <div class="vignatte"></div>
+
             <div>{{ props.data.name }}</div>
             <div>
                 {{ props.data.description }}
@@ -126,24 +124,46 @@ onMounted(() => {
 
 .project .content {
     position: absolute;
-    color: black;
+    color: white;
     z-index: 10;
     bottom: 0;
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.project .content > div:nth-child(1) {
+.project .content > div:nth-child(2) {
     font-size: 1.5rem;
     opacity: 0;
 }
 
-.project .content > div:nth-child(2) {
+.project .content > div:nth-child(3) {
     opacity: 0;
 }
-.project .content > div:nth-child(3) {
+.project .content > div:nth-child(4) {
     opacity: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0 1rem;
+}
+
+.vignatte {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(0, 0, 0, 0.700717787114846) 16%,
+        rgba(0, 0, 0, 1) 100%,
+        rgba(0, 0, 0, 1) 100%
+    );
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    opacity: 0;
 }
 </style>

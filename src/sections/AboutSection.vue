@@ -79,7 +79,7 @@ onMounted(() => {
             <TechnologyCarousel />
         </div>
 
-        <div>
+        <!-- <div>
             <div class="quote" ref="quoteRef">
                 <div class="image">
                     <img src="/src/assets/images/profile.png" />
@@ -97,7 +97,7 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </section>
 </template>
 
